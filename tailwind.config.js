@@ -9,6 +9,9 @@ export default {
     './plugins/**/*.{js,ts}',
   ],
   theme: {
+    fontFamily: {
+      sans: ['JakartaSans', 'sans-serif']
+    },
     extend: {
       colors : {
         primary : {
