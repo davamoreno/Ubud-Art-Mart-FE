@@ -23,13 +23,13 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@vueuse/nuxt', '@nuxt/eslint', '@nuxtjs/i18n'],
 
   i18n: {
-    langDir: resolve(process.cwd(), 'locales'),
+    langDir: resolve(process.cwd(), 'locales/'),
     locales: [
       { code: 'en', iso: 'en', name: 'en', file: 'en.json', flag: '🇬🇧' },
       { code: 'id', iso: 'id' , name: 'id', file: 'id.json' , flag: '🇮🇩'},
     ],
     defaultLocale: 'id',
-    lazy: true,
+    lazy: false,
     strategy: 'prefix_except_default',
   },
 

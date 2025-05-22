@@ -1,4 +1,8 @@
 {
-    "home" : "Halaman Utama",
-    "hello" : "Halo"
+    "nav_bar" : {
+        "home"      : "Beranda",
+        "event"     : "Acara & Berita",
+        "katalog"   : "Katalog",
+        "about_us"  : "Tentang Kami"
+    }
 }
