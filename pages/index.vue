@@ -1,12 +1,14 @@
 <template>
-    <div class="relative">
-        <img src="@/assets/images/bg.png" alt="" class="object-cover bg-center w-full h-[400px]" />
-        <div class="container mx-auto max-w-[90%] py-20 absolute top-0 left-1/2 -translate-x-1/2 items-center h-full">
-            <div class="flex flex-col">
+    <div class="relative h-[100000px]">
+        <img src="@/assets/images/bg.png" alt="" class="object-cover bg-center w-full h-[450px]" />
+        <div
+            class="container mx-auto px-[50px] pt-[113px] absolute top-0 left-1/2 -translate-x-1/2 items-center h-full">
+
+            <div class="container flex flex-col">
                 <div class="w-2/4">
-                    <h1 class="text-3xl font-bold mb-3 text-white drop-shadow">RASAKAN KEAJAIBAN KARYA LOKAL</h1>
-                    <h2 class="text-3xl font-bold mb-5 text-white drop-shadow">PASAR KESENIAN UBUD</h2>
-                    <p class="font-medium text-white mb-8">Pasar Kesenian Ubud kini hadir secara digital untuk
+                    <h1 class="text-3xl font-bold mb-[10px] text-white drop-shadow">RASAKAN KEAJAIBAN KARYA LOKAL</h1>
+                    <h2 class="text-3xl font-bold mb-[20px] text-white drop-shadow">PASAR KESENIAN UBUD</h2>
+                    <p class="font-medium text-white mb-[32px]">Pasar Kesenian Ubud kini hadir secara digital untuk
                         memudahkan
                         anda
                         menjelajahi berbagai produk seni khas Bali. Temukan beragam karya unik dari seniman dan
@@ -21,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="pt-[150px]">
+            <div class="conttainer mt-[161px]">
                 <h1 class="text-3xl font-bold mb-8">Berita & Acara</h1>
                 <div class="flex flex-row">
                     <div class="w-4/6">
@@ -56,7 +58,83 @@
                 </div>
             </div>
 
-            <h1 class="text-3xl font-bold mb-8">Katalog</h1>
+            <div class="container mt-[80px]">
+                <h1 class="text-3xl font-bold mb-[32px]">Katalog</h1>
+                <div class="flex flex-row justify-between">
+
+                    <div class="w-1/5">
+                        <div class="container relative">
+                            <img src="/assets/images/barang_ubud.png" alt="">
+                            <h3 class="text-xl font-semibold mt-[24px] mb-[12px]">Kerajinan Tangan</h3>
+                            <p class="font-medium pb-[34px]">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                Veritatis
+                                magni
+                                dolorem numquam laudantium eligendi dolor, autem ipsa! Atque, natus dignissimos?
+                                Temporibus
+                                est optio at error esse, enim similique ab consequuntur?</p>
+                            <div class="absolute bottom-0 left-0">
+                                <a href="#" class="font-semibold text-blue-500 hover:underline">
+                                    Lihat Item →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-1/5">
+                        <div class="container relative">
+                            <img src="/assets/images/barang_ubud.png" alt="">
+                            <h3 class="text-xl font-semibold mt-[24px] mb-[12px]">Kerajinan Tangan</h3>
+                            <p class="font-medium pb-[34px]">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                Veritatis
+                                magni
+                                dolorem numquam laudantium eligendi dolor, autem ipsa! Atque, natus dignissimos?
+                                Temporibus
+                                est optio at error esse, enim similique ab consequuntur?</p>
+                            <div class="absolute bottom-0 left-0">
+                                <a href="#" class="font-semibold text-blue-500 hover:underline">
+                                    Lihat Item →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-1/5">
+                        <div class="container relative">
+                            <img src="/assets/images/barang_ubud.png" alt="">
+                            <h3 class="text-xl font-semibold mt-[24px] mb-[12px]">Kerajinan Tangan</h3>
+                            <p class="font-medium pb-[34px]">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                Veritatis
+                                magni
+                                dolorem numquam laudantium eligendi dolor, autem ipsa! Atque, natus dignissimos?
+                                Temporibus
+                                est optio at error esse, enim similique ab consequuntur?</p>
+                            <div class="absolute bottom-0 left-0">
+                                <a href="#" class="font-semibold text-blue-500 hover:underline">
+                                    Lihat Item →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-1/5">
+                        <div class="container relative">
+                            <img src="/assets/images/barang_ubud.png" alt="">
+                            <h3 class="text-xl font-semibold mt-[24px] mb-[12px]">Kerajinan Tangan</h3>
+                            <p class="font-medium pb-[34px]">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                                Veritatis
+                                magni
+                                dolorem numquam laudantium eligendi dolor, autem ipsa! Atque, natus dignissimos?
+                                Temporibus
+                                est optio at error esse, enim similique ab consequuntur?</p>
+                            <div class="absolute bottom-0 left-0">
+                                <a href="#" class="font-semibold text-blue-500 hover:underline">
+                                    Lihat Item →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
