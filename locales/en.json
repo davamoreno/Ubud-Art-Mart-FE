@@ -1,4 +1,8 @@
 {
-    "home" : "Home",
-    "hello" : "Hello"
+    "nav_bar" : {
+        "home"      : "Home",
+        "event"     : "Event & News",
+        "katalog"   : "Catalog",
+        "about_us"  : "About Us"
+    }
 }
