@@ -1,5 +1,5 @@
 <template>
-  <footer class="text-white py-12 fixed w-full bottom-0" style="background-image: url('/assets/images/background.png');">
+  <footer class="relative bg-[#328E6E] text-white py-12 w-full">
     <div class="container mx-auto px-5">
       <div class="flex flex-col md:flex-row justify-between items-center pb-8">
         <div class="text-[25px] font-[Gilroy-Light] mb-6 md:mb-0">

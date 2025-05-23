@@ -1,7 +1,11 @@
 <template>
-    <div class="min-h-screen bg-white dark:bg-gray-700">
-        <Navbar/>
-            <NuxtPage/>
-        <Footer/>
-    </div>
+  <div class="min-h-screen flex flex-col">
+    <Navbar /> <!-- atau komponen header kamu -->
+
+    <main class="flex-1">
+      <NuxtPage />
+    </main>
+
+    <Footer />
+  </div>
 </template>
