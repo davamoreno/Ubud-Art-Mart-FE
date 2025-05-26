@@ -20,7 +20,7 @@
                 <img src="/assets/images/search.svg" alt="" class="absolute top-2 left-2">
             </div>
             <div class="absolute top-0 left-[60px] w-full h-full flex items-center">
-                <form action="">
+                <form action="/query">
                     <input type="text" name="" id="" placeholder="Cari di Katalog"
                         class="w-full h-full bg-transparent text-[#a8d4c5] placeholder:text-[#a8d4c5] focus:outline-none">
                 </form>
@@ -108,103 +108,113 @@
 
         <div class="mx-auto mb-[133px] flex flex-wrap justify-between">
             <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                    <div class="p-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                            </div>
+                <a href="/katalogView">
+                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
+                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
+                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
+                                </div>
 
 
-                            <div class="flex items-center mt-4">
-                                <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                <div class="flex items-center mt-4">
+                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
+                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                    <div class="p-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                            </div>
+                <a href="/katalogView">
+                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
+                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
+                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
+                                </div>
 
 
-                            <div class="flex items-center mt-4">
-                                <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                <div class="flex items-center mt-4">
+                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
+                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                    <div class="p-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                            </div>
+                <a href="/katalogView">
+                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
+                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
+                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
+                                </div>
 
 
-                            <div class="flex items-center mt-4">
-                                <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                <div class="flex items-center mt-4">
+                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
+                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                    <div class="p-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                            </div>
+                <a href="/katalogView">
+                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
+                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
+                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
+                                </div>
 
 
-                            <div class="flex items-center mt-4">
-                                <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                <div class="flex items-center mt-4">
+                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
+                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                    <div class="p-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                            </div>
+                <a href="/katalogView">
+                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
+                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
+                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
+                                </div>
 
 
-                            <div class="flex items-center mt-4">
-                                <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                <div class="flex items-center mt-4">
+                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
+                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
         </div>
