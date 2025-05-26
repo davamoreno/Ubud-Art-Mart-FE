@@ -24,7 +24,7 @@
       <div class="container mt-[161px]">
         <div class="flex justify-between items-center mb-[42px]"> 
                     <h1 class="text-3xl font-bold ">Berita & Acara</h1>
-                    <a href="#" class="font-semibold text-green-600 hover:underline">Lihat Semua</a>
+                    <a href="#" class="font-semibold text-green-600 ">Lihat Semua</a>
                     </div>
                     <div class="flex flex-row">
                         <div class="w-4/6">
@@ -49,8 +49,8 @@
     <!-- Link Baca Selengkapnya -->
 
     <div class="flex justify-between items-center">
-          <a href="#" class="font-semibold text-green-600 hover:underline">Berita</a>
-          <a href="#" class="font-semibold text-green-600 hover:underline">Baca Selengkapnya</a>
+          <a href="#" class="font-semibold text-green-600 ">Berita</a>
+          <a href="#" class="font-semibold text-green-600 ">Baca Selengkapnya</a>
         </div>
   </div>
 </div>
@@ -71,28 +71,87 @@
                 <div class="container mt-[120px]">
                     <div class="flex justify-between items-center mb-[42px]">
                     <h1 class="text-3xl font-bold">Katalog</h1>
-                    <a href="#" class="font-semibold text-green-600 hover:underline">Lihat Semua</a>
+                    <a href="#" class="font-semibold text-green-600 ">Lihat Semua</a>
                 </div>
-                    <div class="flex flex-row justify-between">
+                    <div class="flex flex-row gap-[48px]">
                         
 
-                        <div class="hover:scale-105 transition duration-300 ease-in-out">
-                            <div class="w-[250px] h-[355px] bg-white rounded-xl shadow-xl overflow-hidden">
-                                <img src="/assets/images/barang_ubud.png" alt="" class="h-[150px]">
-                                <h3 class="text-xl font-semibold mt-[25px] mx-[15px] mb-[12px]">Kerajinan Tangan</h3>
-                                <p class="font-medium mx-[15px] mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        <div
+                        class="mb-10 hover:scale-105 transition duration-300 ease-in-out w-[300px] h-[355px] rounded-2xl shadow-xl bg-white overflow-hidden">
+                        <div class="container relative">
+                            <img src="/assets/images/barang_ubud.png" alt="" class="w-full h-[150px] object-cover">
+                            <div class="px-[15px] py-[25px]">
+                                <h3 class="text-xl font-semibold mb-[12px]">Kerajinan Tangan</h3>
+                                <p class="font-medium mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing
+                                    elit.
                                     Veritatis
-                                    magni
-                                    dolorem numquam laudantium eligendi dolor, autem ipsa! Atque, natus dignissimos?
-                                    Temporibus
-                                    est optio at error esse, enim similique ab consequuntur?</p>
-                                <div class="absolute bottom-0 left-0">
-                                    <a href="#" class="font-semibold text-green-600 hover:underline">
+                                    magni lo
+                                </p>
+                                <div class="">
+                                    <a href="#" class="font-semibold text-[#328E6E] ">
                                         Lihat Selengkapnya →
                                     </a>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                        <div
+                        class="mb-10 hover:scale-105 transition duration-300 ease-in-out w-[300px] h-[355px] rounded-2xl shadow-xl bg-white overflow-hidden">
+                        <div class="container relative">
+                            <img src="/assets/images/barang_ubud.png" alt="" class="w-full h-[150px] object-cover">
+                            <div class="px-[15px] py-[25px]">
+                                <h3 class="text-xl font-semibold mb-[12px]">Kerajinan Tangan</h3>
+                                <p class="font-medium mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing
+                                    elit.
+                                    Veritatis
+                                    magni lo
+                                </p>
+                                <div class="">
+                                    <a href="#" class="font-semibold text-[#328E6E] ">
+                                        Lihat Selengkapnya →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div
+                        class="mb-10 hover:scale-105 transition duration-300 ease-in-out w-[300px] h-[355px] rounded-2xl shadow-xl bg-white overflow-hidden">
+                        <div class="container relative">
+                            <img src="/assets/images/barang_ubud.png" alt="" class="w-full h-[150px] object-cover">
+                            <div class="px-[15px] py-[25px]">
+                                <h3 class="text-xl font-semibold mb-[12px]">Kerajinan Tangan</h3>
+                                <p class="font-medium mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing
+                                    elit.
+                                    Veritatis
+                                    magni lo
+                                </p>
+                                <div class="">
+                                    <a href="#" class="font-semibold text-[#328E6E] ">
+                                        Lihat Selengkapnya →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div
+                        class="mb-10 hover:scale-105 transition duration-300 ease-in-out w-[300px] h-[355px] rounded-2xl shadow-xl bg-white overflow-hidden">
+                        <div class="container relative">
+                            <img src="/assets/images/barang_ubud.png" alt="" class="w-full h-[150px] object-cover">
+                            <div class="px-[15px] py-[25px]">
+                                <h3 class="text-xl font-semibold mb-[12px]">Kerajinan Tangan</h3>
+                                <p class="font-medium mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing
+                                    elit.
+                                    Veritatis
+                                    magni lo
+                                </p>
+                                <div class="">
+                                    <a href="#" class="font-semibold text-[#328E6E] ">
+                                        Lihat Selengkapnya →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
