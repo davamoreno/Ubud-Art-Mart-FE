@@ -1,7 +1,6 @@
 <template>
-    <div class="relative">
-        <div
-            class="container mx-auto px-[50px] pt-[113px] absolute top-0 left-1/2 -translate-x-1/2 items-center h-full">
+    <div>
+        <div class="container mx-auto px-[50px] pt-[113px] items-center h-full">
             <div class="flex flex-row">
                 <div class="w-1/4">
                     <h1>
@@ -131,7 +130,7 @@
 
                         </div>
 
-                        <div class="w-1/4">
+                        <div class="w-1/4 mb-20">
                             <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-lg overflow-hidden">
                                 <img src="/assets/images/katalog.png" alt="Lukisan Bali"
                                     class="w-full h-[220px] object-cover">
