@@ -1,23 +1,24 @@
 <template>
-  <div>
-    <!-- Gambar Header -->
-    <div class="relative w-full h-[450px]">
-      <img src="@/assets/images/bg.png" alt="" class="object-cover bg-center w-full h-full" />
-      <div class="absolute top-0 left-0 w-full h-full flex items-center">
-        <div class="container mx-auto px-[50px] pt-[113px]">
-          <div class="w-2/4 text-white drop-shadow">
-            <h1 class="text-3xl font-bold mb-[10px]">RASAKAN KEAJAIBAN KARYA LOKAL</h1>
-            <h2 class="text-3xl font-bold mb-[20px]">PASAR KESENIAN UBUD</h2>
-            <p class="font-medium mb-[32px]">
-              Pasar Kesenian Ubud kini hadir secara digital untuk memudahkan anda menjelajahi berbagai produk seni khas Bali.
-            </p>
-            <button class="rounded-full border border-white px-6 py-2 hover:bg-[#FFB800]/80 transition">
-              Jelajahi Katalog
-            </button>
-          </div>
+    <div>
+        <!-- Gambar Header -->
+        <div class="relative w-full h-[450px]">
+            <img src="@/assets/images/bg.png" alt="" class="object-cover bg-center w-full h-full" />
+            <div class="absolute top-0 left-0 w-full h-full flex items-center">
+                <div class="container mx-auto px-[50px] pt-[113px]">
+                    <div class="w-2/4 text-white drop-shado0w">
+                        <h1 class="text-3xl font-bold mb-[10px]">RASAKAN KEAJAIBAN KARYA LOKAL</h1>
+                        <h2 class="text-3xl font-bold mb-[20px]">PASAR KESENIAN UBUD</h2>
+                        <p class="font-medium mb-[32px]">
+                            Pasar Kesenian Ubud kini hadir secara digital untuk memudahkan anda menjelajahi berbagai
+                            produk seni khas Bali.
+                        </p>
+                        <button class="rounded-full border border-white px-6 py-2 hover:bg-[#FFB800]/80 transition">
+                            Jelajahi Katalog
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
     <!-- Konten Berita, Katalog, dll -->
     <div class="container mx-auto px-[50px] mt-16 mb-20">
@@ -30,8 +31,21 @@
                         <div class="w-4/6">
                             <img src="/assets/images/contoh.png" alt="Pasar Seni Ubud Kebakaran"
                                 class="object-cover w-[600px] h-[350px] rounded-xl">
+                    </div>
+                    <div class="relative w-2/4 p-5 my-5 ms-[50px] me-[120px] rounded-3xl drop-shadow-lg bg-white">
+                        <div class="container h-auto">
+                            <h2 class="text-2xl font-semibold mb-2">Pasar Seni Ubud Kebakaran, Pedagang Akan Direlokasi
+                            </h2>
+                            <p class="font-medium mb-4">Pasar Seni Ubud, Kabupaten Gianyar, Bali, pada Sabtu (17/8/2024)
+                                siang. Menindaklanjuti insiden ini, pemerintah setempat saat ini fokus untuk rencana
+                                relokasi pedagang.</p>
+                            <div class="absolute bottom-4 right-8">
+                                <a href="#" class="font-semibold text-blue-500 hover:underline">Baca
+                                    Selengkapnya →
+                                </a>
+                            </div>
                         </div>
-                        <div class="relative w-2/4 my-[30px] ml-[80px] ">
+                       <div class="relative w-2/4 my-[30px] ml-[80px] ">
   <!-- Header Admin -->
   <div class="flex items-center mb-[24px]">
     <img src="/assets/images/icon admin.svg" alt="Admin" class="w-8 h-8 rounded-full object-cover mr-2" />
@@ -56,6 +70,7 @@
 </div>
 
                     </div>
+                </div>
 
                     <!-- <div class="container my-8">
                         <div class="flex justify-center space-x-2">
@@ -66,8 +81,8 @@
                             <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse.svg" alt=""></button>
                         </div>
                     </div> -->
-                </div>
 
+            </div>
                 <div class="container mt-[120px]">
                     <div class="flex justify-between items-center mb-[42px]">
                     <h1 class="text-3xl font-bold">Katalog</h1>
