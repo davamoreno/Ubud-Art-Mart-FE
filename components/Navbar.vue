@@ -14,7 +14,6 @@
             setLocale(val)
         }
     })
-
 </script>
 
 <template>
