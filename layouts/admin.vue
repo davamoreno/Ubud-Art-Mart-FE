@@ -1,19 +1,9 @@
-<script setup>
-  onMounted(() => {
-    const auth = useAuthStore()
-    auth.initializeFromStorage()
-  });
-
-</script>
-
 <template>
   <div class="min-h-screen flex flex-col bg-white dark:bg-gray-800">
-    <Navbar/>
-    
+    <NavbarAdmin/> <!-- atau komponen header kamu -->
+
     <main class="flex-1">
       <NuxtPage />
     </main>
-
-    <Footer />
   </div>
 </template>

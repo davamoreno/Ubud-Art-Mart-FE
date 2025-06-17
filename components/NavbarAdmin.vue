@@ -1,3 +1,16 @@
+<script setup>
+import { useAuthStore } from '~/stores/auth'
+import { useRouter } from 'vue-router';
+const auth = useAuthStore();
+const router = useRouter();
+    const confirmLogout = () => {
+        if (confirm('Are you sure you want to logout?')) {
+          auth.logout()
+          router.push('/admin/auth/login') 
+        }
+    }
+</script>
+
 <template>
     <nav class="relative flex items-center border-b px-6 py-6 shadow-sm bg-white">
       <!-- Brand di kiri -->
@@ -24,6 +37,9 @@
           <span>Berita</span>
         </li>
       </ul>
+       <button @click="confirmLogout" class="px-6 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition">
+          Logout
+        </button>
     </nav>
   </template>
   
