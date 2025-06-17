@@ -1,7 +1,7 @@
 <template>
     <div class="container my-5 max-w-2xl mx-auto bg-white p-6 shadow rounded-lg">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">Tambahkan Produk</h2>
+        <h2 class="text-xl font-bold">Tambahkan Berita</h2>
       </div>
       <p class="text-sm text-gray-500 mb-4">
         Lengkapi informasi produk lalu klik tambah untuk menambahkannya.
@@ -10,80 +10,21 @@
       <div class="space-y-4">
         <!-- Nama Produk -->
         <div>
-          <label class="text-sm font-medium">Nama Produk</label>
+          <label class="text-sm font-medium">Judul Berita</label>
           <input type="text" class="w-full border rounded p-2 mt-1" placeholder="Enter Text Here..." />
         </div>
   
         <!-- Deskripsi -->
         <div>
-          <label class="text-sm font-medium">Deskripsi Produk</label>
-          <textarea class="w-full border rounded p-2 mt-1" placeholder="Enter Text Here..."></textarea>
+          <label class="text-sm font-medium">Deskripsi Berita</label>
+          <textarea class="w-full border rounded p-2 mt-1 h-40" placeholder="Enter Text Here..."></textarea>
         </div>
-  
-        <!-- Detail -->
-        <div>
-          <label class="text-sm font-medium">Detail Produk</label>
-          <textarea class="w-full border rounded p-2 mt-1" placeholder="Enter Text Here..."></textarea>
-        </div>
-  
-        <!-- Kategori -->
-        <div>
-          <label class="text-sm font-medium">Kategori</label>
-          <select class="w-full border rounded p-2 mt-1">
-            <option disabled selected>Pilih Kategori</option>
-            <option>Katalog A</option>
-            <option>Katalog B</option>
-          </select>
-        </div>
-  
-        <!-- Tag (Multi-select Dropdown with Checkbox) -->
-        <div class="relative">
-          <label class="text-sm font-medium">Tag</label>
-          <div
-            @click="toggleDropdown"
-            class="w-full border rounded p-2 mt-1 bg-white cursor-pointer flex justify-between items-center"
-          >
-            <span class="text-gray-700 text-sm">
-              {{ selectedTags.length ? selectedTags.join(', ') : 'Pilih Tag' }}
-            </span>
-            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
-          <div
-            v-if="tagDropdownOpen"
-            class="absolute z-10 bg-white border mt-1 w-full rounded shadow max-h-40 overflow-y-auto"
-          >
-            <label
-              v-for="tag in allTags"
-              :key="tag"
-              class="flex items-center p-2 hover:bg-gray-100 text-sm"
-            >
-              <input
-                type="checkbox"
-                :value="tag"
-                v-model="selectedTags"
-                class="mr-2"
-              />
-              {{ tag }}
-            </label>
-          </div>
-        </div>
-  
-        <!-- Toko -->
-        <div>
-          <label class="text-sm font-medium">Nama Toko</label>
-          <select class="w-full border rounded p-2 mt-1">
-            <option disabled selected>Pilih Toko</option>
-            <option>Toko 1</option>
-            <option>Toko 2</option>
-          </select>
-        </div>
+
+       
   
         <!-- Foto Produk -->
         <div>
-          <label class="text-sm font-medium">Foto Produk</label>
+          <label class="text-sm font-medium">Foto Toko</label>
           <div
             class="w-full border-dashed border-2 border-gray-300 rounded p-6 text-center mt-2 relative"
           >
@@ -177,7 +118,5 @@
     },
   };
   </script>
-  
-  <style scoped>
-  </style>
+
   
