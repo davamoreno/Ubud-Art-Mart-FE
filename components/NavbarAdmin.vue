@@ -7,22 +7,22 @@
   
       <!-- Navigation Menu di tengah -->
       <ul class="mx-auto flex space-x-10 items-center text-sm font-medium text-gray-700">
-        <li class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer ">
+        <NuxtLink to="/admin/dashboard" class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer ">
           <img src="/assets/images/Dashboard.svg" class="fas fa-th-large text-gray-400 ">
           <span>Dashboard</span>
-        </li>
-        <li class="flex items-center space-x-2 hover:text-[#328E6E]  cursor-pointer">
+        </NuxtLink>
+        <NuxtLink to="/admin/produkPage" class="flex items-center space-x-2 hover:text-[#328E6E]  cursor-pointer">
           <img src="/assets/images/Products.svg" class="fas fa-th-large text-gray-400">
           <span>Produk</span>
-        </li>
-        <li class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
+        </NuxtLink>
+        <NuxtLink to="/admin/tokoPage" class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
           <img src="/assets/images/Product Stock.svg" class="fas fa-th-large text-gray-400">
           <span>Toko</span>
-        </li>
-        <li class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
+        </NuxtLink>
+        <NuxtLink to="/admin/beritaPage" class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
           <img src="/assets/images/Invoice.svg" class="fas fa-th-large text-gray-400">
           <span>Berita</span>
-        </li>
+        </NuxtLink>
       </ul>
     </nav>
   </template>

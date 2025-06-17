@@ -72,9 +72,9 @@
   
         <!-- Tombol Aksi -->
         <div class="flex justify-end space-x-2 mt-4">
-          <button class="px-6 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-100">
+          <NuxtLink to="tokoPage" class="px-6 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-100">
             Batal
-          </button>
+          </NuxtLink>
           <button class="px-6 py-2 rounded bg-black text-white hover:bg-gray-800">
             Tambah
           </button>
@@ -122,7 +122,4 @@
     },
   };
   </script>
-  
-  <style scoped>
-  </style>
   
