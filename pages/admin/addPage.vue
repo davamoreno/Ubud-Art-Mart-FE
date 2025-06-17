@@ -178,6 +178,5 @@
   };
   </script>
   
-  <style scoped>
-  </style>
+
   
