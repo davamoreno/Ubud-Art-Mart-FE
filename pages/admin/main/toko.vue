@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { NuxtLink } from '#components';
+
+definePageMeta({
+  layout : 'admin'
+})
+
+</script>
+
 <template>
     <div class="min-h-screen bg-[#F6F7FB] px-[50px] py-6">
       <!-- Header -->
@@ -15,11 +24,12 @@
             <span class="absolute left-3 top-2 text-gray-500">🔍</span>
           </div>
   
-          <button
+          <NuxtLink
+          to="/admin/add/toko"
             class="border border-black text-black px-4 py-2 text-sm rounded-full hover:bg-black hover:text-white transition"
           >
             Tambahkan Toko +
-          </button>
+          </NuxtLink>
         </div>
       </div>
   

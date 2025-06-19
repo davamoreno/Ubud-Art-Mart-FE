@@ -27,7 +27,7 @@ const handleLogin = async () => {
       expiresIn: response.expires_in
     })
 
-    navigateTo('/admin/add/produk')
+    navigateTo('/admin/main/dashboard')
   } catch (error) {
     console.error('Login failed:', error)
     alert('Login gagal, cek email dan password kamu!')

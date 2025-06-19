@@ -1,3 +1,10 @@
+<script setup>
+definePageMeta({
+  layout : 'admin'
+})
+
+</script>
+
 <template>
     <div class="min-h-screen bg-[#F6F7FB] px-[50px] py-6">
       <!-- Header -->
