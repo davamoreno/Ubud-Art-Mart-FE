@@ -1,29 +1,160 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useCookie } from '#app'
+import { definePageMeta } from '#imports'
+
+definePageMeta({
+  layout : 'admin',
+});
 
 // Data kategori dan tag
-const kategoriList = ref([
-  { id: 1, nama: 'Fashion' },
-  { id: 2, nama: 'Kerajinan' },
-  { id: 3, nama: 'Lukisan' },
-  { id: 4, nama: 'Patung' },
-  { id: 5, nama: 'Dekorasi' },
-  { id: 6, nama: 'Aksesoris' },
-  { id: 7, nama: 'Kuliner' }
-])
-const tagList = ref([
-  { id: 1, nama: 'Vintage' },
-  { id: 2, nama: 'Anyaman' },
-  { id: 3, nama: 'Modern' },
-  { id: 4, nama: 'Bali' },
-  { id: 5, nama: 'Alami' },
-  { id: 6, nama: 'Trendy' }
-])
+const kategoriList = ref([])
+const tagList = ref([])
 
 // Modal dan pagination
 const showCategoryModal = ref(false)
 const showTagsModal = ref(false)
-const itemsPerPage = 5
+const itemsPerPage = 10
+
+const newItemName = ref('')
+const isSubmitting = ref(false)
+
+async function storeItem(type) {
+  if (!newItemName.value.trim()) return alert('Nama tidak boleh kosong')
+
+  isSubmitting.value = true
+  try {
+    const endpoint = type === 'kategori' ? 'http://127.0.0.1:8000/api/admin/kategori' : 'http://127.0.0.1:8000/api/admin/tag'
+    const response = await $fetch(endpoint, { 
+    method: 'POST',
+    body: { nama: newItemName.value },
+    headers: {
+      Authorization: `Bearer ${useCookie('token').value}`
+    }
+    })
+
+    const newItem = response.data
+
+    if (type === 'kategori') {
+      kategoriList.value.push(newItem)
+      showCategoryModal.value = false
+    } else {
+      tagList.value.push(newItem)
+      showTagsModal.value = false
+    }
+
+    newItemName.value = ''
+  } catch (err) {
+    console.error('Gagal menyimpan:', err)
+    alert('Terjadi kesalahan saat menyimpan')
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+async function getItem(type) {
+  try {
+    const endpoint = type === 'kategori'
+      ? 'http://127.0.0.1:8000/api/admin/kategori'
+      : 'http://127.0.0.1:8000/api/admin/tag'
+
+    const response = await $fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${useCookie('token').value}`
+      }
+    })
+
+    const items = response.data
+    if (type === 'kategori') {
+      kategoriList.value = items
+    } else {
+      tagList.value = items
+    }
+  } catch (error) {
+    console.error(`Gagal mengambil data ${type}:`, error)
+    alert(`Gagal mengambil data ${type}`)
+  }
+}
+
+onMounted(async () => {
+  await Promise.all([
+    getItem('kategori'),
+    getItem('tag')
+  ])
+})
+
+
+async function updateItem(type) {
+  console.log(editItem.value.id);
+  if (!editItem.value.nama.trim()) return alert('Nama tidak boleh kosong')
+  if (!editItem.value.id) return alert('ID item tidak ditemukan')
+
+  isSubmitting.value = true
+  try {
+    const endpoint = type === 'kategori'
+      ? `http://127.0.0.1:8000/api/admin/kategori/${editItem.value.id}`
+      : `http://127.0.0.1:8000/api/admin/tag/${editItem.value.id}`
+
+    const response = await $fetch(endpoint, {
+      method: 'PUT',
+      body: { nama: editItem.value.nama },
+      headers: {
+        Authorization: `Bearer ${useCookie('token').value}`
+      }
+    })
+
+    const updatedItem = response.data
+
+    const list = type === 'kategori' ? kategoriList.value : tagList.value
+    const index = list.findIndex(item => item.id === editItem.value.id)
+    if (index !== -1) list[index] = updatedItem
+
+    showEditModal.value = false
+    newItemName.value = ''
+    editItem.value = { id: null, nama: '' }
+  } catch (err) {
+    console.error('Gagal menyimpan:', err)
+    alert('Terjadi kesalahan saat menyimpan')
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+async function deleteItem(type) {
+  console.log(deletedItem.value.id)
+  if (!deletedItem.value.id) {
+    return alert('Data item tidak valid untuk dihapus.')
+  }
+
+  isSubmitting.value = true
+  try {
+    const endpoint = type === 'kategori'
+      ? `http://127.0.0.1:8000/api/admin/kategori/${deletedItem.value.id}`
+      : `http://127.0.0.1:8000/api/admin/tag/${deletedItem.value.id}`
+
+    await $fetch(endpoint, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${useCookie('token').value}`
+      }
+    })
+
+    // Hapus dari list lokal
+    const list = type === 'kategori' ? kategoriList.value : tagList.value
+    const index = list.findIndex(item => item.id === deletedItem.value.id)
+    if (index !== -1) list.splice(index, 1)
+
+    showDeleteConfirm.value = false
+    deletedItem.value = { id: null, nama: ''}
+
+  } catch (err) {
+    console.error('Gagal menghapus item:', err)
+    alert('Terjadi kesalahan saat menghapus')
+  } finally {
+    isSubmitting.value = false
+  }
+}
 
 // Kategori pagination
 const currentPageKategori = ref(1)
@@ -42,10 +173,11 @@ const paginatedTag = computed(() =>
 // Edit & Hapus
 const showEditModal = ref(false)
 const isEditingCategory = ref(true)
+const isDeletingCategory = ref(true)
 const editItem = ref({ id: null, nama: '' })
 
 const showDeleteConfirm = ref(false)
-const deleteItem = ref({ id: null, nama: '', type: '' })
+const deletedItem = ref({ id: null, nama: '' })
 
 function openEditModal(item, type) {
   isEditingCategory.value = type === 'kategori'
@@ -53,28 +185,12 @@ function openEditModal(item, type) {
   showEditModal.value = true
 }
 
-function openDeleteConfirm(item, type) {
-  deleteItem.value = { ...item, type }
+function confirmDelete(item, type) {
+  deletedItem.value = { id: item.id, nama: item.nama }
+  isDeletingCategory.value = type === 'kategori'
   showDeleteConfirm.value = true
 }
 
-function editItemById() {
-  const list = isEditingCategory.value ? kategoriList.value : tagList.value
-  const index = list.findIndex(item => item.id === editItem.value.id)
-  if (index !== -1) {
-    list[index].nama = editItem.value.nama
-  }
-  showEditModal.value = false
-}
-
-function deleteItemById() {
-  const list = deleteItem.value.type === 'kategori' ? kategoriList.value : tagList.value
-  const index = list.findIndex(item => item.id === deleteItem.value.id)
-  if (index !== -1) {
-    list.splice(index, 1)
-  }
-  showDeleteConfirm.value = false
-}
 </script>
 
 <template>
@@ -108,7 +224,7 @@ function deleteItemById() {
                   <td class="p-3 border-b">
                     <div class="flex gap-2">
                       <button @click="openEditModal(kategori, 'kategori')" class="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600">Edit</button>
-                      <button @click="openDeleteConfirm(kategori, 'kategori')" class="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">Hapus</button>
+                      <button @click="confirmDelete(kategori, 'kategori')" class="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">Hapus</button>
                     </div>
                   </td>
                 </tr>
@@ -149,7 +265,7 @@ function deleteItemById() {
                   <td class="p-3 border-b">
                     <div class="flex gap-2">
                       <button @click="openEditModal(tag, 'tag')" class="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600">Edit</button>
-                      <button @click="openDeleteConfirm(tag, 'tag')" class="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">Hapus</button>
+                      <button @click="confirmDelete(tag, 'tag')" class="px-3 py-1 bg-red-500 text-white rounded text-xs hover:bg-red-600">Hapus</button>
                     </div>
                   </td>
                 </tr>
@@ -179,16 +295,20 @@ function deleteItemById() {
     <div class="mb-4">
 
       <input
-        id="categoryName"
+        v-model="newItemName"
         type="text"
         class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring"
         placeholder="Masukkan nama kategori"
       />
-    </div>
-    <div class="flex justify-end">
-      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-        Simpan
+          
+      <button
+        :disabled="isSubmitting"
+        @click="storeItem('kategori')"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
+        {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
       </button>
+
     </div>
   </div>
 </div>
@@ -204,17 +324,20 @@ function deleteItemById() {
     <div class="mb-4">
   
       <input
-        id="categoryName"
+        v-model="newItemName"
         type="text"
         class="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring"
-        placeholder="Masukkan nama Tag"
+        placeholder="Masukkan nama tag"
       />
-    </div>
-    <div class="flex justify-end">
-      
-      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-        Simpan
+          
+      <button
+        :disabled="isSubmitting"
+        @click="storeItem('tag')"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
+        {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
       </button>
+
     </div>
   </div>
 </div>
@@ -228,7 +351,7 @@ function deleteItemById() {
           </div>
           <input v-model="editItem.nama" type="text" class="w-full border px-4 py-2 rounded-lg mb-4" />
           <div class="flex justify-end">
-            <button @click="editItemById" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
+            <button @click="isEditingCategory ? updateItem('kategori') : updateItem('tag')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
           </div>
         </div>
       </div>
@@ -237,10 +360,12 @@ function deleteItemById() {
       <div v-if="showDeleteConfirm" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white rounded-lg w-full max-w-sm p-6 shadow-xl text-center">
           <h2 class="text-lg font-semibold mb-4">Konfirmasi Hapus</h2>
-          <p class="mb-6 text-gray-600">Yakin ingin menghapus {{ deleteItem.type }} <strong>{{ deleteItem.nama }}</strong>?</p>
+          <p class="mb-6 text-gray-600">Yakin ingin menghapus {{ deletedItem.id }} <strong>{{ deletedItem.nama }}</strong>?</p>
           <div class="flex justify-center gap-4">
             <button @click="showDeleteConfirm = false" class="px-4 py-2 bg-blue-500 text-white rounded">No</button>
-            <button @click="deleteItemById" class="px-4 py-2 bg-red-600 text-white rounded">Yes</button>
+            <button :disabled="isSubmitting" @click="isDeletingCategory ? deleteItem('kategori') : deleteItem('tag')" class="px-4 py-2 bg-red-600 text-white rounded">
+              {{ isSubmitting ? 'Menghapus...' : 'Yes' }}
+            </button>
           </div>
         </div>
       </div>

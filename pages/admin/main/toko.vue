@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components';
 
+definePageMeta({
+  layout : 'admin'
+})
+
 </script>
 
 <template>
@@ -21,7 +25,7 @@ import { NuxtLink } from '#components';
           </div>
   
           <NuxtLink
-          to="addToko"
+          to="/admin/add/toko"
             class="border border-black text-black px-4 py-2 text-sm rounded-full hover:bg-black hover:text-white transition"
           >
             Tambahkan Toko +

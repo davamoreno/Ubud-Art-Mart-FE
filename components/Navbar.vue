@@ -1,10 +1,13 @@
 <script setup lang="ts">
     import { useDark, useToggle } from '@vueuse/core';
     import { useI18n, useLocalePath } from '#imports';
+    import { useAuthStore } from '~/stores/auth'
+
     const isDark = useDark();
     const toggleDark = useToggle(isDark);
     const localePath = useLocalePath();
     const { locale, locales, setLocale } = useI18n()
+    const auth = useAuthStore();
 
     const selectedLocale = computed({
         get() {
@@ -14,6 +17,15 @@
             setLocale(val)
         }
     })
+
+    const isNotLoggedIn = computed(() => auth.user == null)
+
+    const confirmLogout = () => {
+        if (confirm('Are you sure you want to logout?')) {
+          auth.logout()
+          location.reload()
+        }
+    }
 </script>
 
 <template>
@@ -58,9 +70,21 @@
                      </select>
                 </div>
                 
-                <button class="px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white font-medium shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-                    Sign in
-                </button>
+                <div v-if="auth.isReady">
+                    <div v-if="isNotLoggedIn">
+                        <NuxtLink class="px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-700 
+                         text-gray-800 dark:text-white font-medium shadow
+                         hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                          to="/user/auth/login">Sign In
+                        </NuxtLink>
+                    </div>
+                
+                    <div v-else>
+                        <button @click="confirmLogout" class="px-6 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition">
+                          Logout
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

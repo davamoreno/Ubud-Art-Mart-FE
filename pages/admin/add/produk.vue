@@ -1,3 +1,47 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+
+definePageMeta({
+  layout : 'admin',
+});
+
+const selectedImage = ref(null)
+const imagePreview = ref(null)
+const dropdownRef = ref(null)
+
+const tagDropdownOpen = ref(false)
+const allTags = ['Tag A', 'Tag B', 'Tag C', 'Tag D']
+const selectedTags = ref([])
+
+const handleImageUpload = (event) => {
+  const file = event.target.files[0]
+  if (file && file.type.startsWith('image/')) {
+    selectedImage.value = file
+    imagePreview.value = URL.createObjectURL(file)
+  } else {
+    alert('File bukan gambar!')
+  }
+}
+
+const cancelImage = () => {
+  selectedImage.value = null
+  imagePreview.value = null
+}
+
+const toggleDropdown = () => {
+  tagDropdownOpen.value = !tagDropdownOpen.value
+}
+
+onMounted(() => {
+  document.addEventListener('mousedown', (e) => {
+    if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
+      tagDropdownOpen.value = false
+    }
+  })
+})
+</script>
+
+
 <template>
     <div class="container my-5 max-w-2xl mx-auto bg-white p-6 shadow rounded-lg">
       <div class="flex justify-between items-center mb-4">
@@ -37,7 +81,7 @@
         </div>
   
         <!-- Tag (Multi-select Dropdown with Checkbox) -->
-        <div class="relative">
+        <div class="relative" ref="dropdownRef">
           <label class="text-sm font-medium">Tag</label>
           <div
             @click="toggleDropdown"
@@ -53,6 +97,7 @@
           </div>
           <div
             v-if="tagDropdownOpen"
+            @click.stop
             class="absolute z-10 bg-white border mt-1 w-full rounded shadow max-h-40 overflow-y-auto"
           >
             <label
@@ -137,46 +182,3 @@
       </div>
     </div>
   </template>
-  
-  <script>
-  export default {
-    name: 'AddProductForm',
-    data() {
-      return {
-        selectedImage: null,
-        imagePreview: null,
-        tagDropdownOpen: false,
-        allTags: ['Tag A', 'Tag B', 'Tag C', 'Tag D'],
-        selectedTags: [],
-      };
-    },
-    methods: {
-      handleImageUpload(event) {
-        const file = event.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-          this.selectedImage = file;
-          this.imagePreview = URL.createObjectURL(file);
-        } else {
-          alert('File bukan gambar!');
-        }
-      },
-      cancelImage() {
-        this.selectedImage = null;
-        this.imagePreview = null;
-      },
-      toggleDropdown() {
-        this.tagDropdownOpen = !this.tagDropdownOpen;
-      },
-    },
-    mounted() {
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.relative')) {
-          this.tagDropdownOpen = false;
-        }
-      });
-    },
-  };
-  </script>
-  
-
-  
