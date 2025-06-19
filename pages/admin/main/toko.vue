@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components';
+import { onMounted } from 'vue';
+import { useTokoStore } from '~/stores/toko';
+
+const tokoStore = useTokoStore();
+
+onMounted(() => {
+  tokoStore.fetchStores();
+});
 
 definePageMeta({
   layout : 'admin'
@@ -47,18 +55,18 @@ definePageMeta({
         <!-- PRODUK GRID DI DALAM CARD -->
         <div class="grid grid-cols-4 gap-6">
           <div
-            v-for="i in 12"
-            :key="i"
+            v-for="toko in tokoStore.stores"
+            :key="toko.id"
             class="bg-white rounded-xl shadow-sm border p-3 transition hover:shadow-md"
           >
             <img
-              src="/assets/images/katalog.png"
+              :src="`http://127.0.0.1:8000/storage/${toko.image}`"
               alt="Tas Anyaman"
               class="w-full h-40 object-cover rounded-md mb-3"
             />
-            <h2 class="text-base font-semibold text-gray-800">Kios Pak Ketut</h2>
-            <p class="text-sm text-gray-400">081189981765</p>
-            <p class="text-sm font-medium text-gray-800 mt-1">Blok A Lantai 2 No.13</p>
+            <h2 class="text-base font-semibold text-gray-800">{{ toko.nama }}</h2>
+            <p class="text-sm text-gray-400">{{ toko.telepon }}</p>
+            <p class="text-sm font-medium text-gray-800 mt-1">{{ toko.nomor_toko }} {{  }}</p>
           </div>
         </div>
       </div>

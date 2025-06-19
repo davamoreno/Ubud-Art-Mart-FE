@@ -1,11 +1,9 @@
-<script setup lang="ts"> // <-- Tambahkan lang="ts" di sini
+<script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTokoStore } from '~/stores/toko';
-// Impor tipe/interface dari store untuk digunakan di komponen
 import type { CreateTokoPayload } from '~/stores/toko';
 
-// --- Setup Store dan Router ---
 const tokoStore = useTokoStore();
 const router = useRouter();
 
@@ -13,12 +11,8 @@ definePageMeta({
   layout: 'admin',
 });
 
-
-// --- State Lokal untuk Form ---
-// Berikan tipe pada objek reactive kita menggunakan interface yang sudah dibuat.
-// Ini akan memberikan autocomplete dan pengecekan tipe pada `form`.
 const form = reactive<CreateTokoPayload>({
-  name: '',
+  nama: '',
   lantai: '',
   nomor_toko: '',
   telepon: '',
@@ -29,22 +23,18 @@ const form = reactive<CreateTokoPayload>({
 
 const imagePreview = ref<string | null>(null);
 
-// --- Fungsi dan Handler ---
-// Tipe `event` di sini akan di-infer secara otomatis oleh TypeScript
 const handleImageUpload = (event: Event) => {
   const target = event.target as HTMLInputElement;
-  const file = target.files?.[0]; // Optional chaining untuk keamanan
+  const file = target.files?.[0];
 
   if (file && file.type.startsWith('image/')) {
     form.image = file;
     imagePreview.value = URL.createObjectURL(file);
   } else {
-    alert('File yang diunggah bukan gambar!');
+    alert('File bukan gambar!');
     form.image = null;
     imagePreview.value = null;
-    if (target) {
-      target.value = '';
-    }
+    if (target) target.value = '';
   }
 };
 
@@ -52,18 +42,16 @@ const cancelImage = () => {
   form.image = null;
   imagePreview.value = null;
   const fileInput = document.getElementById('file-input') as HTMLInputElement;
-  if (fileInput) {
-    fileInput.value = '';
-  }
+  if (fileInput) fileInput.value = '';
 };
 
 const submitForm = async () => {
   try {
     await tokoStore.createStore(form);
     alert('Toko berhasil ditambahkan!');
-    router.push('/admin/main/dashboard'); 
+    router.push('/admin/main/dashboard');
   } catch (err) {
-    alert('Gagal menambahkan toko. Silakan coba lagi.');
+    alert('Gagal menambahkan toko.');
     console.error("Submit error:", err);
   }
 };
@@ -82,17 +70,17 @@ const submitForm = async () => {
       
       <div>
         <label for="name" class="text-sm font-medium">Nama Toko</label>
-        <input id="name" type="text" v-model="form.name" class="w-full border rounded p-2 mt-1" placeholder="Cth: Toko Abhi" required />
+        <input id="nama" type="text" v-model="form.nama" class="w-full border rounded p-2 mt-1" placeholder="Cth: Toko Abhi" required />
       </div>
 
       <div>
         <label for="lantai" class="text-sm font-medium">Lantai</label>
-        <input id="lantai" type="text" v-model="form.lantai" class="w-full border rounded p-2 mt-1" placeholder="Cth: Lantai 1" required />
+        <input id="lantai" type="text" v-model="form.lantai" class="w-full border rounded p-2 mt-1" placeholder="Cth: 1" required />
       </div>
 
       <div>
         <label for="nomor_toko" class="text-sm font-medium">Nomor Toko</label>
-        <input id="nomor_toko" type="text" v-model="form.nomor_toko" class="w-full border rounded p-2 mt-1" placeholder="Cth: A-10" required />
+        <input id="nomor_toko" type="text" v-model="form.nomor_toko" class="w-full border rounded p-2 mt-1" placeholder="Cth: 10" required />
       </div>
       
       <div>
