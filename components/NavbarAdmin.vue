@@ -1,3 +1,16 @@
+<script setup>
+import { useAuthStore } from '~/stores/auth'
+import { useRouter } from 'vue-router';
+const auth = useAuthStore();
+const router = useRouter();
+    const confirmLogout = () => {
+        if (confirm('Are you sure you want to logout?')) {
+          auth.logout()
+          router.push('/admin/auth/login') 
+        }
+    }
+</script>
+
 <template>
     <nav class="relative flex items-center border-b px-6 py-6 shadow-sm bg-white">
       <!-- Brand di kiri -->
@@ -7,31 +20,27 @@
   
       <!-- Navigation Menu di tengah -->
       <ul class="mx-auto flex space-x-10 items-center text-sm font-medium text-gray-700">
-        <li class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer ">
+        <NuxtLink to="/admin/main/dashboard" class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer ">
           <img src="/assets/images/Dashboard.svg" class="fas fa-th-large text-gray-400 ">
           <span>Dashboard</span>
-        </li>
-        <li class="flex items-center space-x-2 hover:text-[#328E6E]  cursor-pointer">
+        </NuxtLink>
+        <NuxtLink to="/admin/main/produk" class="flex items-center space-x-2 hover:text-[#328E6E]  cursor-pointer">
           <img src="/assets/images/Products.svg" class="fas fa-th-large text-gray-400">
           <span>Produk</span>
-        </li>
-        <li class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
+        </NuxtLink>
+        <NuxtLink to="/admin/main/toko" class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
           <img src="/assets/images/Product Stock.svg" class="fas fa-th-large text-gray-400">
           <span>Toko</span>
-        </li>
-        <li class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
+        </NuxtLink>
+        <NuxtLink to="/admin/main/berita" class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
           <img src="/assets/images/Invoice.svg" class="fas fa-th-large text-gray-400">
           <span>Berita</span>
-        </li>
+        </NuxtLink>
       </ul>
+       <button @click="confirmLogout" class="px-6 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition">
+          Logout
+        </button>
     </nav>
   </template>
-  
-  <script>
-  export default {
-    name: 'NavbarAdmin',
-  };
-  </script>
-  
  
 
