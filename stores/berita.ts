@@ -94,7 +94,7 @@ export const useBeritaStore = defineStore('berita', () => {
         Authorization: `Bearer ${useCookie('token').value}`
       }
     });
-    detail.value = response.data;
+    stores.value = response.data;
     console.log('Berita detail fetched:', response.data);
   } catch (e) {
     error.value = e as Error;
