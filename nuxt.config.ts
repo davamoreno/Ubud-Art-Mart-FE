@@ -5,7 +5,7 @@ export default defineNuxtConfig({
    devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBase: '/api',
+      apiBase: 'https://f7b2-114-125-77-79.ngrok-free.app/api/',
     }
   },
   nitro: {

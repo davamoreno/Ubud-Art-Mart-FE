@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import { useAuthStore } from '~/stores/auth'
 import { navigateTo } from '#app'
 
-const auth = useAuthStore()
+const auth = useAuthStore();
+const config = useRuntimeConfig();
+const apiBase = config.public.apiBase;
 
 // TAMBAHKAN INI:
 const email = ref('')
@@ -12,7 +14,7 @@ const password = ref('')
 // Fungsi submit login
 const handleLogin = async () => {
   try {
-    const response = await $fetch('http://127.0.0.1:8000/api/costumer/users/login', {
+    const response = await $fetch(`${apiBase}costumer/users/login`, {
       method: 'POST',
       body: { email: email.value, password: password.value }
     })
