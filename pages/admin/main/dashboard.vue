@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useCookie } from '#app'
 import { definePageMeta } from '#imports'
+import Swal from 'sweetalert2'
 
 definePageMeta({
   layout : 'admin',
@@ -20,17 +21,27 @@ const newItemName = ref('')
 const isSubmitting = ref(false)
 
 async function storeItem(type) {
-  if (!newItemName.value.trim()) return alert('Nama tidak boleh kosong')
+  if (!newItemName.value.trim()) {
+    await Swal.fire({
+      icon: 'warning',
+      title: 'Nama tidak boleh kosong',
+      confirmButtonColor: '#e3342f'
+    })
+    return
+  }
 
   isSubmitting.value = true
   try {
-    const endpoint = type === 'kategori' ? 'http://127.0.0.1:8000/api/admin/kategori' : 'http://127.0.0.1:8000/api/admin/tag'
-    const response = await $fetch(endpoint, { 
-    method: 'POST',
-    body: { nama: newItemName.value },
-    headers: {
-      Authorization: `Bearer ${useCookie('token').value}`
-    }
+    const endpoint = type === 'kategori'
+      ? 'http://127.0.0.1:8000/api/admin/kategori'
+      : 'http://127.0.0.1:8000/api/admin/tag'
+
+    const response = await $fetch(endpoint, {
+      method: 'POST',
+      body: { nama: newItemName.value },
+      headers: {
+        Authorization: `Bearer ${useCookie('token').value}`
+      }
     })
 
     const newItem = response.data
@@ -44,9 +55,21 @@ async function storeItem(type) {
     }
 
     newItemName.value = ''
+
+    // ✅ Notifikasi sukses
+    await Swal.fire({
+      icon: 'success',
+      title: `${type === 'kategori' ? 'Kategori' : 'Tag'} berhasil ditambahkan!`,
+      confirmButtonColor: '#328E6E'
+    })
   } catch (err) {
-    console.error('Gagal menyimpan:', err)
-    alert('Terjadi kesalahan saat menyimpan')
+    // ❌ Ganti alert & console log dengan Swal
+    await Swal.fire({
+      icon: 'error',
+      title: `Gagal menyimpan ${type}`,
+      text: err?.data?.message || 'Terjadi kesalahan saat menyimpan.',
+      confirmButtonColor: '#e3342f'
+    })
   } finally {
     isSubmitting.value = false
   }
@@ -72,9 +95,13 @@ async function getItem(type) {
       tagList.value = items
     }
   } catch (error) {
-    console.error(`Gagal mengambil data ${type}:`, error)
-    alert(`Gagal mengambil data ${type}`)
-  }
+    await Swal.fire({
+      icon: 'error',
+      title: `Gagal mengambil data ${type} dan Kategori`,
+      text: error?.data?.message || 'Terjadi kesalahan saat mengambil data.',
+      confirmButtonColor: '#e3342f'
+    })
+}
 }
 
 onMounted(async () => {
