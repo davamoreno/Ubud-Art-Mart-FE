@@ -79,6 +79,26 @@ export const useBeritaStore = defineStore('berita', () => {
     }
   }
 
+  async function getBerita(slug: string): Promise<void> {
+  loading.value = true;
+  error.value = null;
+
+  try {
+    const response = await $fetch<{ data: Berita[] }>(`http://127.0.0.1:8000/api/admin/berita/${slug}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${useCookie('token').value}`
+      }
+    });
+    stores.value = response.data;
+  } catch (e) {
+    error.value = e as Error;
+    console.error('Failed to fetch berita detail:', e);
+  } finally {
+    loading.value = false;
+  }
+}
+
   return {
     stores,
     store,
@@ -86,5 +106,6 @@ export const useBeritaStore = defineStore('berita', () => {
     error,
     fetchStores,
     createStore,
+    getBerita,
   };
 });

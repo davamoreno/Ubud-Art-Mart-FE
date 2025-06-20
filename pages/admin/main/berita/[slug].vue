@@ -1,3 +1,22 @@
+<!-- <script setup lang="ts">
+import { NuxtLink } from '#components';
+import { onMounted } from 'vue';
+import { useBeritaStore } from '~/stores/berita';
+
+const beritaStore = useBeritaStore();
+const stores = beritaStore.stores;
+
+
+onMounted(() => {
+    beritaStore.fetchStores();
+});
+
+definePageMeta({
+    layout: 'admin'
+})
+
+</script> -->
+
 <template>
     <form action="">
         <div class="flex flex-row w-[1340px] h-[752px] p-[30px] mt-[60px] mb-[357px] mx-auto border-2 rounded-lg">
