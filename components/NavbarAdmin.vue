@@ -1,14 +1,30 @@
 <script setup>
 import { useAuthStore } from '~/stores/auth'
-import { useRouter } from 'vue-router';
-const auth = useAuthStore();
-const router = useRouter();
-const confirmLogout = () => {
-  if (confirm('Are you sure you want to logout?')) {
+import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
+
+const auth = useAuthStore()
+const router = useRouter()
+
+const confirmLogout = async () => {
+  const result = await Swal.fire({
+    title: 'Logout?',
+    text: 'Apakah kamu yakin ingin logout?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#e3342f',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Ya, Logout',
+    cancelButtonText: 'Batal'
+  })
+
+  if (result.isConfirmed) {
     auth.logout()
     router.push('/admin/auth/login')
   }
 }
+
+
 </script>
 
 <template>

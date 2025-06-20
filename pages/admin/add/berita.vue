@@ -3,6 +3,7 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBeritaStore } from '~/stores/berita';
 import type { CreateBeritaPayload } from '~/stores/berita';
+import Swal from 'sweetalert2'
 
 const beritaStore = useBeritaStore();
 const router = useRouter();
@@ -47,13 +48,23 @@ const cancelImage = () => {
 const submitForm = async () => {
   try {
     await beritaStore.createStore(form);
-    alert('Berita berhasil ditambahkan!');
-    router.push('/admin/main/dashboard');
-  } catch (err) {
-    alert('Gagal menambahkan berita.');
-    console.error("Submit error:", err);
+     await Swal.fire({
+      icon: 'success',
+      title: 'Berhasil Menambhakan Berita!',
+      confirmButtonColor: '#328E6E'
+    })
+
+  router.push("/admin/main/news")
+  } catch (error: any) {
+    // ❌ Tampilkan popup error
+    await Swal.fire({
+      icon: 'error',
+      title: 'Gagal Menambahkan Berita',
+      text: error?.data?.message || 'Cek kembali inputan kamu!',
+      confirmButtonColor: '#e3342f'
+    })
   }
-};
+}
 
 
 </script>
@@ -114,7 +125,7 @@ const submitForm = async () => {
 
         <!-- Tombol Aksi -->
         <div class="flex justify-end space-x-2 mt-4">
-          <NuxtLink to="/admin/main/berita"
+          <NuxtLink to="/admin/main/news"
             class="px-6 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-100">
             Batal
           </NuxtLink>
