@@ -37,7 +37,7 @@ export const useTokoStore = defineStore('toko', () => {
     error.value = null;
 
     try {
-      const response = await $fetch<{ data: Toko[] }>(`${apiBase}admin/toko`, {
+      const response = await $fetch<{data: Toko[],  meta: any, links: any }>(`${apiBase}admin/toko`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${useCookie('token').value}`
@@ -69,7 +69,7 @@ export const useTokoStore = defineStore('toko', () => {
     }
 
     try {
-      const response = await $fetch<{ data: Toko }>(`${apiBase}admin/toko`, {
+      const response = await $fetch<{ success : boolean, data: Toko }>(`${apiBase}admin/toko`, {
         method: 'POST',
         body: formData,
         headers: {

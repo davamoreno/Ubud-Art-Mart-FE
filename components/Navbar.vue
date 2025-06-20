@@ -12,7 +12,7 @@
 
     const selectedLocale = computed({
         get() {
-            return locale.value || 'id' // fallback supaya tidak kosong
+            return locale.value || 'id'
         },
         set(val: string) {
             setLocale(val)
