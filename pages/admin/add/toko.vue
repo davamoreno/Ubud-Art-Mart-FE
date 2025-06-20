@@ -3,6 +3,7 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTokoStore } from '~/stores/toko';
 import type { CreateTokoPayload } from '~/stores/toko';
+import Swal from 'sweetalert2'
 
 const tokoStore = useTokoStore();
 const router = useRouter();
@@ -48,11 +49,21 @@ const cancelImage = () => {
 const submitForm = async () => {
   try {
     await tokoStore.createStore(form);
-    alert('Toko berhasil ditambahkan!');
-    router.push('/admin/main/dashboard');
-  } catch (err) {
-    alert('Gagal menambahkan toko.');
-    console.error("Submit error:", err);
+    await Swal.fire({
+      icon: 'success',
+      title: 'Berhasil Menambhakan Toko!',
+      confirmButtonColor: '#328E6E'
+    })
+
+  router.push("/admin/main/toko")
+  } catch (error: any) {
+    // ❌ Tampilkan popup error
+    await Swal.fire({
+      icon: 'error',
+      title: 'Gagal Menambahkan Toko',
+      text: error?.data?.message || 'Cek kembali inputan kamu!',
+      confirmButtonColor: '#e3342f'
+    })
   }
 };
 </script>
