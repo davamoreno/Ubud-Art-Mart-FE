@@ -23,19 +23,23 @@ export const useBeritaStore = defineStore('berita', () => {
   const store = ref<Berita | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<Error | null>(null);
+  const config = useRuntimeConfig();
+  const apiBase = config.public.apiBase;
+  const detail = ref<Berita[]>([]);
 
   async function fetchStores(): Promise<void> {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await $fetch<{ data: Berita[] }>('http://127.0.0.1:8000/api/admin/berita', {
+      const response = await $fetch<{ data: Berita[] }>(`${apiBase}admin/berita`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${useCookie('token').value}`
         }
       });
       stores.value = response.data;
+      console.log('Stores fetched:', response.data);
     } catch (e) {
       error.value = e as Error;
       console.error('Failed to fetch stores:', e);
@@ -57,7 +61,7 @@ export const useBeritaStore = defineStore('berita', () => {
     }
 
     try {
-      const response = await $fetch<{ data: Berita }>('http://127.0.0.1:8000/api/admin/berita', {
+      const response = await $fetch<{ data: Berita }>(`${apiBase}admin/berita`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -84,13 +88,14 @@ export const useBeritaStore = defineStore('berita', () => {
   error.value = null;
 
   try {
-    const response = await $fetch<{ data: Berita[] }>(`http://127.0.0.1:8000/api/admin/berita/${slug}`, {
+    const response = await $fetch<{ data: Berita[] }>(`${apiBase}admin/berita/${slug}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${useCookie('token').value}`
       }
     });
-    stores.value = response.data;
+    detail.value = response.data;
+    console.log('Berita detail fetched:', response.data);
   } catch (e) {
     error.value = e as Error;
     console.error('Failed to fetch berita detail:', e);
@@ -104,6 +109,7 @@ export const useBeritaStore = defineStore('berita', () => {
     store,
     loading,
     error,
+    detail,
     fetchStores,
     createStore,
     getBerita,

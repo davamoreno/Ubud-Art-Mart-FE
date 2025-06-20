@@ -4,8 +4,6 @@ import { onMounted } from 'vue';
 import { useBeritaStore } from '~/stores/berita';
 
 const beritaStore = useBeritaStore();
-const stores = beritaStore.stores;
-
 
 onMounted(() => {
   beritaStore.fetchStores();
@@ -53,11 +51,11 @@ definePageMeta({
       <div class="grid grid-cols-4 gap-6">
         <div v-for="berita in beritaStore.stores" :key="berita.id"
           class="bg-white rounded-xl shadow-sm border p-3 transition hover:shadow-md">
-          <NuxtLink to="/admin/main/berita/{{ berita.slug }}">
+          <router-link :to="`/admin/main/berita/${berita.slug}`">
             <img :src="`${berita.image}`" alt="Tas Anyaman" class="w-full h-40 object-cover rounded-md mb-3" />
             <h2 class="text-base font-semibold text-gray-800">{{ berita.title }}</h2>
             <p class="text-sm text-gray-400 line-clamp-2">{{ berita.deskripsi }}</p>
-          </NuxtLink>
+          </router-link>
         </div>
       </div>
     </div>

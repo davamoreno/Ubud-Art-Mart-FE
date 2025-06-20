@@ -1,4 +1,4 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import { NuxtLink } from '#components';
 import { onMounted } from 'vue';
 import { useBeritaStore } from '~/stores/berita';
@@ -6,16 +6,15 @@ import { useBeritaStore } from '~/stores/berita';
 const beritaStore = useBeritaStore();
 const stores = beritaStore.stores;
 
+definePageMeta({
+    layout: 'admin'
+})
 
 onMounted(() => {
     beritaStore.fetchStores();
 });
 
-definePageMeta({
-    layout: 'admin'
-})
-
-</script> -->
+</script>
 
 <template>
     <form action="">
@@ -42,37 +41,33 @@ definePageMeta({
 
                         <label class="mb-[8px] text-sm text-gray-500">Tag Produk</label>
                         <div class="flex flex-col mb-[14px] relative tag-dropdown">
-                            <div @click="toggleTagDropdown"
-                                class="w-full border rounded-lg cursor-pointer flex justify-between items-center">
+                            <div class="w-full border rounded-lg cursor-pointer flex justify-between items-center">
                                 <span class="opacity-50 px-[21px] py-[12px] ">
-                                    {{ selectedTags.length ? selectedTags.join(', ') : 'Pilih Tag Produk' }}
+                                    Pilih Tag Produk
                                 </span>
                             </div>
-                            <div v-if="tagDropdownOpen"
+                            <div
                                 class="absolute z-10 bg-white border mt-1 w-full rounded shadow max-h-40 overflow-y-auto">
-                                <label v-for="tag in allTags" :key="tag"
-                                    class="flex items-center p-2 hover:bg-gray-100">
-                                    <input type="checkbox" :value="tag" v-model="selectedTags" class="mr-2" />
-                                    {{ tag }}
+                                <label class="flex items-center p-2 hover:bg-gray-100">
+                                    <input type="checkbox" class="mr-2" />
+
                                 </label>
                             </div>
                         </div>
 
                         <label class="mb-[8px] text-sm text-gray-500">Katalog</label>
-                        <select v-model="selectedCatalog"
-                            class="px-[16px] py-[12px] rounded-lg border-2 w-full mb-[14px] opacity-50">
+                        <select class="px-[16px] py-[12px] rounded-lg border-2 w-full mb-[14px] opacity-50">
                             <option disabled value="">Pilih Katalog</option>
-                            <option v-for="catalog in allCatalogs" :key="catalog" :value="catalog">
-                                {{ catalog }}
+                            <option>
+
                             </option>
                         </select>
 
                         <label class="mb-[8px] text-sm text-gray-500">Toko</label>
-                        <select v-model="selectedStore"
-                            class="px-[16px] py-[12px] rounded-lg border-2 w-full mb-[14px]  opacity-50">
+                        <select class="px-[16px] py-[12px] rounded-lg border-2 w-full mb-[14px]  opacity-50">
                             <option disabled value="">Pilih Toko</option>
-                            <option v-for="store in allStores" :key="store" :value="store">
-                                {{ store }}
+                            <option>
+
                             </option>
                         </select>
 
@@ -110,7 +105,7 @@ definePageMeta({
 </template>
 
 
-<script>
+<!-- <script>
 export default {
     data() {
         return {
@@ -154,4 +149,4 @@ export default {
         document.removeEventListener('click', this.closeDropdowns);
     }
 };
-</script>
+</script> -->
