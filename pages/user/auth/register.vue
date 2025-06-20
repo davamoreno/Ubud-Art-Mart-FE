@@ -1,12 +1,81 @@
+<script setup lang="ts">
+import Swal from 'sweetalert2'
+import { ref } from 'vue'
+import { useAuthStore } from '~/stores/auth'
+import { navigateTo } from '#app'
+  
+const auth = useAuthStore();
+const config = useRuntimeConfig();
+const apiBase = config.public.apiBase;
+const showPassword = ref(false)
+const showConfirm = ref(false)
+const errorMessage = ref('')
+
+
+// TAMBAHKAN INI:
+const email = ref('')
+const name = ref('')
+const password = ref('')
+const password_confirmation = ref('')
+
+
+
+const handleRegister = async () => {
+  errorMessage.value = '' // Reset pesan error dulu
+
+  if (password.value !== password_confirmation.value) {
+    errorMessage.value = 'Password tidak cocok!'
+    return
+  }
+
+  try {
+    const response = await $fetch(`${apiBase}costumer/users/register`, {
+      method: 'POST',
+      body: {
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        password_confirmation: password_confirmation.value
+      }
+    })
+
+    // Simpan user ke store
+    auth.register({
+      user: response.user,
+    })
+
+    // ✅ Tampilkan popup sukses
+    await Swal.fire({
+      icon: 'success',
+      title: 'Berhasil Register!',
+      text: 'Selamat datang di Ubud Art Market!',
+      confirmButtonColor: '#328E6E'
+    })
+
+    navigateTo('/')
+  } catch (error: any) {
+    // ❌ Tampilkan popup error
+    await Swal.fire({
+      icon: 'error',
+      title: 'Gagal Register',
+      text: error?.data?.message || 'Cek kembali email dan password kamu!',
+      confirmButtonColor: '#e3342f'
+    })
+  }
+}
+
+  
+  </script>
+  
 <template>
     <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-sm">
         <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Register</h2>
   
         <input
-          v-model="username"
+          v-model="name"
           type="text"
-          placeholder="Username"
+          placeholder="name"
           class="w-full mb-4 px-4 py-3 rounded-lg bg-gray-100 border border-gray-300 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
         />
   
@@ -40,12 +109,13 @@
             </svg>
           </button>
         </div>
+
   
         <!-- Confirm Password -->
-        <div class="relative mb-6">
+        <div class="relative mb-2">
           <input
             :type="showConfirm ? 'text' : 'password'"
-            v-model="confirmPassword"
+            v-model="password_confirmation"
             placeholder="Confirm Password"
             class="w-full px-4 py-3 rounded-lg bg-gray-100 border border-gray-300 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
           />
@@ -64,6 +134,10 @@
             </svg>
           </button>
         </div>
+        <p v-if="errorMessage" class="text-red-500 text-sm mt-1">
+  {{ errorMessage }}
+</p>
+
   
         <!-- Register Button -->
         <button @click="handleRegister"
@@ -80,24 +154,4 @@
     </div>
   </template>
   
-  <script setup>
-  import { ref } from 'vue'
-  
-  const username = ref('')
-  const email = ref('')
-  const password = ref('')
-  const confirmPassword = ref('')
-  const showPassword = ref(false)
-  const showConfirm = ref(false)
-  
-  function handleRegister() {
-    if (password.value !== confirmPassword.value) {
-      alert('Password tidak cocok!')
-      return
-    }
-  
-    // Lakukan proses register
-    alert(`Register dengan\nUsername: ${username.value}\nEmail: ${email.value}`)
-  }
-  </script>
   
