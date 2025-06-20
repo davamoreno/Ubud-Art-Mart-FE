@@ -15,7 +15,14 @@ export interface CreateBeritaPayload {
   id: number;
   title: string;
   deskripsi : string;
-  image: File | null; // 🔥 PENTING: gunakan File, bukan string!
+  image: File | null;
+}
+
+export interface UpdateBeritaPayload {
+  id: number;
+  title: string;
+  deskripsi : string;
+  image: File | null;
 }
 
 export const useBeritaStore = defineStore('berita', () => {
@@ -88,13 +95,13 @@ export const useBeritaStore = defineStore('berita', () => {
   error.value = null;
 
   try {
-    const response = await $fetch<{ data: Berita[] }>(`${apiBase}admin/berita/${slug}`, {
+    const response = await $fetch<{ data: Berita }>(`${apiBase}admin/berita/${slug}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${useCookie('token').value}`
       }
     });
-    stores.value = response.data;
+    store.value = response.data;
     console.log('Berita detail fetched:', response.data);
   } catch (e) {
     error.value = e as Error;
@@ -103,6 +110,49 @@ export const useBeritaStore = defineStore('berita', () => {
     loading.value = false;
   }
 }
+
+async function updateBeritaStore(payload: UpdateBeritaPayload, slug: String): Promise<Berita | undefined> {
+    loading.value = true;
+    error.value = null;
+
+    const formData = new FormData();
+    formData.append('title', payload.title);
+    formData.append('deskripsi', payload.deskripsi);
+    
+    if (payload.image) {
+      formData.append('image', payload.image); // ✅ HARUS File, bukan string
+    }
+
+    try {
+      const response = await $fetch<{ data: Berita }>(`${apiBase}admin/berita/${slug}`, {
+        method: 'POST',
+        params: {
+          _method: 'PUT' // Gunakan PUT untuk update
+        },
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${useCookie('token').value}`
+          // ❌ JANGAN set Content-Type, biarkan browser yang handle!
+        }
+      });
+
+      if (response.data) {
+        const index = stores.value.findIndex(item => item.id === response.data.id);
+        if (index !== -1) {
+          stores.value[index] = response.data; // ✅ update
+        } else {
+          stores.value.push(response.data); // fallback jika belum ada (opsional)
+        }
+      }
+      return response.data;
+    } catch (e) {
+      error.value = e as Error;
+      console.error('Failed to create store:', e);
+      throw e;
+    } finally {
+      loading.value = false;
+    }
+  }
 
   return {
     stores,
@@ -113,5 +163,6 @@ export const useBeritaStore = defineStore('berita', () => {
     fetchStores,
     createStore,
     getBerita,
+    updateBeritaStore,
   };
 });

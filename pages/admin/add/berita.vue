@@ -48,7 +48,7 @@ const submitForm = async () => {
   try {
     await beritaStore.createStore(form);
     alert('Berita berhasil ditambahkan!');
-    router.push('/admin/main/dashboard');
+    router.push('/admin/main/news');
   } catch (err) {
     alert('Gagal menambahkan berita.');
     console.error("Submit error:", err);
