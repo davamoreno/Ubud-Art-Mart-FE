@@ -1,161 +1,119 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useCookie } from '#app'
-import { definePageMeta } from '#imports'
+import { ref, computed } from 'vue'
+// Hapus onMounted, kita tidak butuh lagi untuk fetch data awal
+// useAsyncData dan useRuntimeConfig akan kita gunakan
+import { useCookie, useAsyncData, useRuntimeConfig } from '#app'
 
 definePageMeta({
-  layout : 'admin',
+  layout: 'admin',
 });
 
-// Data kategori dan tag
-const kategoriList = ref([])
-const tagList = ref([])
+// =================================================================
+// LANGKAH 1: SETUP KONFIGURASI DAN DATA AWAL (SSR-FRIENDLY)
+// =================================================================
 
-// Modal dan pagination
+// Ambil konfigurasi URL API dari nuxt.config
+const config = useRuntimeConfig()
+const apiBaseUrl = config.public.apiBase
+
+// Ambil token dari cookie
+const token = useCookie('token').value
+
+// -- INI BAGIAN UTAMA PENGGANTI onMounted --
+// Kita gunakan useAsyncData untuk mengambil kategori dan tag secara paralel di server
+const { data, pending, error, refresh } = await useAsyncData(
+  'kategori-dan-tag', // Key unik untuk data ini
+  () => Promise.all([
+    $fetch(`${apiBaseUrl}admin/kategori`, { headers: { Authorization: `Bearer ${token}` } }),
+    $fetch(`${apiBaseUrl}admin/tag`, { headers: { Authorization: `Bearer ${token}` } })
+  ])
+)
+
+// Setelah data didapat, kita pasang ke ref masing-masing
+// `data.value[0]` adalah hasil dari fetch pertama (kategori)
+// `data.value[1]` adalah hasil dari fetch kedua (tag)
+const kategoriList = ref(data.value?.[0]?.data || [])
+const tagList = ref(data.value?.[1]?.data || [])
+
+// =================================================================
+// LANGKAH 2: REFAKTOR FUNGSI CRUD (PRINSIP DRY)
+// =================================================================
+
+// State untuk modal, pagination, dan form
 const showCategoryModal = ref(false)
 const showTagsModal = ref(false)
 const itemsPerPage = 10
-
 const newItemName = ref('')
 const isSubmitting = ref(false)
+const showEditModal = ref(false)
+const editItem = ref({ id: null, nama: '' })
+const showDeleteConfirm = ref(false)
+const deletedItem = ref({ id: null, nama: '' })
+const isEditingCategory = ref(true) // Untuk membedakan modal edit
+const isDeletingCategory = ref(true) // Untuk membedakan modal hapus
 
-async function storeItem(type) {
-  if (!newItemName.value.trim()) return alert('Nama tidak boleh kosong')
+// Fungsi generik untuk CRUD. Kita tidak perlu lagi if/else di setiap fungsi
+async function handleCrud(action, type, payload = {}) {
+  const list = type === 'kategori' ? kategoriList : tagList;
+  let endpoint = `${apiBaseUrl}admin/${type}`;
+  let method;
+  let body;
 
-  isSubmitting.value = true
-  try {
-    const endpoint = type === 'kategori' ? 'http://127.0.0.1:8000/api/admin/kategori' : 'http://127.0.0.1:8000/api/admin/tag'
-    const response = await $fetch(endpoint, { 
-    method: 'POST',
-    body: { nama: newItemName.value },
-    headers: {
-      Authorization: `Bearer ${useCookie('token').value}`
-    }
-    })
-
-    const newItem = response.data
-
-    if (type === 'kategori') {
-      kategoriList.value.push(newItem)
-      showCategoryModal.value = false
-    } else {
-      tagList.value.push(newItem)
-      showTagsModal.value = false
-    }
-
-    newItemName.value = ''
-  } catch (err) {
-    console.error('Gagal menyimpan:', err)
-    alert('Terjadi kesalahan saat menyimpan')
-  } finally {
-    isSubmitting.value = false
+  switch (action) {
+    case 'STORE':
+      method = 'POST';
+      body = { nama: newItemName.value };
+      break;
+    case 'UPDATE':
+      method = 'PUT';
+      endpoint += `/${editItem.value.id}`;
+      body = { nama: editItem.value.nama };
+      break;
+    case 'DELETE':
+      method = 'DELETE';
+      endpoint += `/${deletedItem.value.id}`;
+      break;
   }
-}
-
-async function getItem(type) {
+  
+  isSubmitting.value = true;
   try {
-    const endpoint = type === 'kategori'
-      ? 'http://127.0.0.1:8000/api/admin/kategori'
-      : 'http://127.0.0.1:8000/api/admin/tag'
+    const response = await $fetch(endpoint, { method, body, headers: { Authorization: `Bearer ${token}` } });
 
-    const response = await $fetch(endpoint, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${useCookie('token').value}`
+    // Setelah berhasil, update list lokal
+    switch (action) {
+      case 'STORE':
+        list.value.push(response.data);
+        if (type === 'kategori') showCategoryModal.value = false;
+        else showTagsModal.value = false;
+        newItemName.value = '';
+        break;
+      case 'UPDATE': {
+        const index = list.value.findIndex(item => item.id === editItem.value.id);
+        if (index !== -1) list.value[index] = response.data;
+        showEditModal.value = false;
+        editItem.value = { id: null, nama: '' };
+        break;
       }
-    })
-
-    const items = response.data
-    if (type === 'kategori') {
-      kategoriList.value = items
-    } else {
-      tagList.value = items
+      case 'DELETE': {
+        const index = list.value.findIndex(item => item.id === deletedItem.value.id);
+        if (index !== -1) list.value.splice(index, 1);
+        showDeleteConfirm.value = false;
+        deletedItem.value = { id: null, nama: '' };
+        break;
+      }
     }
-  } catch (error) {
-    console.error(`Gagal mengambil data ${type}:`, error)
-    alert(`Gagal mengambil data ${type}`)
-  }
-}
-
-onMounted(async () => {
-  await Promise.all([
-    getItem('kategori'),
-    getItem('tag')
-  ])
-})
-
-
-async function updateItem(type) {
-  console.log(editItem.value.id);
-  if (!editItem.value.nama.trim()) return alert('Nama tidak boleh kosong')
-  if (!editItem.value.id) return alert('ID item tidak ditemukan')
-
-  isSubmitting.value = true
-  try {
-    const endpoint = type === 'kategori'
-      ? `http://127.0.0.1:8000/api/admin/kategori/${editItem.value.id}`
-      : `http://127.0.0.1:8000/api/admin/tag/${editItem.value.id}`
-
-    const response = await $fetch(endpoint, {
-      method: 'PUT',
-      body: { nama: editItem.value.nama },
-      headers: {
-        Authorization: `Bearer ${useCookie('token').value}`
-      }
-    })
-
-    const updatedItem = response.data
-
-    const list = type === 'kategori' ? kategoriList.value : tagList.value
-    const index = list.findIndex(item => item.id === editItem.value.id)
-    if (index !== -1) list[index] = updatedItem
-
-    showEditModal.value = false
-    newItemName.value = ''
-    editItem.value = { id: null, nama: '' }
-  } catch (err) {
-    console.error('Gagal menyimpan:', err)
-    alert('Terjadi kesalahan saat menyimpan')
-  } finally {
-    isSubmitting.value = false
-  }
-}
-
-async function deleteItem(type) {
-  console.log(deletedItem.value.id)
-  if (!deletedItem.value.id) {
-    return alert('Data item tidak valid untuk dihapus.')
-  }
-
-  isSubmitting.value = true
-  try {
-    const endpoint = type === 'kategori'
-      ? `http://127.0.0.1:8000/api/admin/kategori/${deletedItem.value.id}`
-      : `http://127.0.0.1:8000/api/admin/tag/${deletedItem.value.id}`
-
-    await $fetch(endpoint, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${useCookie('token').value}`
-      }
-    })
-
-    // Hapus dari list lokal
-    const list = type === 'kategori' ? kategoriList.value : tagList.value
-    const index = list.findIndex(item => item.id === deletedItem.value.id)
-    if (index !== -1) list.splice(index, 1)
-
-    showDeleteConfirm.value = false
-    deletedItem.value = { id: null, nama: ''}
+    // Atau cara simple untuk refresh semua data:
+    // await refresh(); // Panggil fungsi refresh dari useAsyncData
 
   } catch (err) {
-    console.error('Gagal menghapus item:', err)
-    alert('Terjadi kesalahan saat menghapus')
+    console.error(`Gagal ${action} ${type}:`, err);
+    alert(`Terjadi kesalahan saat ${action} ${type}`);
   } finally {
-    isSubmitting.value = false
+    isSubmitting.value = false;
   }
 }
 
+// Pagination dan fungsi modal tetap sama...
 // Kategori pagination
 const currentPageKategori = ref(1)
 const totalPagesKategori = computed(() => Math.ceil(kategoriList.value.length / itemsPerPage))
@@ -170,15 +128,6 @@ const paginatedTag = computed(() =>
   tagList.value.slice((currentPageTag.value - 1) * itemsPerPage, currentPageTag.value * itemsPerPage)
 )
 
-// Edit & Hapus
-const showEditModal = ref(false)
-const isEditingCategory = ref(true)
-const isDeletingCategory = ref(true)
-const editItem = ref({ id: null, nama: '' })
-
-const showDeleteConfirm = ref(false)
-const deletedItem = ref({ id: null, nama: '' })
-
 function openEditModal(item, type) {
   isEditingCategory.value = type === 'kategori'
   editItem.value = { ...item }
@@ -191,6 +140,10 @@ function confirmDelete(item, type) {
   showDeleteConfirm.value = true
 }
 
+// Di template-mu, panggil handleCrud
+// contoh: @click="handleCrud('STORE', 'kategori')"
+// contoh: @click="handleCrud('UPDATE', isEditingCategory ? 'kategori' : 'tag')"
+// contoh: @click="handleCrud('DELETE', isDeletingCategory ? 'kategori' : 'tag')"
 </script>
 
 <template>
@@ -303,7 +256,7 @@ function confirmDelete(item, type) {
           
       <button
         :disabled="isSubmitting"
-        @click="storeItem('kategori')"
+        @click="handleCrud('STORE', 'kategori')"
         class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
@@ -332,7 +285,7 @@ function confirmDelete(item, type) {
           
       <button
         :disabled="isSubmitting"
-        @click="storeItem('tag')"
+        @click="handleCrud('STORE', 'tag')"
         class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
@@ -351,7 +304,7 @@ function confirmDelete(item, type) {
           </div>
           <input v-model="editItem.nama" type="text" class="w-full border px-4 py-2 rounded-lg mb-4" />
           <div class="flex justify-end">
-            <button @click="isEditingCategory ? updateItem('kategori') : updateItem('tag')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
+            <button @click="handleCrud('UPDATE', isEditingCategory ? 'kategori' : 'tag')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
           </div>
         </div>
       </div>
@@ -363,7 +316,7 @@ function confirmDelete(item, type) {
           <p class="mb-6 text-gray-600">Yakin ingin menghapus {{ deletedItem.id }} <strong>{{ deletedItem.nama }}</strong>?</p>
           <div class="flex justify-center gap-4">
             <button @click="showDeleteConfirm = false" class="px-4 py-2 bg-blue-500 text-white rounded">No</button>
-            <button :disabled="isSubmitting" @click="isDeletingCategory ? deleteItem('kategori') : deleteItem('tag')" class="px-4 py-2 bg-red-600 text-white rounded">
+            <button :disabled="isSubmitting" @click="handleCrud('DELETE', isEditingCategory ? 'kategori' : 'tag')" class="px-4 py-2 bg-red-600 text-white rounded">
               {{ isSubmitting ? 'Menghapus...' : 'Yes' }}
             </button>
           </div>

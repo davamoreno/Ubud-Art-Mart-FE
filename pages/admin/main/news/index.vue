@@ -5,14 +5,14 @@ import { useBeritaStore } from '~/stores/berita';
 
 const beritaStore = useBeritaStore();
 
-onMounted(() => {
-  beritaStore.fetchStores();
-});
+await useAsyncData('berita-list', () => beritaStore.fetchStores());
 
 definePageMeta({
   layout: 'admin'
 })
 
+import { storeToRefs } from 'pinia'
+const { stores, loading } = storeToRefs(beritaStore)
 </script>
 
 <template>
@@ -49,7 +49,7 @@ definePageMeta({
     <div class="bg-white rounded-xl shadow p-6 h-[600px] overflow-y-auto">
       <!-- PRODUK GRID DI DALAM CARD -->
       <div class="grid grid-cols-4 gap-6">
-        <div v-for="berita in beritaStore.stores" :key="berita.id"
+        <div v-for="berita in stores" :key="berita.id"
           class="bg-white rounded-xl shadow-sm border p-3 transition hover:shadow-md">
           <router-link :to="`/admin/main/news/${berita.slug}`">
             <img :src="`${berita.image}`" alt="Tas Anyaman" class="w-full h-40 object-cover rounded-md mb-3" />
