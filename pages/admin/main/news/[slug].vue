@@ -3,6 +3,7 @@ import { NuxtLink } from '#components';
 import { onMounted, watch } from 'vue';
 import { useBeritaStore } from '~/stores/berita';
 import { useRoute, useRouter } from 'vue-router';
+import type { UpdateBeritaPayload } from '~/stores/berita';
 import { computed } from 'vue';
 
 

@@ -1,9 +1,6 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useCookie } from '#app'
-import { definePageMeta } from '#imports'
-import Swal from 'sweetalert2'
 import { ref, computed } from 'vue'
+import Swal from 'sweetalert2'
 // Hapus onMounted, kita tidak butuh lagi untuk fetch data awal
 // useAsyncData dan useRuntimeConfig akan kita gunakan
 import { useCookie, useAsyncData, useRuntimeConfig } from '#app'
@@ -22,7 +19,7 @@ const apiBaseUrl = config.public.apiBase
 
 // Ambil token dari cookie
 const token = useCookie('token').value
-
+const { $api } = useNuxtApp()
 // -- INI BAGIAN UTAMA PENGGANTI onMounted --
 // Kita gunakan useAsyncData untuk mengambil kategori dan tag secara paralel di server
 const { data, pending, error, refresh } = await useAsyncData(
@@ -54,7 +51,6 @@ const editItem = ref({ id: null, nama: '' })
 const showDeleteConfirm = ref(false)
 const deletedItem = ref({ id: null, nama: '' })
 const isEditingCategory = ref(true) // Untuk membedakan modal edit
-const isDeletingCategory = ref(true) // Untuk membedakan modal hapus
 
 // Fungsi generik untuk CRUD. Kita tidak perlu lagi if/else di setiap fungsi
 async function handleCrud(action, type, payload = {}) {
@@ -63,25 +59,35 @@ async function handleCrud(action, type, payload = {}) {
   let method;
   let body;
 
-  switch (action) {
+  const itemId = action === 'DELETE' ? payload.id : editItem.value.id;
+
+   switch (action) {
     case 'STORE':
       method = 'POST';
       body = { nama: newItemName.value };
+      if (!body.nama.trim()) return $swal.fire('Error', 'Nama tidak boleh kosong', 'error');
       break;
     case 'UPDATE':
       method = 'PUT';
-      endpoint += `/${editItem.value.id}`;
+      endpoint += `/${itemId}`;
       body = { nama: editItem.value.nama };
+      if (!body.nama.trim()) return $swal.fire('Error', 'Nama tidak boleh kosong', 'error');
       break;
     case 'DELETE':
       method = 'DELETE';
-      endpoint += `/${deletedItem.value.id}`;
+      endpoint += `/${itemId}`;
       break;
   }
-  
+
   isSubmitting.value = true;
   try {
     const response = await $fetch(endpoint, { method, body, headers: { Authorization: `Bearer ${token}` } });
+
+    Swal.fire({
+      icon: 'success',
+      title: response.message || `Data berhasil di-${action.toLowerCase()}`,
+      showConfirmButton: true,
+    });
 
     // Setelah berhasil, update list lokal
     switch (action) {
@@ -99,19 +105,23 @@ async function handleCrud(action, type, payload = {}) {
         break;
       }
       case 'DELETE': {
-        const index = list.value.findIndex(item => item.id === deletedItem.value.id);
-        if (index !== -1) list.value.splice(index, 1);
-        showDeleteConfirm.value = false;
-        deletedItem.value = { id: null, nama: '' };
+         if (type === 'kategori') {
+            const index = kategoriList.value.findIndex(item => Number(item.id) === Number(itemId));
+            if (index !== -1) kategoriList.value.splice(index, 1);
+        } else {
+            const index = tagList.value.findIndex(item => Number(item.id) === Number(itemId));
+            if (index !== -1) tagList.value.splice(index, 1);
+        }
         break;
       }
     }
-    // Atau cara simple untuk refresh semua data:
-    // await refresh(); // Panggil fungsi refresh dari useAsyncData
 
   } catch (err) {
-    console.error(`Gagal ${action} ${type}:`, err);
-    alert(`Terjadi kesalahan saat ${action} ${type}`);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.data?.message || `Terjadi kesalahan saat ${action.toLowerCase()} ${type}`,
+    });
   } finally {
     isSubmitting.value = false;
   }
@@ -139,9 +149,20 @@ function openEditModal(item, type) {
 }
 
 function confirmDelete(item, type) {
-  deletedItem.value = { id: item.id, nama: item.nama }
-  isDeletingCategory.value = type === 'kategori'
-  showDeleteConfirm.value = true
+  Swal.fire({
+    title: 'Anda Yakin?',
+    text: `Data "${item.nama}" akan dihapus secara permanen!`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Ya, hapus!',
+    cancelButtonText: 'Batal'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      handleCrud('DELETE', type, item)
+    }
+  })
 }
 
 // Di template-mu, panggil handleCrud
@@ -309,20 +330,6 @@ function confirmDelete(item, type) {
           <input v-model="editItem.nama" type="text" class="w-full border px-4 py-2 rounded-lg mb-4" />
           <div class="flex justify-end">
             <button @click="handleCrud('UPDATE', isEditingCategory ? 'kategori' : 'tag')" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
-          </div>
-        </div>
-      </div>
-  
-      <!-- MODAL: Hapus -->
-      <div v-if="showDeleteConfirm" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white rounded-lg w-full max-w-sm p-6 shadow-xl text-center">
-          <h2 class="text-lg font-semibold mb-4">Konfirmasi Hapus</h2>
-          <p class="mb-6 text-gray-600">Yakin ingin menghapus {{ deletedItem.id }} <strong>{{ deletedItem.nama }}</strong>?</p>
-          <div class="flex justify-center gap-4">
-            <button @click="showDeleteConfirm = false" class="px-4 py-2 bg-blue-500 text-white rounded">No</button>
-            <button :disabled="isSubmitting" @click="handleCrud('DELETE', isEditingCategory ? 'kategori' : 'tag')" class="px-4 py-2 bg-red-600 text-white rounded">
-              {{ isSubmitting ? 'Menghapus...' : 'Yes' }}
-            </button>
           </div>
         </div>
       </div>

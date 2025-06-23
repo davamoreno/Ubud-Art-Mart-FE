@@ -48,7 +48,7 @@
         <div class="flex items-center space-x-8">
             <div class="space-x-4">
                 <NuxtLink :to="localePath('/')" class="nav-link">{{ $t('nav_bar.home') }}</NuxtLink>
-                <NuxtLink to="/event-news" class="nav-link">{{ $t('nav_bar.event') }}</NuxtLink>
+                <NuxtLink to="/BeritaAcara" class="nav-link">{{ $t('nav_bar.event') }}</NuxtLink>
                 <NuxtLink to="/katalog" class="nav-link">{{ $t('nav_bar.katalog') }}</NuxtLink>
                 <NuxtLink to="/about" class="nav-link">{{ $t('nav_bar.about_us') }}</NuxtLink>
             </div>
@@ -87,7 +87,7 @@
                         <NuxtLink class="px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-700 
                          text-gray-800 dark:text-white font-medium shadow
                          hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-                          to="/user/auth/login">Sign In
+                          :to="localePath('/user/auth/login')">Sign In
                         </NuxtLink>
                     </div>
                 
