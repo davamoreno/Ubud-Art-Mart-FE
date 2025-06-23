@@ -73,16 +73,28 @@ function hideErrorMessage() {
 }
 
 const submitForm = async () => {
-    try {
-        if (typeof slug === 'string') {
-            const result = await beritaStore.updateBeritaStore(form, slug);
-            alert('Berita berhasil diubah!');
-            console.log('Update result:', result);
-            router.push('/admin/main/news');
+    if (form.title.trim() === '' && form.deskripsi.trim() === '') {
+        titleError.value = true;
+        deskripsiError.value = true;
+    } else if (form.deskripsi.trim() === '') {
+        deskripsiError.value = true;
+    }
+    else if (form.title.trim() === '') {
+        titleError.value = true;
+    } else {
+        titleError.value = false;
+        deskripsiError.value = false;
+        try {
+            if (typeof slug === 'string') {
+                const result = await beritaStore.updateBeritaStore(form, slug);
+                alert('Berita berhasil diubah!');
+                console.log('Update result:', result);
+                router.push('/admin/main/news');
+            }
+        } catch (err) {
+            alert('Gagal mengedit berita.');
+            console.error("Submit error:", err);
         }
-    } catch (err) {
-        alert('Gagal mengedit berita.');
-        console.error("Submit error:", err);
     }
 };
 
@@ -135,20 +147,23 @@ const submitForm = async () => {
             </div>
 
 
-            <div class="w-[692px] my-[41px] border-2 rounded-lg p-[20px]">
+            <div :class="[
+                'w-[692px] border-2 rounded-lg p-[20px]',
+                titleError || deskripsiError ? 'my-[25px]' : 'my-[41px]'
+            ]">
                 <div class="flex flex-row">
                     <div class="w-full">
                         <label class="mb-[8px] text-gray-500">Judul Berita</label>
                         <input type="text" @input="hideErrorMessage"
                             class="px-[16px] py-[12px] rounded-lg border-2 w-full mb-[14px] opacity-50"
                             v-model="form.title">
-                        <span v-if="titleError" class="text-danger">Judul tidak boleh kosong!</span>
+                        <span v-if="titleError" class="text-red-500 mb-3">Judul tidak boleh kosong!</span><br>
                         <label class="mb-[8px] text-gray-500">Isi Berita</label>
                         <textarea
                             class="px-[16px] py-[12px] rounded-lg border-2 w-full mb-[14px] resize-none h-[380px] opacity-50"
                             @input="hideErrorMessage" v-model="form.deskripsi">
                     </textarea>
-                        <span v-if="deskripsiError" class="text-danger">Isi tidak boleh kosong!</span>
+                        <span v-if="deskripsiError" class="text-red-500">Isi tidak boleh kosong!</span>
 
                     </div>
                 </div>
