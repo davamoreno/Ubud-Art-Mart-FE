@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBase: 'https://ubud-art-market.nio.my.id/',
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'https://ubud-art-market.nio.my.id/api/',
     }
   },
   nitro: {
@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   },
   ssr: true,
   app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1.0',
