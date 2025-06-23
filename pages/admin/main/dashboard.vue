@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useCookie } from '#app'
 import { definePageMeta } from '#imports'
+import Swal from 'sweetalert2';
 
 definePageMeta({
   layout: 'admin',
@@ -50,97 +51,82 @@ const editItem = ref({ id: null, nama: '' })
 const showDeleteConfirm = ref(false)
 const deletedItem = ref({ id: null, nama: '' })
 const isEditingCategory = ref(true)
+const isDeletingCategory = ref(true)
 
 // Fungsi generik untuk CRUD. Kita tidak perlu lagi if/else di setiap fungsi
 async function handleCrud(action, type, payload = {}) {
-  const list = type === 'kategori' ? kategoriList : tagList;
   let endpoint = `${apiBaseUrl}admin/${type}`;
   let method;
   let body;
+  const itemId = payload.id || editItem.value.id;
 
-  const itemId = action === 'DELETE' ? payload.id : editItem.value.id;
-
-   switch (action) {
+  // Logika switch yang hilang, sekarang kita kembalikan
+  switch (action) {
     case 'STORE':
       method = 'POST';
       body = { nama: newItemName.value };
-      if (!body.nama.trim()) return $swal.fire('Error', 'Nama tidak boleh kosong', 'error');
+      if (!body.nama.trim()) return Swal.fire('Error', 'Nama tidak boleh kosong', 'error');
       break;
     case 'UPDATE':
       method = 'PUT';
       endpoint += `/${itemId}`;
       body = { nama: editItem.value.nama };
-      if (!body.nama.trim()) return $swal.fire('Error', 'Nama tidak boleh kosong', 'error');
+      if (!body.nama.trim()) return Swal.fire('Error', 'Nama tidak boleh kosong', 'error');
       break;
     case 'DELETE':
       method = 'DELETE';
       endpoint += `/${itemId}`;
-      break;
-  }
-  
-  isSubmitting.value = true;
-  try {
-    const response = await $fetch(endpoint, { method, body, headers: { Authorization: `Bearer ${token}` } });
-
-    Swal.fire({
-      icon: 'success',
-      title: response.message || `Data berhasil di-${action.toLowerCase()}`,
-      showConfirmButton: true,
-    });
-
-    // Setelah berhasil, update list lokal
-    switch (action) {
-      case 'STORE':
-        list.value.push(response.data);
-        if (type === 'kategori') showCategoryModal.value = false;
-        else showTagsModal.value = false;
-        newItemName.value = '';
-        break;
-      case 'UPDATE': {
-        const index = list.value.findIndex(item => item.id === editItem.value.id);
-        if (index !== -1) list.value[index] = response.data;
-        showEditModal.value = false;
-        editItem.value = { id: null, nama: '' };
-        break;
-      }
-      case 'DELETE': {
-        if (type === 'kategori') {
+      if (type === 'kategori') {
             const index = kategoriList.value.findIndex(item => Number(item.id) === Number(itemId));
             if (index !== -1) kategoriList.value.splice(index, 1);
         } else {
             const index = tagList.value.findIndex(item => Number(item.id) === Number(itemId));
             if (index !== -1) tagList.value.splice(index, 1);
         }
-        break;
-      }
+      break;
+    default:
+      return; // Aksi tidak dikenal
+  }
+  
+  isSubmitting.value = true;
+  try {
+    // Gunakan $api, bukan $fetch
+    const response = $fetch(endpoint, { method, body, headers: { Authorization: `Bearer ${token}` } });
+
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'success',
+      title: response.message || `Data berhasil diproses!`,
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+    // Panggil refresh() untuk sinkronisasi data dengan server cara termudah
+    await refresh();
+
+    // Tutup modal yang relevan
+    if (action === 'STORE') {
+        if (type === 'kategori') showCategoryModal.value = false; else showTagsModal.value = false;
+        newItemName.value = '';
+    }
+    if (action === 'UPDATE') {
+        showEditModal.value = false;
+        editItem.value = { id: null, nama: '' };
     }
 
   } catch (err) {
     Swal.fire({
       icon: 'error',
-      title: 'Oops...',
-      text: err.data?.message || `Terjadi kesalahan saat ${action.toLowerCase()} ${type}`,
+      title: 'Operasi Gagal',
+      text: err.data?.message || 'Terjadi kesalahan pada server.',
     });
+    console.error(`Gagal ${action} ${type}:`, err);
   } finally {
     isSubmitting.value = false;
   }
 }
 
-
-// Pagination dan fungsi modal tetap sama...
-// Kategori pagination
-const currentPageKategori = ref(1)
-const totalPagesKategori = computed(() => Math.ceil(kategoriList.value.length / itemsPerPage))
-const paginatedKategori = computed(() =>
-  kategoriList.value.slice((currentPageKategori.value - 1) * itemsPerPage, currentPageKategori.value * itemsPerPage)
-)
-
-// Tag pagination
-const currentPageTag = ref(1)
-const totalPagesTag = computed(() => Math.ceil(tagList.value.length / itemsPerPage))
-const paginatedTag = computed(() =>
-  tagList.value.slice((currentPageTag.value - 1) * itemsPerPage, currentPageTag.value * itemsPerPage)
-)
 
 function openEditModal(item, type) {
   isEditingCategory.value = type === 'kategori'
@@ -165,6 +151,19 @@ function confirmDelete(item, type) {
   })
 }
 
+
+const currentPageKategori = ref(1)
+const totalPagesKategori = computed(() => Math.ceil(kategoriList.value.length / itemsPerPage))
+const paginatedKategori = computed(() =>
+  kategoriList.value.slice((currentPageKategori.value - 1) * itemsPerPage, currentPageKategori.value * itemsPerPage)
+)
+
+// Tag pagination
+const currentPageTag = ref(1)
+const totalPagesTag = computed(() => Math.ceil(tagList.value.length / itemsPerPage))
+const paginatedTag = computed(() =>
+  tagList.value.slice((currentPageTag.value - 1) * itemsPerPage, currentPageTag.value * itemsPerPage)
+)
 // Di template-mu, panggil handleCrud
 // contoh: @click="handleCrud('STORE', 'kategori')"
 // contoh: @click="handleCrud('UPDATE', isEditingCategory ? 'kategori' : 'tag')"
@@ -341,9 +340,10 @@ function confirmDelete(item, type) {
           <p class="mb-6 text-gray-600">Yakin ingin menghapus {{ deletedItem.id }} <strong>{{ deletedItem.nama }}</strong>?</p>
           <div class="flex justify-center gap-4">
             <button @click="showDeleteConfirm = false" class="px-4 py-2 bg-blue-500 text-white rounded">No</button>
-            <button :disabled="isSubmitting" @click="handleCrud('DELETE', isEditingCategory ? 'kategori' : 'tag')" class="px-4 py-2 bg-red-600 text-white rounded">
+            <button :disabled="isSubmitting" @click="handleCrud('DELETE', isDeletingCategory ? 'kategori' : 'tag')" class="px-4 py-2 bg-red-600 text-white rounded">
               {{ isSubmitting ? 'Menghapus...' : 'Yes' }}
             </button>
+
           </div>
         </div>
       </div>
