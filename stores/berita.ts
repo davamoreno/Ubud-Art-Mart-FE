@@ -154,6 +154,28 @@ async function updateBeritaStore(payload: UpdateBeritaPayload, slug: String): Pr
     }
   }
 
+  async function deleteBerita(slug: string): Promise<void> {
+    const beritaStore = useBeritaStore();
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await $fetch(`${apiBase}admin/berita/${slug}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${useCookie('token').value}`
+        }
+      });
+      stores.value = stores.value.filter(store => store.slug !== slug);
+      beritaStore.store = null;
+    } catch (e) {
+      error.value = e as Error;
+      console.error('Failed to delete berita:', e);
+    } finally {
+      loading.value = false;
+    }
+  }
+
   return {
     stores,
     store,
@@ -164,5 +186,6 @@ async function updateBeritaStore(payload: UpdateBeritaPayload, slug: String): Pr
     createStore,
     getBerita,
     updateBeritaStore,
+    deleteBerita,
   };
 });
