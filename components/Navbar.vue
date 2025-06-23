@@ -2,6 +2,7 @@
     import { useDark, useToggle } from '@vueuse/core';
     import { useI18n, useLocalePath } from '#imports';
     import { useAuthStore } from '~/stores/auth'
+    import Swal from 'sweetalert2'
 
     const isDark = useDark();
     const toggleDark = useToggle(isDark);
@@ -11,7 +12,7 @@
 
     const selectedLocale = computed({
         get() {
-            return locale.value || 'id' // fallback supaya tidak kosong
+            return locale.value || 'id'
         },
         set(val: string) {
             setLocale(val)
@@ -20,12 +21,23 @@
 
     const isNotLoggedIn = computed(() => auth.user == null)
 
-    const confirmLogout = () => {
-        if (confirm('Are you sure you want to logout?')) {
-          auth.logout()
-          location.reload()
-        }
-    }
+    const confirmLogout = async () => {
+  const result = await Swal.fire({
+    title: 'Logout?',
+    text: 'Apakah kamu yakin ingin logout?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#e3342f',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Ya, Logout',
+    cancelButtonText: 'Batal'
+  })
+
+  if (result.isConfirmed) {
+    auth.logout()
+    location.reload()
+  }
+}
 </script>
 
 <template>

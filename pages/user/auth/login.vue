@@ -2,17 +2,24 @@
 import { ref } from 'vue'
 import { useAuthStore } from '~/stores/auth'
 import { navigateTo } from '#app'
+import Swal from 'sweetalert2'
 
-const auth = useAuthStore()
+const auth = useAuthStore();
+const config = useRuntimeConfig();
+const apiBase = config.public.apiBase;
+const errorMessage = ref('')
+
 
 // TAMBAHKAN INI:
 const email = ref('')
 const password = ref('')
+const showPassword = ref(false)
 
 // Fungsi submit login
 const handleLogin = async () => {
+    errorMessage.value = '' // Reset pesan error dulu
   try {
-    const response = await $fetch('http://127.0.0.1:8000/api/costumer/users/login', {
+    const response = await $fetch(`${apiBase}costumer/users/login`, {
       method: 'POST',
       body: { email: email.value, password: password.value }
     })
@@ -23,12 +30,26 @@ const handleLogin = async () => {
       expiresIn: response.expires_in
     })
 
+    // ✅ Tampilkan popup sukses
+    await Swal.fire({
+      icon: 'success',
+      title: 'Berhasil Login!',
+      text: 'Selamat datang di Ubud Art Market!',
+      confirmButtonColor: '#328E6E'
+    })
+
     navigateTo('/')
-  } catch (error) {
-    console.error('Login failed:', error)
-    alert('Login gagal, cek email dan password kamu!')
+  } catch (error: any) {
+    // ❌ Tampilkan popup error
+    await Swal.fire({
+      icon: 'error',
+      title: 'Gagal Login',
+      text: error?.data?.message || 'Cek kembali email dan password kamu!',
+      confirmButtonColor: '#e3342f'
+    })
   }
 }
+
 </script>
 
 
@@ -38,7 +59,7 @@ const handleLogin = async () => {
         <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
             <div class="mt-12 flex flex-col items-center">
                 <h1 class="text-2xl xl:text-3xl font-extrabold">
-                    Sign up
+                    Sign in
                 </h1>
                 <div class="w-full flex-1 mt-8">
                     <div class="flex flex-col items-center">
@@ -61,28 +82,17 @@ const handleLogin = async () => {
                                 </svg>
                             </div>
                             <span class="ml-4">
-                                Sign Up with Google
+                                Sign In with Google
                             </span>
                         </button>
 
-                        <button
-                            class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-[#328E6E] text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5">
-                            <div class="bg-white p-1 rounded-full">
-                                <svg class="w-6" viewBox="0 0 32 32">
-                                    <path fill-rule="evenodd"
-                                        d="M16 4C9.371 4 4 9.371 4 16c0 5.3 3.438 9.8 8.207 11.387.602.11.82-.258.82-.578 0-.286-.011-1.04-.015-2.04-3.34.723-4.043-1.609-4.043-1.609-.547-1.387-1.332-1.758-1.332-1.758-1.09-.742.082-.726.082-.726 1.203.086 1.836 1.234 1.836 1.234 1.07 1.836 2.808 1.305 3.492 1 .11-.777.422-1.305.762-1.605-2.664-.301-5.465-1.332-5.465-5.93 0-1.313.469-2.383 1.234-3.223-.121-.3-.535-1.523.117-3.175 0 0 1.008-.32 3.301 1.23A11.487 11.487 0 0116 9.805c1.02.004 2.047.136 3.004.402 2.293-1.55 3.297-1.23 3.297-1.23.656 1.652.246 2.875.12 3.175.77.84 1.231 1.91 1.231 3.223 0 4.61-2.804 5.621-5.476 5.922.43.367.812 1.101.812 2.219 0 1.605-.011 2.898-.011 3.293 0 .32.214.695.824.578C24.566 25.797 28 21.3 28 16c0-6.629-5.371-12-12-12z" />
-                                </svg>
-                            </div>
-                            <span class="ml-4">
-                                Sign Up with GitHub
-                            </span>
-                        </button>
+                        
                     </div>
 
                     <div class="my-12 border-b text-center">
                         <div
                             class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
-                            Or sign up with e-mail
+                            Or sign in with e-mail
                         </div>
                     </div>
 
@@ -90,9 +100,33 @@ const handleLogin = async () => {
                         <input
                             class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                             type="email" placeholder="Email" name="email" v-model="email" />
-                        <input
-                            class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                            type="password" placeholder="Password" name="password" v-model="password" />
+                            <div class="relative mt-5">
+    <input
+      class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+      :type="showPassword ? 'text' : 'password'"
+      placeholder="Password"
+      name="password"
+      v-model="password"
+    />
+    <button
+      type="button"
+      class="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
+      @click="showPassword = !showPassword"
+    >
+      <!-- Eye icon (hide/show) -->
+      <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path
+          d="M2.458 12C3.732 7.943 7.522 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S3.732 16.057 2.458 12z" />
+      </svg>
+      <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <path
+          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.966 9.966 0 012.628-4.362M6.423 6.423A9.965 9.965 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.962 9.962 0 01-4.143 5.21M3 3l18 18" />
+      </svg>
+    </button>
+  </div>
                         <button  @click="handleLogin"
                             class="mt-5 tracking-wide font-semibold bg-[#328E6E] text-gray-100 w-full py-4 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                             <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
@@ -102,19 +136,16 @@ const handleLogin = async () => {
                                 <path d="M20 8v6M23 11h-6" />
                             </svg>
                             <span class="ml-3">
-                                Sign Up
+                                Sign In
                             </span>
                         </button>
                         <p class="mt-6 text-xs text-gray-600 text-center">
-                            I agree to abide by Ubud Art Market's
-                            <a href="#" class="border-b border-gray-500 border-dotted">
-                                Terms of Service
-                            </a>
-                            and its
-                            <a href="#" class="border-b border-gray-500 border-dotted">
-                                Privacy Policy
-                            </a>
-                        </p>
+                            Don't Have An Account?
+  <NuxtLink to="register" class="text-[#328E6E] font-semibold hover:underline">
+   Sign Up Now
+  </NuxtLink>
+</p>
+
                     </div>
                 </div>
             </div>

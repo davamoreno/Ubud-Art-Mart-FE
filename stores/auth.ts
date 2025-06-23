@@ -7,6 +7,15 @@ interface User {
   role: string
 }
 
+interface Register {
+  id: number
+  name: string
+  email: string
+  password: string
+  password_confirmation: string
+  role: string
+}
+
 interface AuthState {
   token: string | null
   user: User | null
@@ -30,37 +39,45 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     login(data: { token: string; user: User; expiresIn: number }) {
-        this.token = data.token
-        this.user = data.user
-        this.expiresIn = data.expiresIn
-        this.isReady = true
+      this.token = data.token
+      this.user = data.user
+      this.expiresIn = data.expiresIn
+      this.isReady = true
 
-        useCookie('token').value = data.token
-        useCookie('user').value = JSON.stringify(data.user)
+      useCookie('token').value = data.token
+      useCookie('user').value = JSON.stringify(data.user)
 
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+    },
+    register(data: { user: Register; }) {
+
+      this.user = data.user
+      this.isReady = true
+
     },
 
-    logout() {
-        this.token = null
-        this.user = null
-        this.expiresIn = null
-        this.isReady = false
 
-        useCookie('token').value = null
-        useCookie('user').value = null
+
+    logout() {
+      this.token = null
+      this.user = null
+      this.expiresIn = null
+      this.isReady = false
+
+      useCookie('token').value = null
+      useCookie('user').value = null
     },
 
     initializeFromStorage() {
-        const token = localStorage.getItem('token')
-        const user = localStorage.getItem('user')
-        
-        if (token && user) {
-          this.token = token
-          this.user = JSON.parse(user)
-        }
-         this.isReady = true
+      const token = localStorage.getItem('token')
+      const user = localStorage.getItem('user')
+
+      if (token && user) {
+        this.token = token
+        this.user = JSON.parse(user)
+      }
+      this.isReady = true
     }
   }
 })

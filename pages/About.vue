@@ -261,34 +261,32 @@ export default {
       </div>
     </section>
 
-    <!-- Hubungi Kami Section -->
-    <section class="py-16 bg-white">
-    <div class="container mx-auto px-4">
+  <!-- Hubungi Kami Section -->
+<section class="py-16 bg-white-30">
+  <div class="container mx-auto px-4">
+    <div class="bg-white shadow-xl rounded-2xl p-8">
       <div class="grid md:grid-cols-2 gap-8 items-start">
         
         <!-- Form Kontak -->
-        <div class="text-left">
+        <div>
           <h2 class="text-4xl font-bold mb-4 text-center md:text-left">Hubungi Kami</h2>
-          <p class="text-lg text-gray-500 mb-1 text-center md:text-left">
+          <p class="text-lg text-gray-600 mb-1 text-center md:text-left">
             Jl. Raya Ubud No.35, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali 80571
           </p>
-          <p class="mb-6 text-lg text-gray-500 text-center md:text-left">
+          <p class="mb-6 text-lg text-gray-600 text-center md:text-left">
             Punya pertanyaan dan saran seputar Ubud Art Market? Hubungi kami lewat formulir di bawah ini
           </p>
 
-          <form class="space-y-6 w-full max-w-[500px]">
-            <div>
-              <input type="email" placeholder="Email" required
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" />
-            </div>
-            <div>
-              <input type="text" placeholder="Nama (Optional)"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" />
-            </div>
-            <div>
-              <textarea rows="4" placeholder="Tulis pesan anda disini"
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
-            </div>
+          <form class="space-y-5">
+            <input type="email" placeholder="Email" required
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" />
+
+            <input type="text" placeholder="Nama (Optional)"
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" />
+
+            <textarea rows="4" placeholder="Tulis pesan anda di sini"
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"></textarea>
+
             <button type="submit"
               class="w-full bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition duration-300">
               Kirim
@@ -296,8 +294,8 @@ export default {
           </form>
         </div>
 
-        <!-- Google Maps Embed -->
-        <div class="w-full h-full">
+        <!-- Google Maps -->
+        <div class="w-full h-full flex items-center justify-center">
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3945.919843479883!2d115.26297249999999!3d-8.5071639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd23de2db450aa1%3A0x409d0777de9a0ded!2sPasar%20Seni%20Ubud!5e0!3m2!1sid!2sid!4v1750421987385!5m2!1sid!2sid" 
             width="80%" 
@@ -312,6 +310,8 @@ export default {
 
       </div>
     </div>
-    </section>
+  </div>
+</section>
+
   </div>
 </template>

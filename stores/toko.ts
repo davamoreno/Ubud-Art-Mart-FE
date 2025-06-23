@@ -21,7 +21,7 @@ export interface CreateTokoPayload {
   telepon: string;
   link: string;
   status: string;
-  image: File | null; // 🔥 PENTING: gunakan File, bukan string!
+  image: File | null;
 }
 
 export const useTokoStore = defineStore('toko', () => {
@@ -29,13 +29,15 @@ export const useTokoStore = defineStore('toko', () => {
   const store = ref<Toko | null>(null);
   const loading = ref<boolean>(false);
   const error = ref<Error | null>(null);
+  const config = useRuntimeConfig();
+  const apiBase = config.public.apiBase;
 
   async function fetchStores(): Promise<void> {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await $fetch<{ data: Toko[] }>('http://127.0.0.1:8000/api/admin/toko', {
+      const response = await $fetch<{data: Toko[],  meta: any, links: any }>(`${apiBase}admin/toko`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${useCookie('token').value}`
@@ -63,16 +65,15 @@ export const useTokoStore = defineStore('toko', () => {
     formData.append('status', payload.status);
     
     if (payload.image) {
-      formData.append('image', payload.image); // ✅ HARUS File, bukan string
+      formData.append('image', payload.image);
     }
 
     try {
-      const response = await $fetch<{ data: Toko }>('http://127.0.0.1:8000/api/admin/toko', {
+      const response = await $fetch<{ success : boolean, data: Toko }>(`${apiBase}admin/toko`, {
         method: 'POST',
         body: formData,
         headers: {
           Authorization: `Bearer ${useCookie('token').value}`
-          // ❌ JANGAN set Content-Type, biarkan browser yang handle!
         }
       });
 
