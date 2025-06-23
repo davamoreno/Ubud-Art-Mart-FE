@@ -2,10 +2,10 @@
 import { resolve } from 'path'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
-   devtools: { enabled: true },
+  devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBase: 'http://127.0.0.1:8000/api/',
+      apiBase: 'https://ubud-art-market.nio.my.id/',
     }
   },
   nitro: {
@@ -25,10 +25,10 @@ export default defineNuxtConfig({
     },
   },
 
-  css : [
+  css: [
     '@/assets/css/main.css'
   ],
-  
+
   appConfig: {
     darkModeKey: 'vueuse-color-scheme'
   },
@@ -40,7 +40,7 @@ export default defineNuxtConfig({
     langDir: resolve(process.cwd(), 'locales/'),
     locales: [
       { code: 'en', iso: 'en', name: 'en', file: 'en.json', flag: '🇬🇧' },
-      { code: 'id', iso: 'id' , name: 'id', file: 'id.json' , flag: '🇮🇩'},
+      { code: 'id', iso: 'id', name: 'id', file: 'id.json', flag: '🇮🇩' },
     ],
     defaultLocale: 'id',
     lazy: false,
@@ -51,7 +51,7 @@ export default defineNuxtConfig({
     dirs: ['stores', 'composable']
   },
 
-  typescript:{
+  typescript: {
     strict: true,
     shim: false
   }
