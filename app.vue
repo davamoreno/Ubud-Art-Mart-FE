@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const { isLoading } = useLoadingState();
 const nuxtApp = useNuxtApp();
-
 const timer = ref(null);
 
 nuxtApp.hook('page:start', () => {
@@ -14,14 +15,15 @@ nuxtApp.hook('page:start', () => {
 
 nuxtApp.hook('page:finish', () => {
   clearTimeout(timer.value);
-  
   isLoading.value = false;
 });
-</script>
 
+</script>
 <template>
   <div class="flex flex-col min-h-screen">
-    <NuxtLayout />
+    <NuxtLayout >
+      <NuxtPage :key="route.path" />
+    </NuxtLayout>
     <GlobalLoading />
   </div>
 </template>
@@ -30,11 +32,11 @@ nuxtApp.hook('page:finish', () => {
 <style>
   .page-enter-active,
   .page-leave-active {
-    transition: all 0.2s;
+    transition: all 0.4s;
   }
   .page-enter-from,
   .page-leave-to {
     opacity: 0;
-    filter: blur(0.5rem);
+    filter: blur(1rem);
   }
 </style>

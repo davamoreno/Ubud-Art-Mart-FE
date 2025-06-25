@@ -1,8 +1,4 @@
 <script setup>
-  onMounted(() => {
-    const auth = useAuthStore()
-    auth.initializeFromStorage()
-  });
 
 </script>
 
@@ -11,7 +7,7 @@
     <Navbar/>
     
     <main class="flex-1">
-      <NuxtPage />
+      <slot />
     </main>
 
     <Footer />

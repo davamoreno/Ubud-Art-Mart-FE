@@ -1,26 +1,26 @@
 <script setup>
 import { useAuthStore } from '~/stores/auth'
-import { useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
 
-const auth = useAuthStore()
-const router = useRouter()
+const authStore = useAuthStore()
 
 const confirmLogout = async () => {
   const result = await Swal.fire({
-    title: 'Logout?',
-    text: 'Apakah kamu yakin ingin logout?',
+    title: 'Logout dari Panel Admin?',
+    text: 'Anda akan dikembalikan ke halaman login admin.',
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#e3342f',
+    confirmButtonColor: '#d33',
     cancelButtonColor: '#6c757d',
     confirmButtonText: 'Ya, Logout',
     cancelButtonText: 'Batal'
   })
 
   if (result.isConfirmed) {
-    auth.logout()
-    router.push('/admin/auth/login')
+    // CUKUP PANGGIL INI.
+    // Aksi logout di store akan membersihkan state, cookie,
+    // DAN mengarahkan pengguna. Kita akan buat ini lebih fleksibel.
+    authStore.logout('/admin/auth/login')
   }
 }
 
@@ -40,11 +40,11 @@ const confirmLogout = async () => {
         <img src="/assets/images/Dashboard.svg" class="fas fa-th-large text-gray-400 ">
         <span>Dashboard</span>
       </NuxtLink>
-      <NuxtLink to="/admin/main/produk" class="flex items-center space-x-2 hover:text-[#328E6E]  cursor-pointer">
+      <NuxtLink to="/admin/main/product" class="flex items-center space-x-2 hover:text-[#328E6E]  cursor-pointer">
         <img src="/assets/images/Products.svg" class="fas fa-th-large text-gray-400">
         <span>Produk</span>
       </NuxtLink>
-      <NuxtLink to="/admin/main/toko" class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
+      <NuxtLink to="/admin/main/shop" class="flex items-center space-x-2 hover:text-[#328E6E] cursor-pointer">
         <img src="/assets/images/Product Stock.svg" class="fas fa-th-large text-gray-400">
         <span>Toko</span>
       </NuxtLink>
