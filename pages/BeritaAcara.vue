@@ -1,23 +1,27 @@
+<script setup lang="ts">
+import { NuxtLink } from '#components';
+import { onMounted } from 'vue';
+import { useBeritaStore } from '~/stores/berita';
+import BeritaCard from '@/components/BeritaCard.vue';
+
+const beritaStore = useBeritaStore();
+
+await useAsyncData('berita-list', () => beritaStore.fetchStores());
+
+import { storeToRefs } from 'pinia'
+const { stores, loading } = storeToRefs(beritaStore)
+</script>
+
 <template>
   <div class="news-wrapper">
     <h2 class="section-title">Berita & Acara</h2>
 
     <div class="news-grid">
-      <BeritaCard
-        v-for="i in 6"
-        :key="i"
-        title="Pasar Seni Ubud Kebakaran, Pedagang Akan Direlokasi"
-        :image="imageSrc"
-        timestamp="20 menit yang lalu"
-      />
+      <BeritaCard v-for="berita in stores" :key="berita.id" title="Pasar Seni Ubud Kebakaran, Pedagang Akan Direlokasi"
+        :image="berita?.image" timestamp="20 menit yang lalu" />
     </div>
   </div>
 </template>
-
-<script setup>
-import BeritaCard from '@/components/BeritaCard.vue';
-import imageSrc from '@/assets/images/contoh.png';
-</script>
 
 <style scoped lang="scss">
 .news-wrapper {

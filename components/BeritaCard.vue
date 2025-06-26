@@ -37,21 +37,18 @@ defineProps({
 
   .card-img-top {
     width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 12px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
   }
 
   .card-body {
-    padding: 16px;
-  padding-top: 12px;
-  padding-left: 12px;
-  padding-right: 12px;
-  width: 100%; // biar mengikuti kontainer parent
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+    padding-top: 10px;
+    width: 100%; // biar mengikuti kontainer parent
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .custom-badge {
