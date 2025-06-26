@@ -3,7 +3,7 @@
     <NavbarAdmin/> <!-- atau komponen header kamu -->
 
     <main class="flex-1">
-      <NuxtPage />
+      <slot />
     </main>
   </div>
 </template>
