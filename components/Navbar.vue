@@ -1,41 +1,40 @@
 <script setup lang="ts">
-    import { useDark, useToggle } from '@vueuse/core';
-    import { useI18n, useLocalePath } from '#imports';
-    import { useAuthStore } from '~/stores/auth'
-    import Swal from 'sweetalert2'
+import { computed } from 'vue';
+import { useDark, useToggle } from '@vueuse/core';
+import { useI18n, useLocalePath, useNuxtApp, navigateTo } from '#imports';
+import { useAuthStore } from '~/stores/auth';
+import { storeToRefs } from 'pinia';
+import Swal from 'sweetalert2';
 
-    const isDark = useDark();
-    const toggleDark = useToggle(isDark);
-    const localePath = useLocalePath();
-    const { locale, locales, setLocale } = useI18n()
-    const auth = useAuthStore();
+const authStore = useAuthStore();
 
-    const selectedLocale = computed({
-        get() {
-            return locale.value || 'id'
-        },
-        set(val: string) {
-            setLocale(val)
-        }
-    })
+// Ambil state dan getter yang dibutuhkan dengan storeToRefs agar tetap reaktif
+const { isReady, isAuthenticated, user } = storeToRefs(authStore);
 
-    const isNotLoggedIn = computed(() => auth.user == null)
+// Sisa script untuk dark mode dan i18n
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
+const localePath = useLocalePath();
+const { locale, locales, setLocale } = useI18n();
 
-    const confirmLogout = async () => {
+const selectedLocale = computed({
+  get: () => locale.value || 'id',
+  set: (val: string) => setLocale(val)
+});
+
+const confirmLogout = async () => {
   const result = await Swal.fire({
-    title: 'Logout?',
-    text: 'Apakah kamu yakin ingin logout?',
+    title: 'Konfirmasi Logout',
+    text: 'Apakah Anda yakin ingin keluar?',
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#e3342f',
-    cancelButtonColor: '#6c757d',
-    confirmButtonText: 'Ya, Logout',
+    confirmButtonColor: '#d33',
+    confirmButtonText: 'Ya, Logout!',
     cancelButtonText: 'Batal'
-  })
+  });
 
   if (result.isConfirmed) {
-    auth.logout()
-    location.reload()
+    authStore.logout();
   }
 }
 </script>
@@ -82,20 +81,20 @@
                      </select>
                 </div>
                 
-                <div v-if="auth.isReady">
-                    <div v-if="isNotLoggedIn">
-                        <NuxtLink class="px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-700 
-                         text-gray-800 dark:text-white font-medium shadow
-                         hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-                          :to="localePath('/user/auth/login')">Sign In
-                        </NuxtLink>
-                    </div>
-                
-                    <div v-else>
-                        <button @click="confirmLogout" class="px-6 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition">
-                          Logout
-                        </button>
-                    </div>
+                <div class="flex items-center space-x-4">
+                   <div v-if="isReady">
+                     <div v-if="isAuthenticated">
+                       <button @click="confirmLogout" class="px-6 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition">
+                         Logout
+                       </button>
+                       </div>
+                     <div v-else>
+                       <NuxtLink class="px-6 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white font-medium shadow hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                         :to="localePath('/user/auth/login')">
+                         Sign In
+                       </NuxtLink>
+                     </div>
+                   </div>
                 </div>
             </div>
         </div>
