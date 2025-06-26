@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { NuxtLink } from '#components';
-import { onMounted } from 'vue';
 import { useBeritaStore } from '~/stores/berita';
 import BeritaCard from '@/components/BeritaCard.vue';
 
@@ -17,8 +15,8 @@ const { stores, loading } = storeToRefs(beritaStore)
     <h2 class="section-title">Berita & Acara</h2>
 
     <div class="news-grid">
-      <BeritaCard v-for="berita in stores" :key="berita.id" title="Pasar Seni Ubud Kebakaran, Pedagang Akan Direlokasi"
-        :image="berita?.image" timestamp="20 menit yang lalu" />
+      <BeritaCard v-for="berita in stores" :key="berita.id" :title="berita.title" :image="berita?.image"
+        :timestamp="berita.created_at" />
     </div>
   </div>
 </template>

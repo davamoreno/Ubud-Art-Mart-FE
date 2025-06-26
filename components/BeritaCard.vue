@@ -4,17 +4,31 @@
     <div class="card-body">
       <span class="custom-badge">Berita</span>
       <h6 class="card-title">{{ title }}</h6>
-      <p class="timestamp">{{ timestamp }}</p>
+      <p class="timestamp">{{ timeAgo }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/id';
+
+dayjs.extend(relativeTime);
+dayjs.locale('id');
+
+const props = defineProps({
   title: String,
   image: String,
   timestamp: String
 });
+
+const timeAgo = computed(() => {
+  return dayjs(props.timestamp).fromNow();
+});
+
+
+
 </script>
 
 <style scoped lang="scss">
