@@ -41,7 +41,7 @@ const { data, pending, error } = await useAsyncData(
 if (error.value || !data.value?.[0]) {
   console.error("Gagal mengambil data produk:", error.value);
   await Swal.fire('Error', 'Data produk tidak ditemukan.', 'error');
-  await navigateTo('/admin/main/produk', { replace: true });
+  await navigateTo('/admin/main/product', { replace: true });
 }
 
 // Data dari hasil fetch
@@ -113,17 +113,21 @@ const handleDelete = async () => {
 
 <template>
   <div v-if="pending && !initialProduct" class="text-center p-10">Memuat data produk...</div>
-  <div v-else-if="!initialProduct" class="text-center p-10 text-red-500">Gagal memuat data atau produk tidak ditemukan.</div>
-  
+  <div v-else-if="!initialProduct" class="text-center p-10 text-red-500">Gagal memuat data atau produk tidak ditemukan.
+  </div>
+
   <form v-else @submit.prevent="handleUpdate">
     <div class="flex flex-col lg:flex-row w-full max-w-7xl mx-auto gap-8 p-4 mt-5">
-      
+
       <div class="w-full lg:w-1/3">
         <label class="block text-sm font-medium text-gray-700 mb-2">Foto Produk</label>
-        <div class="relative w-full aspect-square group border-2 border-dashed rounded-lg flex items-center justify-center bg-gray-50">
-          <img v-if="imagePreview" :src="imagePreview" alt="Preview Produk" class="w-full h-full object-cover rounded-lg">
+        <div
+          class="relative w-full aspect-square group border-2 border-dashed rounded-lg flex items-center justify-center bg-gray-50">
+          <img v-if="imagePreview" :src="imagePreview" alt="Preview Produk"
+            class="w-full h-full object-cover rounded-lg">
           <p v-else class="text-gray-400">Tidak ada gambar</p>
-          <label class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+          <label
+            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
             Ganti Gambar
             <input type="file" @change="handleImageUpload" class="hidden" accept="image/*" />
           </label>
@@ -132,7 +136,7 @@ const handleDelete = async () => {
 
       <div class="w-full lg:w-2/3 border-2 rounded-lg p-6 space-y-4 bg-white">
         <h1 class="font-semibold text-2xl mb-4">Edit Detail Produk</h1>
-        
+
         <div>
           <label class="mb-1 text-sm text-gray-600 block">Nama Produk</label>
           <input type="text" v-model="form.title" class="w-full border rounded p-2" required />
@@ -157,17 +161,22 @@ const handleDelete = async () => {
             <label class="mb-1 text-sm text-gray-600 block">Kategori</label>
             <select v-model="form.kategori_id" class="w-full border rounded p-2" required>
               <option :value="null" disabled>Pilih Kategori</option>
-              <option v-for="kategori in kategoriList" :key="kategori.id" :value="kategori.id">{{ kategori.nama }}</option>
+              <option v-for="kategori in kategoriList" :key="kategori.id" :value="kategori.id">{{ kategori.nama }}
+              </option>
             </select>
           </div>
         </div>
         <div class="relative" ref="dropdownRef">
           <label class="mb-1 text-sm text-gray-600 block">Tag</label>
-          <div @click="tagDropdownOpen = !tagDropdownOpen" class="w-full border rounded p-2 bg-white cursor-pointer flex justify-between items-center">
-            <span class="text-gray-700 text-sm">{{ form.tags.length ? `${form.tags.length} tag terpilih` : 'Pilih Tag' }}</span>
+          <div @click="tagDropdownOpen = !tagDropdownOpen"
+            class="w-full border rounded p-2 bg-white cursor-pointer flex justify-between items-center">
+            <span class="text-gray-700 text-sm">{{ form.tags.length ? `${form.tags.length} tag terpilih` : 'Pilih Tag'
+            }}</span>
           </div>
-          <div v-if="tagDropdownOpen" class="absolute z-10 bg-white border mt-1 w-full rounded shadow-lg max-h-40 overflow-y-auto">
-            <label v-for="tag in allTags" :key="tag.id" class="flex items-center p-2 hover:bg-gray-100 text-sm cursor-pointer">
+          <div v-if="tagDropdownOpen"
+            class="absolute z-10 bg-white border mt-1 w-full rounded shadow-lg max-h-40 overflow-y-auto">
+            <label v-for="tag in allTags" :key="tag.id"
+              class="flex items-center p-2 hover:bg-gray-100 text-sm cursor-pointer">
               <input type="checkbox" :value="tag.id" v-model="form.tags" class="mr-2" />
               {{ tag.nama }}
             </label>
@@ -177,10 +186,12 @@ const handleDelete = async () => {
         <div class="flex justify-between items-center pt-4">
           <NuxtLink to="/admin/main/product" class="px-6 py-2 rounded-lg border hover:bg-gray-100">Kembali</NuxtLink>
           <div class="flex gap-4">
-            <button type="button" @click="handleDelete" :disabled="isSubmitting" class="px-6 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300">
+            <button type="button" @click="handleDelete" :disabled="isSubmitting"
+              class="px-6 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300">
               <span v-if="!isSubmitting">Hapus</span><span v-else>...</span>
             </button>
-            <button type="submit" :disabled="isSubmitting" class="px-6 py-2 rounded-lg bg-black text-white hover:bg-gray-800 disabled:bg-gray-400">
+            <button type="submit" :disabled="isSubmitting"
+              class="px-6 py-2 rounded-lg bg-black text-white hover:bg-gray-800 disabled:bg-gray-400">
               <span v-if="!isSubmitting">Simpan Perubahan</span><span v-else>Menyimpan...</span>
             </button>
           </div>

@@ -16,7 +16,7 @@ export const useTagStore = defineStore('tag', () => {
   async function fetchTags() {
     loading.value = true;
     try {
-      const response = await $api<{ data: Tag[] }>('admin/tag');
+      const response = await $api<{ data: Tag[] }>('tag');
       list.value = response.data;
     } catch (error) {
       console.error("Gagal fetch tag:", error);

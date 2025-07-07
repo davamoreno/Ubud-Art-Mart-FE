@@ -39,7 +39,7 @@ export const useBeritaStore = defineStore('berita', () => {
     error.value = null;
 
     try {
-      const response = await $fetch<{ data: Berita[] }>(`${apiBase}admin/berita`, {
+      const response = await $fetch<{ data: Berita[] }>(`${apiBase}berita`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${useCookie('token').value}`
@@ -95,7 +95,7 @@ export const useBeritaStore = defineStore('berita', () => {
   error.value = null;
 
   try {
-    const response = await $fetch<{ data: Berita }>(`${apiBase}admin/berita/${slug}`, {
+    const response = await $fetch<{ data: Berita }>(`${apiBase}berita/${slug}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${useCookie('token').value}`
@@ -127,7 +127,7 @@ async function updateBeritaStore(payload: UpdateBeritaPayload, slug: String): Pr
       const response = await $fetch<{ data: Berita }>(`${apiBase}admin/berita/${slug}`, {
         method: 'POST',
         params: {
-          _method: 'PUT' // Gunakan PUT untuk update
+          '_method' : 'PUT'
         },
         body: formData,
         headers: {
@@ -135,8 +135,9 @@ async function updateBeritaStore(payload: UpdateBeritaPayload, slug: String): Pr
           // ❌ JANGAN set Content-Type, biarkan browser yang handle!
         }
       });
+      console.log(response.data)
 
-      if (response.data) {
+      if (response.data?.data) {
         const index = stores.value.findIndex(item => item.id === response.data.id);
         if (index !== -1) {
           stores.value[index] = response.data; // ✅ update
