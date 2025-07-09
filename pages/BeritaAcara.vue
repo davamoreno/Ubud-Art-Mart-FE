@@ -1,6 +1,6 @@
 <template>
   <div class="news-wrapper">
-    <h2 class="section-title">Berita & Acara</h2>
+    <h2 class="section-title">Artikel Sorotan</h2>
 
     <div class="news-grid">
       <BeritaCard

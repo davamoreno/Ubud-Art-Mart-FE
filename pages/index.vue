@@ -1,219 +1,133 @@
 <script setup>
-
+// Script section (kosongkan atau tambahkan jika diperlukan)
 </script>
+
 <template>
   <div>
-    <!-- Gambar Header -->
+    <!-- Hero Section -->
     <div class="relative w-full h-[450px]">
-      <img src="@/assets/images/bg.png" alt="" class="object-cover bg-center w-full h-full" />
-      <div class="absolute top-0 left-0 w-full h-full flex items-center">
-        <div class="container mx-auto px-[50px] pt-[113px]">
-          <div class="w-2/4 text-white drop-shadow">
-            <h1 class="text-3xl font-bold mb-[10px]">RASAKAN KEAJAIBAN KARYA LOKAL</h1>
-            <h2 class="text-3xl font-bold mb-[20px]">PASAR KESENIAN UBUD</h2>
-            <p class="font-medium mb-[32px]">
-              Pasar Kesenian Ubud kini hadir secara digital untuk memudahkan anda menjelajahi berbagai produk seni khas Bali.
-            </p>
-            <button class="rounded-full border border-white px-6 py-2 hover:bg-[#FFB800]/80 transition">
-              Jelajahi Katalog
-            </button>
-          </div>
+      <img src="@/assets/images/bg.png" alt="Pasar Seni Ubud" class="object-cover bg-center w-full h-full" />
+      <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        <div class="text-white drop-shadow text-center">
+          <h1 class="text-3xl lg:text-5xl font-bold mb-[10px]">RASAKAN KEAJAIBAN KARYA LOKAL</h1>
+          <h2 class="text-3xl lg:text-4xl font-bold mb-[20px]">PASAR KESENIAN UBUD</h2>
         </div>
       </div>
     </div>
 
-    <!-- Konten Berita, Katalog, dll -->
-    <div class="container mx-auto px-[50px] mt-16 mb-20">
-      <div class="container mt-[161px]">
-        <div class="flex justify-between items-center mb-[42px]"> 
-                    <h1 class="text-3xl font-bold ">Berita & Acara</h1>
-                    <a href="#" class="font-semibold text-green-600 ">Lihat Semua</a>
-                    </div>
-                    <div class="flex flex-row">
-                        <div class="w-4/6">
-                            <img src="/assets/images/contoh.png" alt="Pasar Seni Ubud Kebakaran"
-                                class="object-cover w-[600px] h-[350px] rounded-xl">
-                        </div>
-                        <div class="relative w-2/4 my-[30px] ml-[80px] ">
-  <!-- Header Admin -->
-  <div class="flex items-center mb-[24px]">
-    <img src="/assets/images/icon admin.svg" alt="Admin" class="w-8 h-8 rounded-full object-cover mr-2" />
-    <p class="text-sm text-gray-500">Admin • 20 menit yang lalu</p>
+    <!-- Sorotan Produk -->
+<section class="px-10 py-12 dark:bg-gray-900 transition-colors duration-300">
+  <!-- Header: Judul + Lihat Semua -->
+  <div class="flex items-center justify-between mb-8">
+    <h2 class="text-3xl font-semibold text-gray-800 dark:text-white">Sorotan Produk</h2>
+    <a href="katalog" class="text-sm font-semibold text-green-600 dark:text-green-400 hover:underline" >Lihat Semua </a>
   </div>
 
-  <!-- Konten Berita -->
-  <div class="container h-auto ">
-    <h2 class="text-2xl font-semibold mb-2">Pasar Seni Ubud Kebakaran, Pedagang Akan Direlokasi</h2>
-    <p class="font-medium text-gray-600 mb-[34px]">
-      Pasar Seni Ubud, Kabupaten Gianyar, Bali, pada Sabtu (17/8/2024) siang.
-      Menindaklanjuti insiden ini, pemerintah setempat saat ini fokus untuk rencana relokasi pedagang.
-    </p>
-
-    <!-- Link Baca Selengkapnya -->
-
-    <div class="flex justify-between items-center">
-          <a href="#" class="font-semibold text-green-600 ">Berita</a>
-          <a href="#" class="font-semibold text-green-600 ">Baca Selengkapnya</a>
+  <!-- Daftar Produk -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div
+      v-for="i in 5"
+      :key="'rekom-' + i"
+      class="hover:scale-105 transition duration-300 ease-in-out"
+    >
+      <div class="h-[313px] bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden group">
+        <div class="overflow-hidden">
+          <img
+            src="@/assets/images/seni_ubud.png"
+            alt="Lukisan Bali"
+            class="w-full h-[220px] object-cover group-hover:scale-110 transition-transform duration-300"
+          />
         </div>
-  </div>
-</div>
-
-                    </div>
-
-                    <!-- <div class="container my-8">
-                        <div class="flex justify-center space-x-2">
-                            <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse.svg" alt=""></button>
-                            <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse_selected.svg"
-                                    alt=""></button>
-                            <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse.svg" alt=""></button>
-                            <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse.svg" alt=""></button>
-                        </div>
-                    </div> -->
-                </div>
-
-                <div class="container mt-[120px]">
-                    <div class="flex justify-between items-center mb-[42px]">
-                    <h1 class="text-3xl font-bold">Katalog</h1>
-                    <a href="#" class="font-semibold text-green-600 ">Lihat Semua</a>
-                </div>
-                    <div class="flex flex-row gap-[48px]">
-                        
-
-                        <div
-                        class="mb-10 hover:scale-105 transition duration-300 ease-in-out w-[300px] h-[355px] rounded-2xl shadow-xl bg-white overflow-hidden">
-                        <div class="container relative">
-                            <img src="/assets/images/barang_ubud.png" alt="" class="w-full h-[150px] object-cover">
-                            <div class="px-[15px] py-[25px]">
-                                <h3 class="text-xl font-semibold mb-[12px]">Kerajinan Tangan</h3>
-                                <p class="font-medium mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing
-                                    elit.
-                                    Veritatis
-                                    magni lo
-                                </p>
-                                <div class="">
-                                    <a href="#" class="font-semibold text-[#328E6E] ">
-                                        Lihat Selengkapnya →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <div
-                        class="mb-10 hover:scale-105 transition duration-300 ease-in-out w-[300px] h-[355px] rounded-2xl shadow-xl bg-white overflow-hidden">
-                        <div class="container relative">
-                            <img src="/assets/images/barang_ubud.png" alt="" class="w-full h-[150px] object-cover">
-                            <div class="px-[15px] py-[25px]">
-                                <h3 class="text-xl font-semibold mb-[12px]">Kerajinan Tangan</h3>
-                                <p class="font-medium mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing
-                                    elit.
-                                    Veritatis
-                                    magni lo
-                                </p>
-                                <div class="">
-                                    <a href="#" class="font-semibold text-[#328E6E] ">
-                                        Lihat Selengkapnya →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <div
-                        class="mb-10 hover:scale-105 transition duration-300 ease-in-out w-[300px] h-[355px] rounded-2xl shadow-xl bg-white overflow-hidden">
-                        <div class="container relative">
-                            <img src="/assets/images/barang_ubud.png" alt="" class="w-full h-[150px] object-cover">
-                            <div class="px-[15px] py-[25px]">
-                                <h3 class="text-xl font-semibold mb-[12px]">Kerajinan Tangan</h3>
-                                <p class="font-medium mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing
-                                    elit.
-                                    Veritatis
-                                    magni lo
-                                </p>
-                                <div class="">
-                                    <a href="#" class="font-semibold text-[#328E6E] ">
-                                        Lihat Selengkapnya →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <div
-                        class="mb-10 hover:scale-105 transition duration-300 ease-in-out w-[300px] h-[355px] rounded-2xl shadow-xl bg-white overflow-hidden">
-                        <div class="container relative">
-                            <img src="/assets/images/barang_ubud.png" alt="" class="w-full h-[150px] object-cover">
-                            <div class="px-[15px] py-[25px]">
-                                <h3 class="text-xl font-semibold mb-[12px]">Kerajinan Tangan</h3>
-                                <p class="font-medium mb-[17px]">Lorem ipsum dolor, sit amet consectetur adipisicing
-                                    elit.
-                                    Veritatis
-                                    magni lo
-                                </p>
-                                <div class="">
-                                    <a href="#" class="font-semibold text-[#328E6E] ">
-                                        Lihat Selengkapnya →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Lukisan Bali</h2>
+              <p class="text-sm text-gray-600 dark:text-gray-300">Kios Pak Ketut</p>
             </div>
-  </div>
-
-      <!-- Konten informasi pasar dan lokasi -->
-       <div>
-<div class="container mx-auto px-[50px] mt-[120px]">
-  <h1 class="text-3xl font-bold text-center mb-[42px]">Tentang Pasar Seni Ubud</h1>
-  <p class="text-center text-base font-medium mb-[80px] max-w-3xl mx-auto">
-    Pasar Seni Ubud (Ubud Art Market) adalah pasar tradisional yang terkenal di Bali, menawarkan berbagai kerajinan tangan dan seni khas Bali. Terletak di pusat Ubud, pasar ini menjadi destinasi favorit bagi wisatawan yang mencari oleh-oleh unik dan autentik dari Bali.
-  </p>
-</div>
-
-<div class="w-full overflow-x-auto">
-  <div class="flex gap-4 mb-4">
-    <img src="/assets/images/galery.png" alt="Pasar 1" class="rounded-xl w-[700px] h-[350px] object-cover flex-shrink-0" />
-    <img src="/assets/images/galery.png" alt="Pasar 2" class="rounded-xl w-[700px] h-[350px] object-cover flex-shrink-0" />
-    <img src="/assets/images/galery.png" alt="Pasar 3" class="rounded-xl w-[700px] h-[350px] object-cover flex-shrink-0" />
-    <img src="/assets/images/galery.png" alt="Pasar 4" class="rounded-xl w-[700px] h-[350px] object-cover flex-shrink-0" />
-  </div>
-</div>
-
-
-
-    <div class="w-full flex justify-center space-x-2 mt-8 mb-[120px]">
-    <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse.svg" alt=""></button>
-    <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse_selected.svg" alt=""></button>
-    <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse.svg" alt=""></button>
-    <button class="px-3 py-2 rounded-md"><img src="/assets/images/Ellipse.svg" alt=""></button>
-  </div>
-
-
-
-
-
-<!-- Lokasi -->
-<div class="container mx-auto px-[50px] mb-[120px]">
-  <div class="bg-white shadow-2xl rounded-xl p-8 flex flex-col md:flex-row justify-between items-start gap-8">
-    <div class="">
-      <h2 class="text-2xl font-bold mb-[42px]">Lokasi</h2>
-      <p class="mb-[32px]">Jl. Raya Ubud No.35, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali 80571</p>
-      <p class="mb-[32px]">Jam Operasional : Setiap hari dari pukul 10.00 sampai dengan pukul 17.00 WITA</p>
-      <p class="text-sm italic text-gray-500">
-        Catatan : Beberapa pedagang mungkin masih buka hingga larut malam terutama saat musim liburan
-      </p>
-    </div>
-    <div class="w-1/2 ">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.331544725649!2d115.26247677418684!3d-8.507628186678464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd219cac8c4536f%3A0xb34c61bcf90cb2ae!2sUbud%20Art%20Market!5e0!3m2!1sen!2sid!4v1716710198745!5m2!1sen!2sid"
-        width="466" height="330" style="border:0;" allowfullscreen="" loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="flex items-center mt-1">
+              <img src="@/assets/images/bintangg.svg" alt="Bintang" class="w-5 h-5" />
+              <span class="ml-1 text-sm text-gray-700 dark:text-gray-300 font-medium">3.9</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-       </div>
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
-        rel="stylesheet">
+    <!-- Berita & Acara -->
+    <section class="px-10 py-16 dark:bg-gray-800 transition-colors duration-300">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Kiri: Teks -->
+          <div class="text-gray-800 dark:text-white">
+            <p class="text-sm font-semibold text-gray-900 dark:text-gray-200">Berita & Acara</p>
+            <h2 class="text-4xl font-bold mt-2 mb-4 leading-snug">
+              Lihat apa yang sedang<br />
+              berlangsung di Pasar Seni<br />
+              Ubud saat ini.
+            </h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">
+              Ingin tahu apa yang baru di Pasar Kesenian Ubud? Dapatkan semua berita dan jadwal acara terkini di satu tempat.
+            </p>
+            <a href="BeritaAcara" class="inline-block px-6 py-3 border border-green-600 text-green-600 dark:border-green-400 dark:text-green-400 rounded-md font-semibold hover:bg-green-600 hover:text-white dark:hover:bg-green-400 dark:hover:text-white transition-colors duration-300">
+              Lihat Selengkapnya
+            </a>
+          </div>
+
+          <!-- Kanan: Dua Card Berita -->
+          <div class="flex space-x-4">
+            <div v-for="i in 2" :key="i" class="relative w-1/2 h-[400px] rounded-lg overflow-hidden shadow-lg group">
+              <img src="@/assets/images/seni_ubud.png" alt="Berita" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 p-4 text-white">
+                <p class="text-xs">3 Juli 2025</p>
+                <h3 class="font-bold mt-1 text-base leading-snug">
+                  Mau belanja oleh oleh seru di Bali? Ubud Art Market aja!
+                </h3>
+                <p class="text-xs mt-2 opacity-80 line-clamp-2">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit....
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigasi Panah -->
+        <div class="flex justify-end mt-6 space-x-2">
+          <button class="p-2 border rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button class="p-2 border rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tentang Pasar -->
+    <section class="px-10 py-16 dark:bg-gray-800 transition-colors duration-300">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-12">
+          <div class="order-last lg:order-first">
+            <img src="@/assets/images/artmarket.png" alt="Tentang Pasar Seni Ubud" class="rounded-lg shadow-xl w-full h-[450px] object-cover" />
+          </div>
+          <div class="text-gray-800 dark:text-white">
+            <h2 class="text-4xl font-bold mb-4">Tentang Pasar Kesenian Ubud</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              Sejak awal abad ke-20, pasar ini telah menjadi saksi bagaimana seni tradisional Bali berkembang seiring waktu, tetap bertahan di tengah modernitas tanpa kehilangan akarnya. Pengunjung dari berbagai belahan dunia datang bukan hanya untuk berbelanja, tapi untuk merasakan sesuatu yang lebih dalam: keaslian.
+            </p>
+            <a href="About" class="inline-block px-6 py-3 border border-green-600 text-green-600 dark:border-green-400 dark:text-green-400 rounded-md font-semibold hover:bg-green-600 hover:text-white dark:hover:bg-green-400 dark:hover:text-gray-900 transition-colors duration-300">
+              Pelajari Lebih Lanjut
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
+  
