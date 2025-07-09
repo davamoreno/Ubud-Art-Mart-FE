@@ -48,13 +48,13 @@ const cancelImage = () => {
 const submitForm = async () => {
   try {
     await beritaStore.createStore(form);
-     await Swal.fire({
+    await Swal.fire({
       icon: 'success',
-      title: 'Berhasil Menambhakan Berita!',
+      title: 'Berhasil Menambahkan Berita!',
       confirmButtonColor: '#328E6E'
     })
 
-  router.push("/admin/main/news")
+    router.push("/admin/main/news")
   } catch (error: any) {
     // ❌ Tampilkan popup error
     await Swal.fire({

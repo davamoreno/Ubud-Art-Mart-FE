@@ -43,7 +43,7 @@ export const useProductStore = defineStore('produk', () => {
     loading.value = true;
     error.value = null;
     try {
-      const response = await $api<{ data: Product[] }>('admin/produk');
+      const response = await $api<{ data: Product[] }>('produk');
       products.value = response.data;
     } catch (e) {
       error.value = e;
@@ -57,7 +57,7 @@ export const useProductStore = defineStore('produk', () => {
     loading.value = true;
     error.value = null;
     try {
-      const response = await $api<{ data: Product }>(`/admin/produk/${slug}`);
+      const response = await $api<{ data: Product }>(`produk/${slug}`);
       return response.data;
     } catch (e) {
       error.value = e;

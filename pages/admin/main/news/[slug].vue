@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components';
-import { onMounted, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useBeritaStore } from '~/stores/berita';
 import { useRoute, useRouter } from 'vue-router';
 import type { UpdateBeritaPayload } from '~/stores/berita';
 import { computed } from 'vue';
+import Swal from 'sweetalert2';
 
-
+const store = computed(() => beritaStore.store);
 const router = useRouter();
 const route = useRoute();
 const slug = route.params.slug;
@@ -27,11 +28,15 @@ definePageMeta({
     layout: 'admin'
 })
 
-onMounted(() => {
+onMounted(async () => {
     if (typeof slug === 'string') {
         beritaStore.getBerita(slug);
+        if (beritaStore.store) {
+            console.log('Data berhasil didapatkan:', beritaStore.store);
+        } else {
+            console.error('Gagal memuat data');
+        }
     }
-
 });
 
 watch(
@@ -98,6 +103,40 @@ const submitForm = async () => {
         }
     }
 };
+
+async function deleteBerita(slug: string) {
+    console.log(`Menghapus berita dengan slug: ${slug}`);
+    if (!slug) {
+        console.error('Slug tidak ditemukan!');
+        return;
+    }
+    const result = await Swal.fire({
+        title: 'Anda Yakin?',
+        text: `Berita "${slug}" akan dihapus secara permanen!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
+        try {
+            await beritaStore.deleteBerita(slug);
+            await Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success');
+            router.push('/admin/main/news');
+        } catch (err) {
+            console.error('Gagal menghapus data:', err);
+            await Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus.', 'error');
+        }
+    }
+
+
+    const canShowDelete = computed(() => {
+        return store.value && Object.keys(store.value).length > 0;
+    });
+}
 
 </script>
 
@@ -174,10 +213,10 @@ const submitForm = async () => {
                         class="bg-transparent rounded-3xl px-[39px] py-[10px] border-2 me-auto shadow-sm opacity-50">
                         Kembali
                     </NuxtLink>
-                    <button
+                    <a @click="deleteBerita(berita?.slug)"
                         class="bg-transparent rounded-3xl px-[39px] py-[10px] border-2 me-[14px] shadow-sm opacity-50">
                         Hapus
-                    </button>
+                    </a>
                     <button class="bg-transparent rounded-3xl px-[39px] py-[10px] border-2 shadow-sm opacity-50">
                         <span v-if="!berita?.loading">Simpan</span>
                         <span v-else>Loading...</span>

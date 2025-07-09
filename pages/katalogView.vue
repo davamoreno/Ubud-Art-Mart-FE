@@ -22,6 +22,13 @@
 
           <p class="text-base text-gray-500 dark:text-gray-400 mb-4">Kios Pak Ketut - Lantai 2</p>
 
+          <!-- Filter Chips -->
+        <div class="flex gap-3 mb-6">
+          <span class="px-4 py-1 rounded-full border text-gray-500 text-sm bg-white cursor-pointer hover:bg-gray-100">Bali</span>
+          <span class="px-4 py-1 rounded-full border text-gray-500 text-sm bg-white cursor-pointer hover:bg-gray-100">Estetik</span>
+          <span class="px-4 py-1 rounded-full border text-gray-500 text-sm bg-white cursor-pointer hover:bg-gray-100">Kanvas</span>
+        </div>
+
           <!-- Tabs -->
           <div class="mb-3">
             <div class="inline-flex gap-6 border-b border-gray-300 dark:border-gray-600">

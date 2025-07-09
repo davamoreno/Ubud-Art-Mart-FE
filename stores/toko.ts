@@ -20,7 +20,7 @@ export interface UpsertTokoPayload {
   deskripsi: string;
   telepon: string;
   link?: string;
-  status?: string;
+  status?: any;
   image?: File | null;
 }
 
@@ -39,7 +39,7 @@ export const useTokoStore = defineStore('toko', () => {
     error.value = null;
     try {
       // Gunakan $api, tidak perlu set header manual
-      const response = await $api<{data: Toko[]}>('admin/toko');
+      const response = await $api<{data: Toko[]}>('toko');
       stores.value = response.data;
     } catch (e) {
       error.value = e;
@@ -53,7 +53,7 @@ export const useTokoStore = defineStore('toko', () => {
     loading.value = true;
     error.value = null;
     try {
-      const response = await $api<{data: Toko}>(`admin/toko/${slug}`);
+      const response = await $api<{data: Toko}>(`toko/${slug}`);
       currentToko.value = response.data;
       return response.data;
     } catch (e) {
@@ -98,18 +98,36 @@ export const useTokoStore = defineStore('toko', () => {
     loading.value = true;
     error.value = null;
     const formData = new FormData();
-    Object.entries(payload).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        formData.append(key, value);
-      }
-    });
+
+    // Object.entries(payload).forEach(([key, value]) => {
+    //   if (value !== undefined && value !== null) {
+    //     formData.append(key, value);
+    //   }
+    // });
+
+    formData.append('status', payload.status);
+    formData.append('nama', payload.nama);
+    formData.append('deskripsi', payload.deskripsi);
+    formData.append('telepon', payload.telepon);
+
+
+    // formData.append('link', payload.link);
+
+    console.log(payload.status)
+
+    if (payload.image) {
+      formData.append('image', payload.image); // ✅ HARUS File, bukan string
+    }
+
+
     // PENTING: Karena HTML form tidak mendukung PUT/PATCH dengan multipart/form-data,
     // Laravel menggunakan trik `_method` untuk method spoofing.
-    formData.append('_method', 'PUT');
-
     try {
       const response = await $api<{data: Toko}>(`admin/toko/${slug}`, {
         method: 'POST', // Method tetap POST, tapi Laravel akan membacanya sebagai PUT
+        params: {
+          '_method' : 'PUT'
+        },
         body: formData,
       });
       return response.data;
