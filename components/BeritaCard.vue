@@ -1,12 +1,12 @@
 <template>
-  <div class="news-card">
+  <nuxt-link :to="`user/news/${slug}`" class="news-card">
     <img :src="image" class="card-img-top" alt="Berita Image" />
     <div class="card-body">
       <span class="custom-badge">Berita</span>
       <h6 class="card-title">{{ title }}</h6>
       <p class="timestamp">{{ timeAgo }}</p>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 
 <script setup>
@@ -20,14 +20,13 @@ dayjs.locale('id');
 const props = defineProps({
   title: String,
   image: String,
-  timestamp: String
+  timestamp: String,
+  slug: String
 });
 
 const timeAgo = computed(() => {
   return dayjs(props.timestamp).fromNow();
 });
-
-
 
 </script>
 

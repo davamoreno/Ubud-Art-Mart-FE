@@ -14,6 +14,7 @@ const slug = route.params.slug;
 
 const beritaStore = useBeritaStore();
 const berita = computed(() => beritaStore.store);
+const { loading: isSubmitting } = storeToRefs(beritaStore);
 const imagePreview = ref<string | null>(null);
 const deskripsiError = ref(false);
 const titleError = ref(false);
@@ -93,12 +94,12 @@ const submitForm = async () => {
         try {
             if (typeof slug === 'string') {
                 const result = await beritaStore.updateBeritaStore(form, slug);
-                alert('Berita berhasil diubah!');
+                await Swal.fire('Berhasil!', 'Berita berhasil diubah.', 'success');
                 console.log('Update result:', result);
                 router.push('/admin/main/news');
             }
         } catch (err) {
-            alert('Gagal mengedit berita.');
+            await Swal.fire('Gagal!', 'Gagal mengedit berita', 'error');
             console.error("Submit error:", err);
         }
     }
@@ -142,55 +143,30 @@ async function deleteBerita(slug: string) {
 
 <template>
     <form @submit.prevent="submitForm">
-        <div class="flex flex-row w-[1340px] h-[752px] p-[30px] mt-[60px] mb-[357px] mx-auto border-2 rounded-lg"
-            v-if="berita">
 
-            <div v-if="imagePreview" class="w-[550px] me-[50px] p-[25px] group border-2 rounded-lg hover:">
-                <img :src="berita?.image" alt="" class="w-full h-[400px]">
-                <div v-if="imagePreview" class="relative mt-4 w-fit">
-                    <p class="text-sm text-gray-500 mb-2">Preview Gambar:</p>
-                    <img :src="imagePreview" alt="Preview" class="max-h-48 rounded border" />
-                    <button @click="cancelImage"
-                        class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 -translate-y-2 translate-x-2"
-                        title="Hapus Gambar">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+        <div class="flex flex-col lg:flex-row w-full max-w-7xl mx-auto gap-8 p-4 mt-5" v-if="berita">
+
+            <div class="w-full lg:w-1/3">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Foto Berita</label>
+                <div
+                    class="relative w-full aspect-square group border-2 border-dashed rounded-lg flex items-center justify-center bg-gray-50">
+                    <img v-if="!imagePreview" :src="berita?.image" alt="Preview Produk"
+                        class="w-full h-full object-cover rounded-lg">
+                    <img v-else-if="imagePreview" :src="imagePreview" alt="Preview Produk"
+                        class="w-full h-full object-cover rounded-lg">
+
+                    <p v-else class="text-gray-400">Tidak ada gambar</p>
+                    <label
+                        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                        Ganti Gambar
+                        <input type="file" @change="handleImageUpload" class="hidden" accept="image/*" />
+                    </label>
                 </div>
             </div>
 
-            <div v-else class="relative w-[550px] me-[50px] p-[25px] group border-2 rounded-lg hover:">
-                <img :src="berita?.image" alt="" class="w-full h-[630px]">
-                <label class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-sm font-medium rounded-lg
-             opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                    <div class="rounded-2xl border-2 p-[5px]">
-                        <p>Pilih Gambar</p>
-                        <input id="file-input" type="file" accept="image/*" @change="handleImageUpload"
-                            class="hidden" />
-                    </div>
-                </label>
+            <div class="w-full lg:w-2/3 border-2 rounded-lg p-6 space-y-4 bg-white">
+                <h1 class="font-semibold text-2xl mb-4">Edit Detail Berita</h1>
 
-                <div v-if="imagePreview" class="relative mt-4 w-fit">
-                    <p class="text-sm text-gray-500 mb-2">Preview Gambar:</p>
-                    <img :src="imagePreview" alt="Preview" class="max-h-48 rounded border" />
-                    <button @click="cancelImage"
-                        class="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 -translate-y-2 translate-x-2"
-                        title="Hapus Gambar">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-
-            <div :class="[
-                'w-[692px] border-2 rounded-lg p-[20px]',
-                titleError || deskripsiError ? 'my-[25px]' : 'my-[41px]'
-            ]">
                 <div class="flex flex-row">
                     <div class="w-full">
                         <label class="mb-[8px] text-gray-500">Judul Berita</label>
@@ -208,19 +184,20 @@ async function deleteBerita(slug: string) {
                     </div>
                 </div>
 
-                <div class="flex flex-row">
-                    <NuxtLink to="/admin/main/news"
-                        class="bg-transparent rounded-3xl px-[39px] py-[10px] border-2 me-auto shadow-sm opacity-50">
+                <div class="flex justify-between items-center pt-4">
+                    <NuxtLink to="/admin/main/news" class="px-6 py-2 rounded-lg border hover:bg-gray-100">
                         Kembali
                     </NuxtLink>
-                    <a @click="deleteBerita(berita?.slug)"
-                        class="bg-transparent rounded-3xl px-[39px] py-[10px] border-2 me-[14px] shadow-sm opacity-50">
-                        Hapus
-                    </a>
-                    <button class="bg-transparent rounded-3xl px-[39px] py-[10px] border-2 shadow-sm opacity-50">
-                        <span v-if="!berita?.loading">Simpan</span>
-                        <span v-else>Loading...</span>
-                    </button>
+                    <div class="flex gap-4">
+                        <button type="button" @click="deleteBerita(berita?.slug)" :disabled="isSubmitting"
+                            class="px-6 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300">
+                            <span v-if="!isSubmitting">Hapus</span><span v-else>...</span>
+                        </button>
+                        <button type="submit" :disabled="isSubmitting"
+                            class="px-6 py-2 rounded-lg bg-black text-white hover:bg-gray-800 disabled:bg-gray-400">
+                            <span v-if="!isSubmitting">Simpan Perubahan</span><span v-else>Menyimpan...</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
