@@ -16,7 +16,7 @@ export const useKategoriStore = defineStore('kategori', () => {
   async function fetchKategori() {
     loading.value = true;
     try {
-      const response = await $api<{ data: Kategori[] }>('admin/kategori');
+      const response = await $api<{ data: Kategori[] }>('kategori');
       list.value = response.data;
     } catch (error) {
       console.error("Gagal fetch kategori:", error);

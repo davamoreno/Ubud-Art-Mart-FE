@@ -4,17 +4,31 @@
     <div class="card-body">
       <span class="custom-badge">Berita</span>
       <h6 class="card-title">{{ title }}</h6>
-      <p class="timestamp">{{ timestamp }}</p>
+      <p class="timestamp">{{ timeAgo }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/id';
+
+dayjs.extend(relativeTime);
+dayjs.locale('id');
+
+const props = defineProps({
   title: String,
   image: String,
   timestamp: String
 });
+
+const timeAgo = computed(() => {
+  return dayjs(props.timestamp).fromNow();
+});
+
+
+
 </script>
 
 <style scoped lang="scss">
@@ -37,21 +51,18 @@ defineProps({
 
   .card-img-top {
     width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 12px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
   }
 
   .card-body {
-    padding: 16px;
-  padding-top: 12px;
-  padding-left: 12px;
-  padding-right: 12px;
-  width: 100%; // biar mengikuti kontainer parent
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+    padding-top: 10px;
+    width: 100%; // biar mengikuti kontainer parent
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .custom-badge {
