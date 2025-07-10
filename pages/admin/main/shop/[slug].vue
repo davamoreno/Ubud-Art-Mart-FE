@@ -40,7 +40,7 @@ const form = reactive<UpsertTokoPayload>({
   deskripsi: initialToko.value?.deskripsi ?? '',
   telepon: initialToko.value?.telepon ?? '',
   link: initialToko.value?.link ?? '',
-  status: initialToko.value?.status ?? 'active',
+  status: initialToko.value?.status ?? 'active' ?? 'inactive',
   image: undefined, // Mulai dengan kosong, hanya diisi jika ada file baru
 });
 
@@ -96,13 +96,16 @@ const handleDelete = async () => {
   <div v-if="initialToko">
     <form @submit.prevent="handleUpdate">
       <div class="flex flex-col lg:flex-row w-full max-w-7xl mx-auto gap-8 p-4 mt-5">
-        
+
         <div class="w-full lg:w-1/3">
           <label class="block text-sm font-medium text-gray-700 mb-2">Foto Toko</label>
-          <div class="relative w-full aspect-square group border-2 border-dashed rounded-lg flex items-center justify-center">
-            <img v-if="imagePreview" :src="imagePreview" alt="Preview Toko" class="w-full h-full object-cover rounded-lg">
+          <div
+            class="relative w-full aspect-square group border-2 border-dashed rounded-lg flex items-center justify-center">
+            <img v-if="imagePreview" :src="imagePreview" alt="Preview Toko"
+              class="w-full h-full object-cover rounded-lg">
             <p v-else class="text-gray-400">Tidak ada gambar</p>
-            <label class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+            <label
+              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
               Ganti Gambar
               <input type="file" @change="handleImageUpload" class="hidden" />
             </label>
@@ -111,7 +114,7 @@ const handleDelete = async () => {
 
         <div class="w-full lg:w-2/3 border-2 rounded-lg p-6 space-y-4">
           <h1 class="font-semibold text-2xl mb-4">Edit Detail Toko</h1>
-          
+
           <div>
             <label class="mb-1 text-sm text-gray-600 block">Status</label>
             <select v-model="form.status" class="w-full border rounded p-2 focus:ring-blue-500 focus:border-blue-500">
@@ -140,11 +143,13 @@ const handleDelete = async () => {
               Kembali
             </NuxtLink>
             <div class="flex gap-4">
-              <button type="button" @click="handleDelete" :disabled="loading" class="px-6 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300">
+              <button type="button" @click="handleDelete" :disabled="loading"
+                class="px-6 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300">
                 <span v-if="!loading">Hapus</span>
                 <span v-else>Loading...</span>
               </button>
-              <button type="submit" :disabled="loading" class="px-6 py-2 rounded-lg bg-green-500 text-white hover:bg-gray-800 disabled:bg-gray-400">
+              <button type="submit" :disabled="loading"
+                class="px-6 py-2 rounded-lg bg-green-500 text-white hover:bg-gray-800 disabled:bg-gray-400">
                 <span v-if="!loading">Simpan Perubahan</span>
                 <span v-else>Loading...</span>
               </button>
@@ -153,7 +158,7 @@ const handleDelete = async () => {
         </div>
       </div>
     </form>
-    
+
     <div class="w-full max-w-7xl mx-auto px-4 mt-10 mb-20">
       <h2 class="text-xl font-semibold mb-4 text-gray-800">Daftar Produk di Toko Ini</h2>
       <div class="bg-white p-4 rounded-lg shadow-md border">

@@ -78,7 +78,7 @@ export const useAuthStore = defineStore('auth', {
 
       const { $api } = useNuxtApp()
       try {
-        const user = await $api('costumer/users', { method: 'GET' })
+        const user = await $api('profile', { method: 'GET' })
         this.user = user
       } catch (error) {
         console.error('Token tidak valid atau fetch user gagal. Melakukan logout.', error)
