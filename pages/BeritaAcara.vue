@@ -16,7 +16,7 @@ const { stores, loading } = storeToRefs(beritaStore)
 
     <div class="news-grid">
       <BeritaCard v-for="berita in stores" :key="berita.id" :title="berita.title" :image="berita?.image"
-        :timestamp="berita.created_at" />
+        :timestamp="berita.created_at" :slug="berita.slug" />
     </div>
   </div>
 </template>
