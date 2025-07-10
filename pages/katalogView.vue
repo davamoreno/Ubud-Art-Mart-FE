@@ -1,6 +1,6 @@
 <template>
   <!-- ===== Card Detail Produk ===== -->
-  <section class="px-6 py-8 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+  <section class="px-6 py-8 dark:bg-gray-900 transition-colors duration-300">
     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row gap-8 p-6 max-w-6xl mx-auto">
       <!-- Gambar Produk -->
       <div class="md:w-1/2 flex justify-center items-center">
@@ -96,7 +96,7 @@
     </div>
   </div>
 
-  <section class="px-6 py-10 bg-gray-100 dark:bg-gray-900 flex justify-center">
+  <section class="px-6 py-10 dark:bg-gray-900 flex justify-center">
   <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 max-w-5xl w-full space-y-6">
     <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Ulasan</h2>
    
@@ -200,7 +200,7 @@
 </section>
 
   <!-- ===== Rekomendasi Produk ===== -->
-  <section class="px-10 py-8 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+  <section class="px-10 py-8 dark:bg-gray-900 transition-colors duration-300">
     <h2 class="text-2xl font-semibold mb-6 text-gray-800 dark:text-white">Rekomendasi Lainnya</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
       <div v-for="i in 5" :key="'rekom-' + i" class="hover:scale-105 transition duration-300 ease-in-out">
