@@ -226,7 +226,7 @@ export const useProductStore = defineStore('produk', () => {
   }
  
   // Kembalikan semua state dan action agar bisa digunakan di komponen
-  return {
+   return {
     products,
     pagination,
     loading,

@@ -4,6 +4,29 @@ import { useNuxtApp } from '#imports';
 import Slug from '~/pages/admin/main/news/[slug].vue';
 
 // Interface sudah bagus, kita pertahankan
+export interface Kategori {
+  id: number;
+  nama: string;
+}
+
+// interfaces/Produk.ts (misalnya)
+export interface Produk {
+  id: number;
+  title: string;
+  slug: string;
+  image: string;
+  toko_nama: string;
+  deskripsi: string;
+  detail: string;
+  tags: string[]; // array of strings
+  kategori: Kategori; // menggunakan interface Kategori yang sudah dibuat
+  created_at: string;
+  updated_at: string;
+  // Jika ada rating di produk, tambahkan ini:
+  rating?: number; // Opsional karena tidak selalu ada di contoh JSON produk Anda
+}
+
+
 export interface Toko {
   id: number;
   nama: string;
@@ -13,6 +36,14 @@ export interface Toko {
   image: string;
   link: string | null;
   status: string | null;
+  // Properti rating tambahan dari JSON toko Anda
+  rating: number;
+  created_at: string;
+  updated_at: string;
+  // Ini adalah properti 'produks' yang baru ditambahkan
+  produks?: { // Menggunakan '?' karena mungkin tidak selalu ada produk
+    data: Produk[]; // array dari interface Produk
+  };
 }
 
 export interface UpsertTokoPayload {
@@ -161,6 +192,7 @@ export const useTokoStore = defineStore('toko', () => {
     stores,
     loading,
     error,
+    currentToko,
     fetchStores,
     fetchStore,
     createStore,

@@ -143,11 +143,11 @@ const handleDelete = async () => {
         </div>
         <div>
           <label class="mb-1 text-sm text-gray-600 block">Deskripsi</label>
-          <textarea v-model="form.deskripsi" class="w-full border rounded p-2 h-24" required></textarea>
+          <textarea v-model="form.deskripsi" class="w-full border rounded p-2 h-24 resize-none" required></textarea>
         </div>
         <div>
           <label class="mb-1 text-sm text-gray-600 block">Detail Produk</label>
-          <textarea v-model="form.detail" class="w-full border rounded p-2 h-32"></textarea>
+          <textarea v-model="form.detail" class="w-full border rounded p-2 h-32 resize-none"></textarea>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
