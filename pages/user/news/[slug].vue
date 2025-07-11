@@ -15,6 +15,8 @@ const slug = route.params.slug;
 const beritaStore = useBeritaStore();
 const berita = computed(() => beritaStore.store);
 
+await useAsyncData('berita-list', () => beritaStore.fetchStores());
+
 onMounted(async () => {
     if (typeof slug === 'string') {
         beritaStore.getBerita(slug);
