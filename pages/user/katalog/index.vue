@@ -1,3 +1,62 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useNuxtApp } from '#imports';
+
+// --- INTERFACES & TYPES ---
+interface Category {
+  id: number;
+  nama: string;
+  image: string; 
+}
+
+interface Product {
+  id: number;
+  title: string;
+  slug: string;
+  image: string;
+  rating: number;
+  toko: {
+    nama: string;
+  };
+}
+
+// --- STATE MANAGEMENT ---
+const searchQuery = ref('');
+
+// --- COMPOSABLES & HELPERS ---
+const router = useRouter();
+const { $api } = useNuxtApp();
+
+// --- METHODS ---
+function handleSearch() {
+  if (searchQuery.value.trim()) {
+    router.push(`/search?q=${searchQuery.value.trim()}`);
+  }
+}
+
+// --- DATA FETCHING (BEST PRACTICE DENGAN useAsyncData) ---
+// useAsyncData akan mengambil data di server (untuk load pertama) atau di client (saat navigasi).
+// Ini memastikan SEO dan performa UX yang optimal.
+const { data, pending: loading, error } = await useAsyncData(
+  'dashboard-data', // Kunci unik untuk data ini
+  async () => {
+    // Kita panggil kedua endpoint secara bersamaan untuk efisiensi
+    const [categoryResponse, recommendationResponse] = await Promise.all([
+      $api<{ data: Category[] }>('kategori'),
+      $api<{ data: Product[] }>('dashboard/recommendations')
+    ]);
+
+    // Kembalikan objek yang berisi kedua hasil
+    return {
+      categories: categoryResponse.data,
+      recommendations: recommendationResponse.data
+    };
+  }
+);
+
+</script>
+
 <template>
     <div class="container mx-auto px-[50px] pt-[113px] items-center h-full">
         <h1 class="text-center text-3xl font-medium mb-5">
@@ -107,116 +166,27 @@
         </div>
 
         <div class="mx-auto mb-[133px] flex flex-wrap justify-between">
-            <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <a href="/katalogView">
+            <div v-for="product in data?.recommendations" :key="product?.id" class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
+                <NuxtLink :to="`/user/katalog/${product.slug}`" class="block">
                     <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
+                        <img :src="`http://localhost:8000/storage/${product.image}`" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
                         <div class="p-4">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
+                                    <h2 class="text-lg font-semibold text-gray-800">{{ product.title }}</h2>
+                                    <p class="text-sm text-gray-600">{{ product.toko.nama }}</p>
                                 </div>
 
 
                                 <div class="flex items-center mt-4">
                                     <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
+                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">{{ product.rating }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </a>
+                </NuxtLink>
             </div>
-
-            <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <a href="/katalogView">
-                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                                </div>
-
-
-                                <div class="flex items-center mt-4">
-                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <a href="/katalogView">
-                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                                </div>
-
-
-                                <div class="flex items-center mt-4">
-                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <a href="/katalogView">
-                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                                </div>
-
-
-                                <div class="flex items-center mt-4">
-                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
-                <a href="/katalogView">
-                    <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
-                        <img src="/assets/images/katalog.png" alt="Lukisan Bali" class="w-full h-[220px] object-cover">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h2 class="text-lg font-semibold text-gray-800">Lukisan Bali</h2>
-                                    <p class="text-sm text-gray-600">Kios Pak Ketut</p>
-                                </div>
-
-
-                                <div class="flex items-center mt-4">
-                                    <img src="/assets/images/Star.svg" alt="" class="h-5 w-5">
-                                    <span class="ml-1 mt-1 text-sm text-gray-700 font-medium">3.9</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
         </div>
     </div>
 
