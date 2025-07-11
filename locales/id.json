@@ -3,6 +3,11 @@
         "home"      : "Beranda",
         "event"     : "Acara & Berita",
         "katalog"   : "Katalog",
-        "about_us"  : "Tentang Kami"
+        "about_us"  : "Tentang Kami",
+        "login"     : "Masuk"
+    },
+    "dashboard_customer" : {
+        "title" : "RASAKAN KEAJAIBAN KARYA LOKAL PASAR KESENIAN UBUD"
     }
+    
 }
