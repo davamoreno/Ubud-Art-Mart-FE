@@ -48,7 +48,7 @@ const confirmLogout = async () => {
       <div class="space-x-4">
         <NuxtLink :to="localePath('/')" class="nav-link">{{ $t('nav_bar.home') }}</NuxtLink>
         <NuxtLink to="/BeritaAcara" class="nav-link">{{ $t('nav_bar.event') }}</NuxtLink>
-        <NuxtLink to="/katalog" class="nav-link">{{ $t('nav_bar.katalog') }}</NuxtLink>
+        <NuxtLink to="/user/katalog" class="nav-link">{{ $t('nav_bar.katalog') }}</NuxtLink>
         <NuxtLink to="/about" class="nav-link">{{ $t('nav_bar.about_us') }}</NuxtLink>
       </div>
 
