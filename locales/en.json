@@ -3,6 +3,10 @@
         "home"      : "Home",
         "event"     : "Event & News",
         "katalog"   : "Catalog",
-        "about_us"  : "About Us"
+        "about_us"  : "About Us",
+        "login"     : "Sign In"
+    },
+     "dashboard_customer" : {
+        "title" : "EXPERIENCE THE MAGIC OF LOCAL ARTS AT UBUD ARTS MARKET"
     }
 }
