@@ -32,6 +32,7 @@ export interface UpsertProductPayload {
 
 export const useProductStore = defineStore('produk', () => {
   const products = ref<Product[]>([]);
+  const product = ref<Product | null>(null);
   const loading = ref(false);
   const error = ref<any>(null);
 
@@ -58,10 +59,11 @@ export const useProductStore = defineStore('produk', () => {
     error.value = null;
     try {
       const response = await $api<{ data: Product }>(`produk/${slug}`);
-      return response.data;
+      product.value = response.data;
+      return JSON.parse(JSON.stringify(product.value))
     } catch (e) {
-      error.value = e;
       console.error(`Failed to fetch product ${slug}:`, e);
+      error.value = (e as Error).message || 'Terjadi kesalahan';
       throw e;
     } finally {
       loading.value = false;
@@ -153,6 +155,7 @@ export const useProductStore = defineStore('produk', () => {
 
   return {
     products,
+    product,
     loading,
     error,
     fetchProducts,
