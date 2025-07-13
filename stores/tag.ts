@@ -6,21 +6,20 @@ export interface Tag {
   id: number;
   nama: string;
 }
+interface PaginationMeta { links?: any[]; }
 
 export const useTagStore = defineStore('tag', () => {
   const list = ref<Tag[]>([]);
   const loading = ref(false);
-
+  const meta = ref<PaginationMeta>({});
   const { $api } = useNuxtApp();
 
-  async function fetchTags() {
+  async function fetchTags(page: number = 1) {
     loading.value = true;
     try {
-      const response = await $api<{ data: Tag[] }>('tag');
+      const response = await $api<{ data: Tag[], meta: PaginationMeta }>(`tag?page=${page}`);
       list.value = response.data;
-    } catch (error) {
-      console.error("Gagal fetch tag:", error);
-      throw error;
+      meta.value = response.meta;
     } finally {
       loading.value = false;
     }
@@ -55,6 +54,7 @@ export const useTagStore = defineStore('tag', () => {
 
   return {
     list,
+    meta,  
     loading,
     fetchTags,
     createTag,

@@ -128,7 +128,7 @@ export default {
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
       <nuxt-link v-for="product in filteredProducts" :key="product.id"
         class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col hover:scale-105 transition duration-300 ease-in-out"
-        :to="`product/${product.slug}`">
+        :to="`/user/katalog/${product.slug}`">
         <img :src="`http://127.0.0.1:8000/storage/${product.image}`" :alt="product.title"
           class="h-40 w-full object-cover" />
         <div class="p-4 flex-1 flex flex-col justify-between">
