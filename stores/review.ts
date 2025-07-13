@@ -56,7 +56,7 @@ export const useReviewStore = defineStore('review', () => {
     if (filters.page) params.append('page', String(filters.page));
 
     try {
-      const response = await $api<{ data: Review[], meta: any }>(`produk/${productId}/reviews?${params.toString()}`);
+      const response = await $api<{ data: Review[], meta: any }>(`review?${params.toString()}`);
       
       // Untuk review, biasanya kita ganti seluruh list saat filter berubah, bukan menambahkan.
       reviews.value = response.data;

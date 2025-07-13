@@ -1,71 +1,74 @@
 <script setup lang="ts">
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
-import { useAuthStore } from '~/stores/auth'
+import { useAuthStore } from '~/stores/auth' // Pastikan path ke store Anda benar
 import { navigateTo } from '#app'
 
-const auth = useAuthStore();
-const config = useRuntimeConfig();
-const apiBase = config.public.apiBase;
-const showPassword = ref(false)
-const showConfirm = ref(false)
-const errorMessage = ref('')
+// Inisialisasi store
+const authStore = useAuthStore()
 
-
-// TAMBAHKAN INI:
-const email = ref('')
+// State untuk menampung nilai dari form input
 const name = ref('')
+const email = ref('')
 const password = ref('')
 const password_confirmation = ref('')
+const isLoading = ref(false)
 
-
-
+/**
+ * Fungsi untuk menangani submit form registrasi.
+ * Fungsi ini sekarang hanya fokus pada UI dan memanggil action dari store.
+ */
 const handleRegister = async () => {
-  errorMessage.value = '' // Reset pesan error dulu
-
+  // Validasi sederhana di sisi klien
   if (password.value !== password_confirmation.value) {
-    errorMessage.value = 'Password tidak cocok!'
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Password dan konfirmasi password tidak cocok!',
+      confirmButtonColor: '#e3342f'
+    })
     return
   }
 
+  isLoading.value = true
   try {
-    const response = await $fetch(`${apiBase}costumer/users/register`, {
-      method: 'POST',
-      body: {
-        name: name.value,
-        email: email.value,
-        password: password.value,
-        password_confirmation: password_confirmation.value
-      }
+    // Panggil action 'register' dari store dengan membawa data dari form
+    await authStore.register({
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      password_confirmation: password_confirmation.value,
     })
 
-    // Simpan user ke store
-    auth.register({
-      user: response.user,
-    })
-
-    // ✅ Tampilkan popup sukses
+    // Jika action di atas berhasil (tidak melempar error), tampilkan popup sukses
     await Swal.fire({
       icon: 'success',
-      title: 'Berhasil Register!',
-      text: 'Selamat datang di Ubud Art Market!',
+      title: 'Registrasi Berhasil!',
+      text: 'Akun Anda telah dibuat. Silakan login untuk melanjutkan.',
       confirmButtonColor: '#328E6E'
     })
 
-    navigateTo('/')
+    // Arahkan pengguna ke halaman login setelah berhasil
+    navigateTo('/user/auth/login')
+
   } catch (error: any) {
-    // ❌ Tampilkan popup error
+    // Jika store melempar error (misalnya, validasi dari backend), tangkap di sini
     await Swal.fire({
       icon: 'error',
-      title: 'Gagal Register',
-      text: error?.data?.message || 'Cek kembali email dan password kamu!',
+      title: 'Registrasi Gagal',
+      // Tampilkan pesan error dari API jika ada, atau pesan generik
+      text: error?.data?.message || 'Terjadi kesalahan. Silakan periksa kembali data Anda.',
       confirmButtonColor: '#e3342f'
     })
+  } finally {
+    isLoading.value = false
   }
 }
-
-
 </script>
+
+<!-- Template Anda akan menggunakan v-model untuk binding ke state di atas -->
+<!-- Contoh: <input v-model="email" type="email" /> -->
+<!-- Contoh: <form @submit.prevent="handleRegister"> ... </form> -->
 
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
@@ -128,7 +131,6 @@ const handleRegister = async () => {
         class="tracking-wide font-semibold bg-[#328E6E] text-white w-full py-3 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out">
         Sign Up
       </button>
-      <p>Sudah punya akun</p>
       <p class="mt-6 text-xs text-gray-600 text-center">
         I agree to abide by Ubud Art Market's
         <a href="#" class="border-b border-gray-500 border-dotted">Terms of Service</a> and its

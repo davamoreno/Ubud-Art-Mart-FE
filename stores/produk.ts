@@ -130,6 +130,34 @@ export const useProductStore = defineStore('produk', () => {
     }
   }
 
+
+  async function fetchProduct(slug: string | string[]) {
+
+    loading.value = true;
+
+    error.value = null;
+
+    try {
+
+      const response = await $api<{ data: Product }>(`produk/${slug}`);
+
+      return response.data;
+
+    } catch (e) {
+
+      error.value = e;
+
+      console.error(`Failed to fetch product ${slug}:`, e);
+
+      throw e;
+
+    } finally {
+
+      loading.value = false;
+
+    }
+
+  }
   /**
    * Membuat produk baru.
    * @param {UpsertProductPayload} payload - Data produk baru
@@ -232,6 +260,7 @@ export const useProductStore = defineStore('produk', () => {
     loading,
     error,
     hasMorePages,
+    fetchProduct,
     fetchProducts,
     fetchProductWithRecommendations,
     createProduct,

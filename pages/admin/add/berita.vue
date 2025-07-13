@@ -89,11 +89,21 @@ const submitForm = async () => {
         </div>
 
         <!-- Deskripsi -->
-        <div>
-          <label class="text-sm font-medium">Deskripsi Berita</label>
-          <textarea class="w-full border rounded p-2 mt-1 h-40 resize-none" v-model="form.deskripsi"
-            placeholder="Enter Text Here..."></textarea>
-        </div>
+          <div class="mb-6">
+       <ClientOnly>
+          <Editor
+            v-model="form.deskripsi"
+            label="Deskripsi Berita"
+            placeholder="Tulis deskripsi lengkap di sini..."
+          />
+          <!-- Anda bisa menambahkan placeholder loading jika mau -->
+          <template #fallback>
+            <div class="h-[300px] w-full border rounded-md flex items-center justify-center bg-gray-100">
+              <p class="text-gray-500">Memuat editor...</p>
+            </div>
+          </template>
+        </ClientOnly>
+      </div>
 
         <!-- Foto Berita -->
         <div>

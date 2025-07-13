@@ -10,21 +10,24 @@ export interface Kategori {
 export const useKategoriStore = defineStore('kategori', () => {
   const list = ref<Kategori[]>([]);
   const loading = ref(false);
+  const meta = ref({});
 
   const { $api } = useNuxtApp();
 
-  async function fetchKategori() {
-    loading.value = true;
-    try {
-      const response = await $api<{ data: Kategori[] }>('kategori');
-      list.value = response.data;
-    } catch (error) {
-      console.error("Gagal fetch kategori:", error);
-      throw error;
-    } finally {
-      loading.value = false;
-    }
-  }
+  async function fetchKategori(page: number = 1) { // <-- Terima parameter page
+     loading.value = true;
+     try {
+       // Kirim parameter page ke API
+       const response = await $api<{ data: Kategori[], meta: any }>(`kategori?page=${page}`);
+       list.value = response.data;
+       meta.value = response.meta; // <-- Simpan meta
+     } catch (error) {
+       // ...
+     } finally {
+       loading.value = false;
+     }
+   }
+
 
   async function createKategori(payload: { nama: string }) {
     try {
@@ -56,6 +59,7 @@ export const useKategoriStore = defineStore('kategori', () => {
   return {
     list,
     loading,
+    meta,
     fetchKategori,
     createKategori,
     updateKategori,

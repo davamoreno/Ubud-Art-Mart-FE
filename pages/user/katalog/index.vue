@@ -165,7 +165,7 @@ const { data, pending: loading, error } = await useAsyncData(
             </p>
         </div>
 
-        <div class="mx-auto mb-[133px] flex flex-wrap justify-between">
+        <div class="mx-auto mb-[133px] flex flex-wrap gap-10">
             <div v-for="product in data?.recommendations" :key="product?.id" class="mb-10 hover:scale-105 transition duration-300 ease-in-out">
                 <NuxtLink :to="`/user/katalog/${product.slug}`" class="block">
                     <div class="w-[250px] h-[313px] bg-white rounded-lg shadow-xl overflow-hidden">
