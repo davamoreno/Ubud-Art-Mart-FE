@@ -43,7 +43,15 @@ export interface FetchProductsPayload {
   sort?: 'newest' | 'oldest' | 'asc' | 'desc' | 'highest' | 'lowest';
   tags?: number[];
   kategori?: number;
-  search?: string;
+  q?: string;
+}
+
+
+interface PaginationMeta {
+  current_page: number;
+  last_page: number;
+  total: number;
+  links: any[];
 }
 
 // --- PINIA STORE DEFINITION ---
@@ -53,6 +61,8 @@ export const useProductStore = defineStore('produk', () => {
   const products = ref<Product[]>([]);
   const pagination = ref<any>({}); // Untuk menyimpan meta pagination dari Laravel
   const loading = ref(false);
+  const searchResults = ref<Product[]>([]);
+  const searchMeta = ref<PaginationMeta | null>(null);
   const error = ref<any>(null);
 
   // Mengambil instance $api dari Nuxt
@@ -64,13 +74,21 @@ export const useProductStore = defineStore('produk', () => {
     return pagination.value.current_page < pagination.value.last_page;
   });
 
+    const hasMoreSearchResults = computed(() => {
+    if (!searchMeta.value) return false;
+    return searchMeta.value.current_page < searchMeta.value.last_page;
+  });
   // --- ACTIONS (METHODS) ---
 
   /**
    * Mengambil daftar produk dari API dengan dukungan filter, sorting, dan pagination.
    * @param {FetchProductsPayload} filters - Objek berisi parameter query
    */
-  async function fetchProducts(filters: FetchProductsPayload = {}) {
+  async function fetchProducts(filters: FetchProductsPayload = {}, loadMore = false) {
+    if (!loadMore) {
+      loading.value = true;
+      searchResults.value = []; // Kosongkan hasil lama saat filter baru diterapkan
+    }
     loading.value = true;
     error.value = null;
 
@@ -78,7 +96,7 @@ export const useProductStore = defineStore('produk', () => {
     const params = new URLSearchParams();
     if (filters.page) params.append('page', String(filters.page));
     if (filters.sort) params.append('sort', filters.sort);
-    if (filters.search) params.append('search', filters.search);
+    if (filters.q) params.append('search', filters.q);
     if (filters.kategori) params.append('kategori', String(filters.kategori));
     if (filters.tags && filters.tags.length > 0) {
       filters.tags.forEach(tagId => params.append('tags[]', String(tagId)));
@@ -86,20 +104,34 @@ export const useProductStore = defineStore('produk', () => {
     
     try {
       // Menambahkan query string ke URL jika ada
-      const response = await $api<{ data: Product[], meta: any }>(`produk?${params.toString()}`);
+      const response = await $api<{ data: Product[], meta: PaginationMeta }>(`produk?${params.toString()}`);
       
       // Jika ini halaman pertama, ganti seluruh data.
       // Jika bukan, tambahkan ke data yang sudah ada (untuk fitur "load more").
-      if (filters.page && filters.page > 1) {
-        products.value.push(...response.data);
+      if (loadMore) {
+        searchResults.value.push(...response.data);
       } else {
-        products.value = response.data;
+        searchResults.value = response.data;
       }
-      
-      pagination.value = response.meta; // Simpan data pagination
+      searchMeta.value = response.meta;
     } catch (e) {
       error.value = e;
       console.error('Failed to fetch products:', e);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  async function fetchRandomProducts() {
+    loading.value = true;
+    error.value = null;
+    try {
+      // Mengambil produk acak dari API
+      const response = await $api<{ data: Product[] }>('produk/random');
+      return products.value = response.data;
+    } catch (e) {
+      error.value = e;
+      console.error('Failed to fetch random products:', e);
     } finally {
       loading.value = false;
     }
@@ -260,8 +292,12 @@ export const useProductStore = defineStore('produk', () => {
     loading,
     error,
     hasMorePages,
+    searchResults,
+    searchMeta,
+    hasMoreSearchResults,
     fetchProduct,
     fetchProducts,
+    fetchRandomProducts,
     fetchProductWithRecommendations,
     createProduct,
     updateProduct,

@@ -14,18 +14,18 @@ export const useKategoriStore = defineStore('kategori', () => {
 
   const { $api } = useNuxtApp();
 
-  async function fetchKategori(page: number = 1) { // <-- Terima parameter page
-     loading.value = true;
-     try {
-       // Kirim parameter page ke API
-       const response = await $api<{ data: Kategori[], meta: any }>(`kategori?page=${page}`);
-       list.value = response.data;
-       meta.value = response.meta; // <-- Simpan meta
-     } catch (error) {
-       // ...
-     } finally {
-       loading.value = false;
-     }
+  async function fetchKategori(page: number) { // <-- Terima parameter page
+      loading.value = true;
+      try {
+        // Kirim parameter page ke API
+        const response = await $api<{ data: Kategori[], meta: any }>(`kategori?page=${page}`);
+        list.value = response.data;
+        meta.value = response.meta; // <-- Simpan meta
+      } catch (error) {
+        // ...
+      } finally {
+        loading.value = false;
+      }
    }
 
 

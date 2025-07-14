@@ -25,6 +25,13 @@ export interface UpdateBeritaPayload {
   image: File | null;
 }
 
+interface PaginationMeta {
+  current_page: number;
+  last_page: number;
+  links: { url: string | null; label: string; active: boolean }[];
+  total: number;
+}
+
 export const useBeritaStore = defineStore('berita', () => {
   const stores = ref<Berita[]>([]);
   const store = ref<Berita | null>(null);
@@ -33,20 +40,32 @@ export const useBeritaStore = defineStore('berita', () => {
   const config = useRuntimeConfig();
   const apiBase = config.public.apiBase;
   const detail = ref<Berita[]>([]);
+  const page = ref<number>();
+  const meta = ref<PaginationMeta| null>(null);
+  const per_page = ref<number>();
 
-  async function fetchStores(): Promise<void> {
+  const { $api } = useNuxtApp();
+
+  const hasMore = computed(() => {
+    if (!meta.value) return false;
+    return meta.value.current_page < meta.value.last_page;
+  });
+
+  async function fetchStores(page: number, per_page : number): Promise<void> {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await $fetch<{ data: Berita[] }>(`${apiBase}berita`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${useCookie('token').value}`
-        }
-      });
-      stores.value = response.data;
-      console.log('Stores fetched:', response.data);
+      const response = await $api<{ data: Berita[], meta: PaginationMeta }>(`berita?page=${page}&per_page=${per_page}`);
+         if (page === 1) {
+        // Jika halaman pertama, ganti seluruh data.
+        stores.value = response.data;
+      } else {
+        // Jika halaman berikutnya, tambahkan data baru ke akhir daftar.
+        stores.value.push(...response.data);
+      }
+      meta.value = response.meta;
+      console.log('Stores fetched:', stores.value);
     } catch (e) {
       error.value = e as Error;
       console.error('Failed to fetch stores:', e);
@@ -183,6 +202,10 @@ async function updateBeritaStore(payload: UpdateBeritaPayload, slug: String): Pr
     loading,
     error,
     detail,
+    page,
+    meta,
+    per_page,
+    hasMore,
     fetchStores,
     createStore,
     getBerita,

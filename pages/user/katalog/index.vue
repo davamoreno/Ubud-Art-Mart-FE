@@ -31,7 +31,7 @@ const { $api } = useNuxtApp();
 // --- METHODS ---
 function handleSearch() {
   if (searchQuery.value.trim()) {
-    router.push(`/search?q=${searchQuery.value.trim()}`);
+    router.push(`/user/katalog/search?q=${searchQuery.value.trim()}`);
   }
 }
 
@@ -79,8 +79,8 @@ const { data, pending: loading, error } = await useAsyncData(
                 <img src="/assets/images/search.svg" alt="" class="absolute top-2 left-2">
             </div>
             <div class="absolute top-0 left-[60px] w-full h-full flex items-center">
-                <form action="/query">
-                    <input type="text" name="" id="" placeholder="Cari di Katalog"
+                <form @submit.prevent="handleSearch" class="w-full h-full">
+                    <input type="text" name="" id=""  v-model="searchQuery" placeholder="Cari di Katalog"
                         class="w-full h-full bg-transparent text-[#a8d4c5] placeholder:text-[#a8d4c5] focus:outline-none">
                 </form>
             </div>
