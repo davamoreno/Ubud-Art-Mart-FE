@@ -9,8 +9,8 @@
       <img src="@/assets/images/bg.png" alt="Pasar Seni Ubud" class="object-cover bg-center w-full h-full" />
       <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
         <div class="text-white drop-shadow text-center">
-          <h1 class="text-3xl lg:text-5xl font-bold mb-[10px]">RASAKAN KEAJAIBAN KARYA LOKAL</h1>
-          <h2 class="text-3xl lg:text-4xl font-bold mb-[20px]">PASAR KESENIAN UBUD</h2>
+          <h1 class="text-3xl lg:text-5xl font-bold mb-[10px]">{{ $t("dashboard_customer.hero") }}</h1>
+          <h2 class="text-3xl lg:text-4xl font-bold mb-[20px]">{{ $t("dashboard_customer.hero2") }}</h2>
         </div>
       </div>
     </div>
@@ -19,8 +19,8 @@
 <section class="px-10 py-12 dark:bg-gray-900 transition-colors duration-300">
   <!-- Header: Judul + Lihat Semua -->
   <div class="flex items-center justify-between mb-8">
-    <h2 class="text-3xl font-semibold text-gray-800 dark:text-white">Sorotan Produk</h2>
-    <a href="katalog" class="text-sm font-semibold text-green-600 dark:text-green-400 hover:underline" >Lihat Semua </a>
+    <h2 class="text-3xl font-semibold text-gray-800 dark:text-white">{{ $t("dashboard_customer.title") }}</h2>
+    <a href="katalog" class="text-sm font-semibold text-green-600 dark:text-green-400 hover:underline" >{{ $t("dashboard_customer.cta3") }} </a>
   </div>
 
   <!-- Daftar Produk -->
@@ -61,17 +61,16 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <!-- Kiri: Teks -->
           <div class="text-gray-800 dark:text-white">
-            <p class="text-sm font-semibold text-gray-900 dark:text-gray-200">Berita & Acara</p>
+            <p class="text-sm font-semibold text-gray-900 dark:text-gray-200">{{ $t("dashboard_customer.title2") }}</p>
             <h2 class="text-4xl font-bold mt-2 mb-4 leading-snug">
-              Lihat apa yang sedang<br />
-              berlangsung di Pasar Seni<br />
-              Ubud saat ini.
+              {{ $t("dashboard_customer.section") }}<br />
+              {{ $t("dashboard_customer.section2") }}<br />
             </h2>
             <p class="text-gray-600 dark:text-gray-300 mb-6">
-              Ingin tahu apa yang baru di Pasar Kesenian Ubud? Dapatkan semua berita dan jadwal acara terkini di satu tempat.
+              {{ $t("dashboard_customer.subsection") }}  
             </p>
             <a href="BeritaAcara" class="inline-block px-6 py-3 border border-green-600 text-green-600 dark:border-green-400 dark:text-green-400 rounded-md font-semibold hover:bg-green-600 hover:text-white dark:hover:bg-green-400 dark:hover:text-white transition-colors duration-300">
-              Lihat Selengkapnya
+              {{ $t("dashboard_customer.cta") }}
             </a>
           </div>
 
@@ -117,12 +116,12 @@
             <img src="@/assets/images/artmarket.png" alt="Tentang Pasar Seni Ubud" class="rounded-lg shadow-xl w-full h-[450px] object-cover" />
           </div>
           <div class="text-gray-800 dark:text-white">
-            <h2 class="text-4xl font-bold mb-4">Tentang Pasar Kesenian Ubud</h2>
+            <h2 class="text-4xl font-bold mb-4">{{ $t("dashboard_customer.section3") }}</h2>
             <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              Sejak awal abad ke-20, pasar ini telah menjadi saksi bagaimana seni tradisional Bali berkembang seiring waktu, tetap bertahan di tengah modernitas tanpa kehilangan akarnya. Pengunjung dari berbagai belahan dunia datang bukan hanya untuk berbelanja, tapi untuk merasakan sesuatu yang lebih dalam: keaslian.
+              {{ $t("dashboard_customer.subsection2") }}  
             </p>
             <a href="About" class="inline-block px-6 py-3 border border-green-600 text-green-600 dark:border-green-400 dark:text-green-400 rounded-md font-semibold hover:bg-green-600 hover:text-white dark:hover:bg-green-400 dark:hover:text-gray-900 transition-colors duration-300">
-              Pelajari Lebih Lanjut
+              {{ $t("dashboard_customer.cta2") }}
             </a>
           </div>
         </div>

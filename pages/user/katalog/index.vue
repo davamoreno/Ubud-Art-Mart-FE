@@ -60,17 +60,16 @@ const { data, pending: loading, error } = await useAsyncData(
 <template>
     <div class="container mx-auto px-[50px] pt-[113px] items-center h-full">
         <h1 class="text-center text-3xl font-medium mb-5">
-            Temukan keajaiban seni di setiap sudut
+            {{ $t("katalog_customer.hero") }}
         </h1>
         <h1 class="text-center text-3xl font-medium mb-10">
-            Pasar Kesenian Ubud
+            {{ $t("katalog_customer.hero2") }}
         </h1>
         <p class="text-center text-lg mb-5">
-            Telurusi koleksi seni dan kerajinan dari para Seniman Ubud yang
+            {{ $t("katalog_customer.subhero") }}
         </p>
         <p class="text-center text-lg mb-5">
-            mempersembahkan warisan budaya bali ke mata
-            dunia
+            {{ $t("katalog_customer.subhero2") }}
         </p>
 
         <div
@@ -80,7 +79,7 @@ const { data, pending: loading, error } = await useAsyncData(
             </div>
             <div class="absolute top-0 left-[60px] w-full h-full flex items-center">
                 <form action="/query">
-                    <input type="text" name="" id="" placeholder="Cari di Katalog"
+                    <input type="text" name="" id="" :placeholder="$t('katalog_customer.placeholder')"
                         class="w-full h-full bg-transparent text-[#a8d4c5] placeholder:text-[#a8d4c5] focus:outline-none">
                 </form>
             </div>
@@ -158,10 +157,10 @@ const { data, pending: loading, error } = await useAsyncData(
 
         <div class="flex justify-between mb-[32px]">
             <h1 class="text-2xl font-semibold">
-                Kamu mungkin suka
+                {{ $t("katalog_customer.cta") }}
             </h1>
             <p class="text-base font-semibold text-[#a8d4c5]">
-                <a href="">Lihat semua</a>
+                <a href="">{{ $t("dashboard_customer.cta3") }}</a>
             </p>
         </div>
 

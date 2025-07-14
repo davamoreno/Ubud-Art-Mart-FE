@@ -12,7 +12,7 @@ const { stores, loading } = storeToRefs(beritaStore)
 
 <template>
   <div class="news-wrapper">
-    <h2 class="section-title">Artikel Sorotan</h2>
+    <h2 class="section-title">{{ $t("beritaacara_customer.title") }}</h2>
 
     <div class="news-grid">
       <BeritaCard v-for="berita in stores" :key="berita.id" :title="berita.title" :image="berita?.image"

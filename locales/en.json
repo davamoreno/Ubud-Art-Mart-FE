@@ -6,7 +6,73 @@
         "about_us"  : "About Us",
         "login"     : "Sign In"
     },
-     "dashboard_customer" : {
-        "title" : "EXPERIENCE THE MAGIC OF LOCAL ARTS AT UBUD ARTS MARKET"
+    "dashboard_customer" : {
+        "hero" : "DISCOVER AUTHENTIC LOCAL ARTS AND CRAFTS",
+        "hero2" : "FROM UBUD ART MARKET",
+        "title" : "Featured Products",
+        "title2" : "News & Event",
+        "section" : "See what's happening at",
+        "section2" : "Ubud Art Market right now.",
+        "section3" : "About Ubud Art Market",
+        "subsection" : "Want to know what's new? Find the latest news, exhibition info, and event schedules all in one place.",
+        "subsection2" : "Since the early 20th century, this market has witnessed the evolution of traditional Balinese art, enduring through modern times without losing its authentic roots. Visitors from all over the world come here not just to shop, but to experience something much deeper authenticity",
+        "cta" : "Explore More",
+        "cta2" : "Learn More",
+        "cta3" : "View All"
+    },
+    "katalog_customer" : {
+        "hero" : "Discover the Magic of Art in Every Corner",
+        "hero2" : "of Ubud Art Market",
+        "subhero" : "Browse a curated collection of arts and crafts from Ubud's artists, showcasing",
+        "subhero2" : "Bali's cultural heritage to the world.",
+        "placeholder" : "Find in Catalog",
+        "cta" : "You might also like"
+    },
+    "beritaacara_customer" : {
+        "title" : "Highlight Article" 
+    },
+    "query_customer" : {
+        "section" : "Product Type",
+        "subsection" : "Lowest", 
+        "subsection2" : "Highest",
+        "type" : "Product",
+        "type2" : "Shop"
+    },  
+    "about" : {
+        "hero": "Art born from heritage",
+        "hero2": "Thriving in authenticity.",
+        "subtitle": "From handmade crafts to paintings rich in history, every product holds the deep aesthetic, spiritual, and philosophical values of Balinese culture.",
+        "cta": "Explore more",
+        "sectiontitle": "Our Story",
+        "sectiontitle2": "UNIQUE EXPERIENCES",
+        "sectiontitle3": "NEED HELP?",
+        "sectiontitle4": "Contact Us",
+        "section": "The Heart of Balinese Art",
+        "section2": "What will you find here?",
+        "section3": "Frequently Asked Questions",
+        "section4": "Find Our Location",
+        "subsection": "Ubud Art Market is filled with extraordinary artworks, from colorful fabrics to detailed wood carvings. However, with so many options, it's often difficult to find specific products or get integrated information in one place.",
+        "subsection2": "That's why we built this platform. Our goal is to be your digital guide to explore the richness of Ubud Art Market. We want to make it easier for you to find what you're looking for and see the diversity of works offered by local artisans.",
+        "subsection3": "Here, you can browse the product catalog, see the latest event schedules, and get other important information. Enjoy the ease of Browse Ubud's best artworks.",
+        "subsection4": "Jl. Raya Ubud No.35, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali 80571",
+        "subsection5": "Have questions or suggestions about Ubud Art Market? Contact us using the form below.",
+        "cardtitle": "Local Souvenirs",
+        "cardtitle2": "Tradition and Culture",
+        "cardtitle3": "Warm Interactions",
+        "subcard": "Discover souvenirs that are not just beautiful, but also rich in cultural value. Each piece here reflects Bali's tradition, expert craftsmanship, and soul.",
+        "subcard2": "Enjoy the richness of Balinese art reflected in every product. Find works that combine traditional values with the creative touch of Ubud's artisans.",
+        "subcard3": "Experience the unique atmosphere of a traditional market. Here, bargaining is more than just a transaction—it's a warm and friendly interaction with the local merchants.",
+        "dropdowntitle": "Ubud Art Market's operating hours",
+        "dropdowntitle2": "Is the market open on public holidays?",
+        "dropdowntitle3": "What is sold at Ubud Art Market?",
+        "dropdowntitle4": "How do I order a product here?",
+        "dropdownsub": "Ubud Art Market is generally open daily from 8:00 AM to 6:00 PM WITA. The most ideal time to visit is in the morning when the atmosphere is still fresh and not too crowded.",
+        "dropdownsub2": "Yes, the market is open every day, including weekends and most national holidays. However, the market will be completely closed on Nyepi Day.",
+        "dropdownsub3": "Ubud Art Market is a paradise for Balinese handicrafts, ranging from iconic rattan bags, woven fabrics, wood carvings, paintings, silver jewelry, to traditional masks made by local artists.",
+        "dropdownsub4": "To order a product, simply search for the desired item. Once you find a suitable product, press the 'Order Now' button to connect directly with the seller via WhatsApp. You can also leave a review and rating afterward.",
+        "formplaceholder": "Email",
+        "formplaceholder2": "Name (Optional)",
+        "formplaceholder3": "Write your message here",
+        "buttonsubmit": "Submit"
     }
 }

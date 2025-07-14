@@ -7,7 +7,72 @@
         "login"     : "Masuk"
     },
     "dashboard_customer" : {
-        "title" : "RASAKAN KEAJAIBAN KARYA LOKAL PASAR KESENIAN UBUD"
-    }
-    
+        "hero" : "RASAKAN KEAJAIBAN KARYA LOKAL",
+        "hero2" : "PASAR KESENIAN UBUD",
+        "title" : "Sorotan Produk",
+        "title2" : "Berita & Acara",
+        "section" : "Lihat apa yang sedang.",
+        "section2" : "berlangsung di Pasar Seni Ubud saat ini.",
+        "section4" : "Tentang Pasar Kesenian Ubud",
+        "subsection" : "Ingin tahu apa yang baru di Pasar Kesenian Ubud? Dapatkan semua berita dan jadwal acara terkini di satu tempat.",
+        "subsection2" : "Sejak awal abad ke-20, pasar ini telah menjadi saksi bagaimana seni tradisional Bali berkembang seiring waktu, tetap bertahan di tengah modernitas tanpa kehilangan akarnya. Pengunjung dari berbagai belahan dunia datang bukan hanya untuk berbelanja, tapi untuk merasakan sesuatu yang lebih dalam: keaslian.",
+        "cta" : "Lihat Selengkapnya",
+        "cta2" : "Pelajari Lebih Lanjut",
+        "cta3" : "Lihat Semua"
+    },
+    "katalog_customer" : {
+        "hero" : "Temukan keajaiban seni di setiap sudut",
+        "hero2" : "Pasar Kesenian Ubud",
+        "subhero" : "Telusuri koleksi seni dan kerajinan dari para Seniman Ubud yang",
+        "subhero2" : "mempersembahkan warisan budaya Bali ke mata dunia.",
+        "placeholder" : "Cari di Katalog",
+        "cta" : "Kamu mungkin suka"
+    },
+    "beritaacara_customer" : {
+        "title" : "Artikel Sorotan" 
+    },
+    "query_customer" : {
+        "section" : "Jenis Produk",
+        "subsection" : "Terendah", 
+        "subsection2" : "Tertinggi",
+        "type" : "Produk",
+        "type2" : "Toko"
+    },
+    "about" : {
+        "hero" : "Seni yang lahir dari warisan",
+        "hero2" : "tumbuh dalam keaslian.",
+        "subtitle" : "Dari anyaman tangan hingga lukisan bernilai sejarah, setiap produk yang ditawarkan menyimpan nilai estetika, spiritualitas, dan filosofi budaya Bali yang mendalam.",
+        "cta" : "Jelajahi lebih lanjut",
+        "sectiontitle" : "Perjalanan Kami",
+        "sectiontitle2" : "PENGALAMAN UNIK",
+        "sectiontitle3" : "BUTUH BANTUAN?",
+        "sectiontitle4" : "Hubungi Kami",
+        "section" : "Jantung Kesenian Bali",
+        "section2" : "Apa yang anda temukan di sini?",
+        "section3" : "Pertanyaan Umum",
+        "section4" : "Temukan Lokasi",
+        "subsection" : "Pasar Seni Ubud penuh dengan karya seni yang luar biasa, mulai dari warna-warni kain hingga ukiran kayu yang detail. Namun, dengan begitu banyaknya pilihan, seringkali sulit untuk menemukan produk spesifik atau mendapatkan informasi yang terpadu dalam satu tempat.",
+        "subsection2" : "Maka dari itu kami membangun platform ini. Tujuan kami adalah menjadi pemandu digital Anda untuk menelusuri kekayaan Pasar Seni Ubud. Kami ingin memudahkan Anda menemukan apa yang Anda cari dan melihat keragaman karya yang ditawarkan oleh para perajin lokal.",
+        "subsection3" : "Di sini, Anda bisa menjelajahi katalog produk, melihat jadwal acara terbaru, dan mendapatkan informasi penting lainnya. Nikmati kemudahan dalam menelusuri karya seni terbaik Ubud.",
+        "subsection4" : "Jl. Raya Ubud No.35, Ubud, Kecamatan Ubud, Kabupaten Gianyar, Bali 80571",
+        "subsection5" : "Punya pertanyaan dan saran seputar Ubud Art Market? Hubungi kami lewat formulir di bawah ini",
+        "cardtitle" : "Souvenir Lokal",
+        "cardtitle2" : "Tradisi dan Budaya",
+        "cardtitle3" : "Interaksi Hangat",
+        "subcard" : "Temukan suvenir yang bukan hanya indah, tapi juga punya nilai budaya. Setiap barang di sini mencerminkan tradisi, keahlian, dan jiwa Bali.",
+        "subcard2" : "Nikmati kekayaan seni Bali yang tercermin dalam setiap produk. Temukan karya yang menggabungkan nilai tradisional dengan sentuhan kreatif para pengrajin Ubud.",
+        "subcard3" : "Rasakan pengalaman berbelanja khas pasar tradisional. Proses tawar-menawar bukan sekadar transaksi, tapi interaksi yang hangat dan menyenangkan dengan para pedagang lokal.",
+        "dropdowntitle" : "Jam operasional Pasar Kesenian Ubud",
+        "dropdowntitle2" : "Apakah pasar tetap buka saat hari libur?",
+        "dropdowntitle3" : "Apa saja yang dijual di Ubud Art Market",
+        "dropdowntitle4" : "Bagaimana cara memesan produk di sini?",
+        "dropdownsub" : "Pasar Seni Ubud umumnya buka setiap hari mulai pukul 08.00 hingga 18.00 WITA. Waktu paling ideal untuk berkunjung adalah di pagi hari saat suasana masih segar dan belum terlalu ramai.",
+        "dropdownsub2" : "Ya, pasar tetap buka setiap hari termasuk akhir pekan dan sebagian besar hari libur nasional. Namun, pasar akan tutup sepenuhnya pada saat Hari Raya Nyepi.",
+        "dropdownsub3" : "Ubud Art Market adalah surga kerajinan tangan Bali, mulai dari tas rotan ikonik, kain tenun, ukiran kayu, lukisan, perhiasan perak, hingga topeng tradisional yang dibuat oleh seniman lokal.",
+        "dropdownsub4" : "Untuk memesan produk, Anda cukup mencari produk yang diinginkan. Setelah menemukan produk yang cocok, tekan tombol “Pesan Sekarang” untuk langsung terhubung dengan penjual melalui WhatsApp. Anda juga bisa memberikan ulasan dan rating setelahnya.",
+        "formplaceholder" : "Email",
+        "formplaceholder2" : "Nama (Opsional)",
+        "formplaceholder3" : "Tulis pesan anda di sini",
+        "buttonsubmit" : "Kirim"
+    } 
 }

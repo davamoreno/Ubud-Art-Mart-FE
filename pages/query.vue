@@ -37,7 +37,7 @@ export default {
         <aside class="w-[240px] shrink-0">
           <h1 class="font-bold text-lg mb-4">Filter</h1>
           <div class="border-2 rounded-lg shadow-md p-4 h-[384px]">
-            <h2 class="font-bold text-lg mb-3">Jenis Produk</h2>
+            <h2 class="font-bold text-lg mb-3">{{ $t("query_customer.section") }}</h2>
             <form class="flex flex-col mb-6 space-y-3">
               <label class="flex items-center"><input type="checkbox" class="me-2" /> <span class="font-bold">Patung</span></label>
               <label class="flex items-center"><input type="checkbox" class="me-2" checked /> <span class="font-bold">Lukisan</span></label>
@@ -45,8 +45,8 @@ export default {
             </form>
             <h2 class="font-bold text-lg mb-3">Rating</h2>
             <form class="flex flex-col space-y-3">
-              <label class="flex items-center"><input type="checkbox" class="me-2" /> <span class="font-bold">Terendah</span></label>
-              <label class="flex items-center"><input type="checkbox" class="me-2" checked /> <span class="font-bold">Tertinggi</span></label>
+              <label class="flex items-center"><input type="checkbox" class="me-2" /> <span class="font-bold">{{ $t("query_customer.subsection") }}</span></label>
+              <label class="flex items-center"><input type="checkbox" class="me-2" checked /> <span class="font-bold">{{ $t("query_customer.subsection2") }}</span></label>
             </form>
           </div>
         </aside>
@@ -82,7 +82,7 @@ export default {
               @click="activeTab = 'produk'"
             >
               <img src="/assets/images/addcart.svg" alt="Produk" class="w-4 h-4" />
-              Produk
+              {{ $t("query_customer.type") }}
             </button>
             <button
               :class="[
@@ -92,7 +92,7 @@ export default {
               @click="activeTab = 'toko'"
             >
               <img src="/assets/images/toko.svg" alt="Toko" class="w-4 h-4" />
-              Toko
+              {{ $t("query_customer.type2") }}
             </button>
           </div>
 
