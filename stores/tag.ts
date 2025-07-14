@@ -14,7 +14,7 @@ export const useTagStore = defineStore('tag', () => {
   const meta = ref<PaginationMeta>({});
   const { $api } = useNuxtApp();
 
-  async function fetchTags(page: number = 1) {
+  async function fetchTags(page: number) {
     loading.value = true;
     try {
       const response = await $api<{ data: Tag[], meta: PaginationMeta }>(`tag?page=${page}`);
