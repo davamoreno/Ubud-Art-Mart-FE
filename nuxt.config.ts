@@ -2,19 +2,28 @@
 import { resolve } from 'path'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
-  devtools: { enabled: true },
+   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      apiBase:  process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api/',
+    }
+  },
+  nitro: {
+    devProxy: {
+      '/api/': {
+        target: 'http://127.0.0.1:8000/api/',
+        changeOrigin: true,
+        prependPath: true
+      }
+    }
+  },
   ssr: true,
   app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1.0',
     },
-  },
-  
-  runtimeConfig: {
-    public : {
-      apiBase : process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api'
-    }
   },
 
   css : [
@@ -41,10 +50,6 @@ export default defineNuxtConfig({
 
   imports: {
     dirs: ['stores', 'composable']
-  },
-
-  nitro: {
-    compressPublicAssets: true,
   },
 
   typescript:{
