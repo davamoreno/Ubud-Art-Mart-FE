@@ -5,7 +5,7 @@ import { useBeritaStore } from '~/stores/berita';
 
 const beritaStore = useBeritaStore();
 
-await useAsyncData('berita-list', () => beritaStore.fetchStores());
+await useAsyncData('berita-list', () => beritaStore.fetchAllBerita());
 
 definePageMeta({
   layout: 'admin'

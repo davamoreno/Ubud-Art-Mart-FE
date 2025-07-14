@@ -28,6 +28,23 @@ export const useKategoriStore = defineStore('kategori', () => {
       }
    }
 
+  async function fetchAllKategori() {
+    // Mencegah fetch ulang jika data sudah ada
+    if (list.value.length > 0) return;
+
+    loading.value = true;
+    try {
+      // Panggil endpoint tanpa pagination untuk mendapatkan semua kategori
+      const response = await $api<{ data: Kategori[] }>('kategori');
+      list.value = response.data;
+    } catch (error) {
+      console.error("Gagal fetch semua kategori:", error);
+    } finally {
+      loading.value = false;
+    }
+  }
+
+
 
   async function createKategori(payload: { nama: string }) {
     try {
@@ -62,6 +79,7 @@ export const useKategoriStore = defineStore('kategori', () => {
     meta,
     fetchKategori,
     createKategori,
+    fetchAllKategori,
     updateKategori,
     deleteKategori,
   };

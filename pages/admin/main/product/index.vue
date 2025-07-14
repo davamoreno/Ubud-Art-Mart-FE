@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useProductStore } from '~/stores/produk';
-import type { Product } from '~/stores/produk';
+import { useProductStore } from '#imports'
 
 definePageMeta({
   layout: 'admin'

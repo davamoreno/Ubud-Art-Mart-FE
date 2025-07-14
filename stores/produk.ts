@@ -64,11 +64,14 @@ export const useProductStore = defineStore('produk', () => {
   const searchResults = ref<Product[]>([]);
   const searchMeta = ref<PaginationMeta | null>(null);
   const error = ref<any>(null);
+  const recommendations = ref<Product[]>([]);
+  const recommendationsMeta = ref<any>(null);
+  const recommendationsLoading = ref(false);
 
   // Mengambil instance $api dari Nuxt
   const { $api } = useNuxtApp();
 
-  // --- GETTERS (COMPUTED PROPERTIES) ---
+  // --- GETTERS (COMPUTED PROPERTIES) ---  
   const hasMorePages = computed(() => {
     if (!pagination.value.current_page || !pagination.value.last_page) return false;
     return pagination.value.current_page < pagination.value.last_page;
@@ -78,13 +81,39 @@ export const useProductStore = defineStore('produk', () => {
     if (!searchMeta.value) return false;
     return searchMeta.value.current_page < searchMeta.value.last_page;
   });
+
+ async function fetchProducts(filters: FetchProductsPayload = {}) {
+    loading.value = true;
+    error.value = null;
+
+    const params = new URLSearchParams();
+    if (filters.page) params.append('page', String(filters.page));
+    if (filters.sort) params.append('sort', filters.sort);
+    if (filters.q) params.append('search', filters.q);
+    // ... (parameter filter lain bisa ditambahkan di sini)
+
+    try {
+      const response = await $api<{ data: Product[], meta: PaginationMeta }>(`produk?${params.toString()}`);
+      
+      // --- PERBAIKAN #2: Selalu isi state 'list' ---
+      products.value = response.data;
+      searchMeta.value = response.meta;
+
+    } catch (e) {
+      error.value = e;
+      console.error('Failed to fetch products:', e);
+    } finally {
+      loading.value = false;
+    }
+  }
+
   // --- ACTIONS (METHODS) ---
 
   /**
    * Mengambil daftar produk dari API dengan dukungan filter, sorting, dan pagination.
    * @param {FetchProductsPayload} filters - Objek berisi parameter query
    */
-  async function fetchProducts(filters: FetchProductsPayload = {}, loadMore = false) {
+  async function fetchSearchProducts(filters: FetchProductsPayload = {}, loadMore = false) {
     if (!loadMore) {
       loading.value = true;
       searchResults.value = []; // Kosongkan hasil lama saat filter baru diterapkan
@@ -190,6 +219,20 @@ export const useProductStore = defineStore('produk', () => {
     }
 
   }
+
+  async function fetchRecommendations(page: number = 1) {
+  recommendationsLoading.value = true;
+  try {
+    const response = await $api<{ data: Product[], meta: any }>(`dashboard/recommendations?page=${page}&per_page=5`);
+    recommendations.value = response.data;
+    recommendationsMeta.value = response.meta;
+  } catch (error) {
+    console.error("Gagal mengambil rekomendasi:", error);
+  } finally {
+    recommendationsLoading.value = false;
+  }
+}
+
   /**
    * Membuat produk baru.
    * @param {UpsertProductPayload} payload - Data produk baru
@@ -295,7 +338,12 @@ export const useProductStore = defineStore('produk', () => {
     searchResults,
     searchMeta,
     hasMoreSearchResults,
+    recommendations,
+    recommendationsMeta,
+    recommendationsLoading,
     fetchProduct,
+    fetchRecommendations,
+    fetchSearchProducts,
     fetchProducts,
     fetchRandomProducts,
     fetchProductWithRecommendations,

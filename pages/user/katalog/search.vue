@@ -31,7 +31,7 @@ const performSearch = () => {
   // Update URL dengan filter terbaru
   router.replace({ query: filters.value });
   // Panggil action dari store
-  productStore.fetchProducts(filters.value);
+  productStore.fetchSearchProducts(filters.value);
 };
 
 // Gunakan debounce untuk mencegah pemanggilan API berlebihan saat mengetik
@@ -48,7 +48,7 @@ let observer: IntersectionObserver | null = null;
 async function loadMore() {
   if (isLoadingMore.value || !hasMoreSearchResults.value || !searchMeta.value) return;
   isLoadingMore.value = true;
-  await productStore.fetchProducts({ ...filters.value, page: searchMeta.value.current_page + 1 }, true);
+  await productStore.fetchSearchProducts({ ...filters.value, page: searchMeta.value.current_page + 1 }, true);
   isLoadingMore.value = false;
 }
 
@@ -56,7 +56,7 @@ async function loadMore() {
 useAsyncData('search-initial-data', () => Promise.all([
   kategoriStore.fetchKategori(1),
   tagStore.fetchTags(1),
-  productStore.fetchProducts(filters.value)
+  productStore.fetchSearchProducts(filters.value)
 ]));
 
 onMounted(() => {

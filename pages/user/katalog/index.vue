@@ -88,72 +88,37 @@ const { data, pending: loading, error } = await useAsyncData(
 
         <div class="w-[1060px] mx-auto flex flex-row justify-between">
 
-            <div class=" mb-[133px] hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[150px] h-[150px] py-[8px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/patung.png" alt="Lukisan Bali" class="mx-auto w-[100px] h-[100px]">
-                    <div class="p-[14px]">
-                        <div>
-                            <h2 class="text-center text-base font-semibold text-gray-800">Patung</h2>\
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div v-if="loading" class="text-center py-20">
+        <p class="text-slate-500">Memuat data...</p>
+      </div>
+      <div v-else-if="error" class="text-center py-20 bg-red-50 p-8 rounded-lg">
+        <p class="text-red-600 font-semibold">Oops, terjadi kesalahan!</p>
+        <p class="text-red-500 mt-2">Tidak dapat memuat data. Silakan coba lagi nanti.</p>
+      </div>
+      
+      <!-- Tampilkan konten jika data berhasil dimuat -->
+      <div v-else-if="data">
+        <!-- Section 2: Kategori -->
+        <section class="mb-20 md:mb-28">
+          <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-slate-800">Jelajahi Kategori</h3>
+            <p class="text-slate-500 mt-2">Temukan karya seni berdasarkan jenisnya.</p>
+          </div>
+          <!-- PERBAIKAN: Gunakan v-for untuk menampilkan kategori dinamis -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 md:gap-6">
+            <NuxtLink
+              v-for="category in data.categories"
+              :key="category.id"
+              :to="`/user/katalog/search?q=&kategori=${category.id}`"
+              class="group flex flex-col items-center text-center p-4 bg-white rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
+            >
+              <img :src="category.image || 'https://placehold.co/150x150/e5e7eb/333333?text=Icon'" :alt="category.nama" class="w-24 h-24 object-cover rounded-full mb-4 border-4 border-white group-hover:border-emerald-200 transition-colors duration-300">
+              <span class="font-semibold text-slate-700">{{ category.nama }}</span>
+            </NuxtLink>
+          </div>
+        </section>
 
-            <div class=" mb-[133px] hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[150px] h-[150px] py-[8px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/patung.png" alt="Lukisan Bali" class="mx-auto w-[100px] h-[100px]">
-                    <div class="p-[14px]">
-                        <div>
-                            <h2 class="text-center text-base font-semibold text-gray-800">Patung</h2>\
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class=" mb-[133px] hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[150px] h-[150px] py-[8px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/patung.png" alt="Lukisan Bali" class="mx-auto w-[100px] h-[100px]">
-                    <div class="p-[14px]">
-                        <div>
-                            <h2 class="text-center text-base font-semibold text-gray-800">Patung</h2>\
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class=" mb-[133px] hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[150px] h-[150px] py-[8px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/patung.png" alt="Lukisan Bali" class="mx-auto w-[100px] h-[100px]">
-                    <div class="p-[14px]">
-                        <div>
-                            <h2 class="text-center text-base font-semibold text-gray-800">Patung</h2>\
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class=" mb-[133px] hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[150px] h-[150px] py-[8px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/patung.png" alt="Lukisan Bali" class="mx-auto w-[100px] h-[100px]">
-                    <div class="p-[14px]">
-                        <div>
-                            <h2 class="text-center text-base font-semibold text-gray-800">Patung</h2>\
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class=" mb-[133px] hover:scale-105 transition duration-300 ease-in-out">
-                <div class="w-[150px] h-[150px] py-[8px] bg-white rounded-lg shadow-xl overflow-hidden">
-                    <img src="/assets/images/patung.png" alt="Lukisan Bali" class="mx-auto w-[100px] h-[100px]">
-                    <div class="p-[14px]">
-                        <div>
-                            <h2 class="text-center text-base font-semibold text-gray-800">Patung</h2>\
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        </div>
         </div>
 
         <div class="flex justify-between mb-[32px]">
